@@ -3,23 +3,26 @@ import { useEffect, useRef } from "react";
 import { Matrix4, Mesh } from "three";
 
 export interface Transformation {
+    type?: 'rotation' | 'translation' | 'raw'
     matrix4: Matrix4
-    animate: boolean,
-    type?: 'rotation' | 'translation'
+    amount?: [number, number, number]
 }
 
 export default function Scene({transformations, geometry}: {transformations?: Transformation[], geometry?: React.ReactElement}) {
     const box = useRef<Mesh>(null!)
 
-    useFrame(({clock}) => {
-		if (box.current && transformations) {
+    useFrame(() => {
+        if (transformations) {
             box.current.matrixAutoUpdate = false;
             box.current.matrix = new Matrix4()
             transformations.forEach(transformation => {
-                box.current!.matrix?.multiply(transformation.matrix4)
+                if(transformation.matrix4)
+                    box.current!.matrix?.multiply(transformation.matrix4)
             })
         }
-	})
+    })
+    setTimeout(() => {
+    }, 1)
     
     return (
         <mesh ref={box}>
