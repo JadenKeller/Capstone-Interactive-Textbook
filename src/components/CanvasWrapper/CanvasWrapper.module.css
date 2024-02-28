@@ -1,0 +1,42 @@
+.wrapper {
+    position: relative;
+    margin: 0 auto;
+    width: 60%;
+    height: 80vh;
+}
+
+.canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.controls_list {
+    position: absolute;
+    display: flex;
+    top: 10px;
+    left: 10px;
+    background-color: #272727;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.control {
+    margin: 2px 8px;
+    cursor: pointer;
+    align-items: center;
+    transition: 0.2s ease;
+    padding: 2px;
+}
+
+.control:hover {
+    transition: 0.2s ease;
+    color: #aaa;
+}
+
+.applied_transformations {
+    position: absolute;
+    display: flex;
+    bottom: 20px;
+    right: 20px;
+    font-size: 0.6rem;
+}

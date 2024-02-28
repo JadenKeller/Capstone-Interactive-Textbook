@@ -1,12 +1,8 @@
+body {
+    background-color: #171717;
+    color: white;
+}
+
 .matrix_list {
     display: flex;
-}
-
-.matrix_list_item {
-    margin: 5px;
-}
-
-.matrix_list_item_selected {
-    border: 1px solid blue;
-    margin: 5px;
 }
