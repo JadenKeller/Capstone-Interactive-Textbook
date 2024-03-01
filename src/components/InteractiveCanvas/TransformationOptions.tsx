@@ -1,16 +1,16 @@
 import styles from './InteractiveCanvas.module.css'
 
-import { BlockMath } from "react-katex";
 import { Transformation } from "../Scene/Scene";
-import { Matrix4 } from "three";
-import { useState } from "react";
+// import { useState } from "react";
 import Matrix from '../Matrix/Matrix';
-import { useDrop } from 'react-dnd';
-import { TransformationStateManager } from './InteractiveCanvas';
 
+/**
+ * Takes in transformations to be displayed above the canvas
+ */
 export default function TransformationOptions({transformations}: {transformations: Transformation[]}) {
-    const [updateMatrixOptions, setUpdateMatrixOptions] = useState(0)
+    // const [updateMatrixOptions, setUpdateMatrixOptions] = useState(0)
 
+    // Draggable matrix options updating is currently disabled because of issues with drag n drop
     // setTimeout(() => {
     //     setUpdateMatrixOptions(updateMatrixOptions + 1)
     // }, 200)
