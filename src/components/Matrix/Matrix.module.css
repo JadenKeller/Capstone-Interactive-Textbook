@@ -1,0 +1,9 @@
+.matrix {
+    margin: 5px;
+    border: 1px solid #171717;
+}
+
+.matrix_selected {
+    border: 1px solid blue;
+    margin: 5px;
+}
