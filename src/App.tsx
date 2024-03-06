@@ -2,6 +2,7 @@ import { Canvas, } from "@react-three/fiber";
 import RefDemo from "./RefDemo";
 import InteractiveCanvas from "./components/InteractiveCanvas/InteractiveCanvas";
 import { Color, Euler, Matrix4, Vector3 } from "three";
+import DemoLayout from "./components/DemoLayout/DemoLayout";
 
 const App = () => {
 	return (
@@ -11,7 +12,8 @@ const App = () => {
 				<pointLight position={[1, -1, 1]} intensity={5} />
 				<RefDemo />
 			</Canvas > */}
-			<InteractiveCanvas 
+			<DemoLayout />
+			{/* <InteractiveCanvas 
 				availableTransformations={[
 					{ type: 'rotation', amount: [0, 0, 1], matrix4: new Matrix4().makeRotationFromEuler(new Euler(0, 0, 1)) },
 					{ type: 'raw', matrix4: new Matrix4().makeTranslation(new Vector3(2, 0, 0)) },
@@ -24,7 +26,7 @@ const App = () => {
 						{ type: 'raw', matrix4: new Matrix4().makeTranslation(new Vector3(2, 2, 0)) }
 					]}
                 ]}
-				/>
+				/> */}
 		</>
 	)
 }

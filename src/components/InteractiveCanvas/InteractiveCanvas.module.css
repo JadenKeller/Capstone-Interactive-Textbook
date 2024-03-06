@@ -1,8 +1,12 @@
 body {
-    background-color: #171717;
-    color: white;
+	background-color: #171717;
+	color: white;
 }
 
 .matrix_list {
-    display: flex;
+	display: flex;
+}
+
+.canvas {
+	height: 767px
 }
