@@ -45,7 +45,8 @@ export default function Matrix({idx, selected, transformation, small, onClick}: 
             if(onClick)
                 onClick(transformation)
         }} className={(selected) ? styles.matrix_selected : styles.matrix}>
-            {(small) ? <InlineMath math={`${renderLatex(transformation.matrix4)}`} /> : <BlockMath math={`${String.fromCharCode(idx + 80)} = ${renderLatex(transformation.matrix4)}`} />}
+            {(small) ? <InlineMath math={`${renderLatex(transformation.matrix4)}`} /> : 
+            <BlockMath math={(transformation.name) ? `${transformation.name} = ${renderLatex(transformation.matrix4)}` : `${String.fromCharCode(idx + 80)} = ${renderLatex(transformation.matrix4)}`} />}
         </div>
     )
 }

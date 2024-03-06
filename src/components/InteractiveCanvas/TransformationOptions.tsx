@@ -20,8 +20,8 @@ export default function TransformationOptions({transformations}: {transformation
                 {transformations.map((transformation, idx) => {
 
                     return (
-                        <div>
-                            <Matrix key={idx} idx={idx} selected={false} transformation={transformation} />
+                        <div key={idx}>
+                            <Matrix idx={idx} selected={false} transformation={transformation} />
                         </div>
                     )
                 })}

@@ -57,7 +57,7 @@ export default function InteractiveCanvas({availableTransformations, scenes}: {a
             <DndProvider backend={HTML5Backend}>
                 <TransformationOptions transformations={availableTransformations} />
                 {/* Draggable matrices are applied to the canvas. Order is maintained :p */}
-                <CanvasWrapper scenes={scenes} orbitCamera={true}/>
+                <CanvasWrapper scenes={scenes} cameraControls={true}/>
             </DndProvider>
         </div>
     )

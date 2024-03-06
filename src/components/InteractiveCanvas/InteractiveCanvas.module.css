@@ -5,4 +5,5 @@ body {
 
 .matrix_list {
     display: flex;
+    flex-wrap: wrap;
 }
