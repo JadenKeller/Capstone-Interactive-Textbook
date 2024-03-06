@@ -117,7 +117,7 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
     return (
         <div className={styles.wrapper} ref={drop}>
             <Canvas camera={{position: [0, 0, 10]}} className={styles.canvas}>
-                <gridHelper args={[20, 20, 0xffffff, 0x555555]} rotation={[Math.PI /2, 0, 0]}/>
+                <gridHelper args={[40, 40, 0xffffff, 0x555555]} rotation={[Math.PI /2, 0, 0]}/>
                 {props.scenes?.map((scene, idx) => {
                     return (
                         <Scene key={idx} geometry={scene.geometry} color={scene.color} initialPosition={scene.initialPosition} transformations={(scene.acceptTransformations) ? (scene.staticTransformations) ? TransformationStateManager.activeTransformations.concat(scene.staticTransformations) : TransformationStateManager.activeTransformations : scene.staticTransformations}/>
