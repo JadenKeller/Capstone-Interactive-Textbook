@@ -1,15 +1,18 @@
-import { Color, Euler, Matrix4, Vector3 } from "three";
-import InteractiveCanvas from "../InteractiveCanvas/InteractiveCanvas";
 import styles from "./DemoLayout.module.css";
 
-export default function DemoLayout() {
+/**
+ * A demonstration layout for developing lessons within page section constraints.
+ * @param children JSX Elements to be rendered within the interactable section of the page.
+ * @todo Fix: Change the sections do be their own individual UI components with required params for layout flexibility.
+ */
+export default function DemoLayout({children} : {children: JSX.Element}) {
 	return (
 		<div className={styles.body_root}>
 			<div className={styles.vertical_divide}>
 				<div className={styles.left_section}>
 					<section className={styles.lesson_content}>
 						<h1>Matrix Transformations</h1>
-						<p>
+						<p> 
 							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi congue, dolor sit amet viverra convallis, tortor est faucibus erat, eu ullamcorper mauris odio quis quam. Integer in gravida enim, eu lobortis orci.
 						</p>
 						<h2>
@@ -33,22 +36,7 @@ export default function DemoLayout() {
 						<div className={`${styles.lessons_button} ${styles.nav_button}`}>LESSONS</div>
 						<div className={`${styles.logo} ${styles.nav_button}`}>@</div>
 					</section>
-					<InteractiveCanvas
-						availableTransformations={[
-							{ type: 'rotation', amount: [0, 0, 1], matrix4: new Matrix4().makeRotationFromEuler(new Euler(0, 0, 1)) },
-							{ type: 'raw', matrix4: new Matrix4().makeTranslation(new Vector3(2, 0, 0)) },
-							{ type: 'raw', matrix4: new Matrix4().makeTranslation(new Vector3(0, 2, 0)) },
-						]}
-						scenes={[
-							{ geometry: <boxGeometry args={[1, 1, 0.1]} />, acceptTransformations: true },
-							{
-								geometry: <boxGeometry args={[1, 1, 0.1]} />, acceptTransformations: false, color: new Color(0x44cc44), staticTransformations: [
-									{ type: 'rotation', amount: [0, 0, 1], matrix4: new Matrix4().makeRotationFromEuler(new Euler(0, 0, 1)) },
-									{ type: 'raw', matrix4: new Matrix4().makeTranslation(new Vector3(2, 2, 0)) }
-								]
-							}
-						]}
-					/>
+					{children}
 				</div>
 			</div>
 		</div>
