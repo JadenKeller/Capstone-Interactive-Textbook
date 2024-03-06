@@ -13,10 +13,10 @@ const App = () => {
 			</Canvas > */}
 			<InteractiveCanvas 
 				availableTransformations={[
-					{ id: 0, type: 'empty', name: "Earth Rotation", matrix4: new Matrix4().makeRotationFromEuler(new Euler(0, 0, 1)) },
-					{ id: 1, type: 'raw', name: "Earth Translation", matrix4: new Matrix4().makeTranslation(new Vector3(2, 2, 0)) },
-					{ id: 3, type: 'rotation', name: "Moon Rotation", matrix4: new Matrix4().makeRotationFromEuler(new Euler(0, 0, 1)) },
-					{ id: 2, type: 'raw', name: "Moon Translation", matrix4: new Matrix4().makeTranslation(new Vector3(2, 0, 0)) },
+					{ id: 0, type: 'empty', name: "E_r", matrix4: new Matrix4().makeRotationFromEuler(new Euler(0, 0, 1)) },
+					{ id: 1, type: 'raw', name: "E_t", matrix4: new Matrix4().makeTranslation(new Vector3(2, 2, 0)) },
+					{ id: 3, type: 'rotation', name: "M_r", matrix4: new Matrix4().makeRotationFromEuler(new Euler(0, 0, 1)) },
+					{ id: 2, type: 'raw', name: "M_t", matrix4: new Matrix4().makeTranslation(new Vector3(2, 0, 0)) },
                 ]} 
 				scenes={[
                     { geometry: <boxGeometry args={[1, 1, 0.1]} />, acceptTransformations: true },

@@ -9,6 +9,7 @@ import Matrix from '../Matrix/Matrix'
 import { TransformationStateManager } from '../InteractiveCanvas/InteractiveCanvas'
 import { ArrowLeftCircle, Delete } from 'react-feather'
 import { MapControls, OrbitControls } from '@react-three/drei'
+import { InlineMath } from 'react-katex'
 
 /**
  * CanvasWrapper component props
@@ -142,7 +143,7 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
                 {TransformationStateManager.activeTransformations.map((t, idx) => {
                     return (
                         <div key={idx}>
-                            <p>{t.name}</p>
+                            {(t.name) ? <InlineMath math={t.name} /> : <></> }
                             <Matrix idx={idx} selected={false} transformation={t} small={true} />
                         </div>
                     )
