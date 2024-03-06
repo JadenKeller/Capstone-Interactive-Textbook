@@ -5,14 +5,14 @@ import styles from "./DemoLayout.module.css";
  * @param children JSX Elements to be rendered within the interactable section of the page.
  * @todo Fix: Change the sections do be their own individual UI components with required params for layout flexibility.
  */
-export default function DemoLayout({children} : {children: JSX.Element}) {
+export default function DemoLayout({ children }: { children: JSX.Element }) {
 	return (
 		<div className={styles.body_root}>
 			<div className={styles.vertical_divide}>
 				<div className={styles.left_section}>
 					<section className={styles.lesson_content}>
 						<h1>Matrix Transformations</h1>
-						<p> 
+						<p>
 							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi congue, dolor sit amet viverra convallis, tortor est faucibus erat, eu ullamcorper mauris odio quis quam. Integer in gravida enim, eu lobortis orci.
 						</p>
 						<h2>
