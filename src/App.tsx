@@ -1,6 +1,7 @@
 import InteractiveCanvas from "./components/InteractiveCanvas/InteractiveCanvas";
 import { Color, Euler, Matrix4, Vector3 } from "three";
 import DemoLayout from "./components/DemoLayout/DemoLayout";
+import PlusMinus from "./pages/lessons/vector_operations/dot_product/PlusMinus/PlusMinus";
 
 const App = () => {
 	return (
@@ -10,7 +11,7 @@ const App = () => {
 				<pointLight position={[1, -1, 1]} intensity={5} />
 				<RefDemo />
 			</Canvas > */}
-			<DemoLayout>
+			{/* <DemoLayout>
 				<InteractiveCanvas
 					availableTransformations={[
 						{ type: 'rotation', amount: [0, 0, 1], matrix4: new Matrix4().makeRotationFromEuler(new Euler(0, 0, 1)) },
@@ -27,7 +28,8 @@ const App = () => {
 						}
 					]}
 				/>
-			</DemoLayout>
+			</DemoLayout> */}
+			<PlusMinus />
 			{/* <InteractiveCanvas 
 				availableTransformations={[
 					{ type: 'rotation', amount: [0, 0, 1], matrix4: new Matrix4().makeRotationFromEuler(new Euler(0, 0, 1)) },
