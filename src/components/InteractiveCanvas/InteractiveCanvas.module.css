@@ -1,9 +1,13 @@
 body {
-    background-color: #171717;
-    color: white;
+	background-color: #171717;
+	color: white;
 }
 
 .matrix_list {
-    display: flex;
-    flex-wrap: wrap;
+	display: flex;
+  flex-wrap: wrap;
+}
+
+.canvas {
+	height: 767px
 }
