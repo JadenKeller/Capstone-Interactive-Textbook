@@ -18,7 +18,8 @@
 		"react-dom": "^18.2.0",
 		"react-feather": "^2.0.10",
 		"react-katex": "^3.0.1",
-		"three": "^0.161.0"
+		"three": "^0.161.0",
+		"vite-tsconfig-paths": "^4.3.1"
 	},
 	"devDependencies": {
 		"@types/react": "^18.2.55",
