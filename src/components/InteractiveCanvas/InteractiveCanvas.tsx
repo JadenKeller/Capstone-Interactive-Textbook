@@ -42,6 +42,10 @@ export class TransformationStateManager {
     static getTransformations() {
         return this.activeTransformations.slice(0, this.activeTransformations.length)
     }
+
+    static moveTransformation(fromIndex: number, toIndex: number) {
+        
+    }
 }
 
 /**

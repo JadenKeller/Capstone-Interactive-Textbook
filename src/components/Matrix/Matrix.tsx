@@ -3,7 +3,15 @@ import styles from './Matrix.module.css'
 import { Transformation } from "../Scene/Scene"
 import { BlockMath, InlineMath } from "react-katex";
 import { Matrix4 } from "three";
-import { useDrag } from 'react-dnd';
+import { useDrag, useDrop } from 'react-dnd';
+import { useRef } from 'react';
+import type { Identifier } from 'dnd-core';
+import { TransformationStateManager } from '../InteractiveCanvas/InteractiveCanvas';
+
+export interface DraggingMatrix {
+    index: number,
+    id: number
+}
 
 /**
  * Renders a matrix on screen with `react-katex`
@@ -32,13 +40,77 @@ export default function Matrix({idx, selected, transformation, small, onClick}: 
         return s;
     }
 
-    const [{ isDragging }, drag] = useDrag(() => ({
-        type: "matrix",
-        item: { transformation },
-        collect: (monitor) => ({
-          isDragging: !!monitor.isDragging()
-        })
-      }))
+    const ref = useRef<HTMLDivElement>(null)
+    const [{ handlerId }, drop] = useDrop<
+        DraggingMatrix,
+        void,
+        { handlerId: Identifier | null }
+    >({
+        accept: 'matrix',
+        collect(monitor) {
+        return {
+            handlerId: monitor.getHandlerId(),
+        }
+        },
+        hover(item: DraggingMatrix, monitor) {
+        if (!ref.current) {
+            return
+        }
+        const dragIndex = item.index
+        const hoverIndex = idx
+
+        // Don't replace items with themselves
+        if (dragIndex === hoverIndex) {
+            return
+        }
+
+        // Determine rectangle on screen
+        const hoverBoundingRect = ref.current?.getBoundingClientRect()
+
+        // Get vertical middle
+        const hoverMiddleY =
+            (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+
+        // Determine mouse position
+        const clientOffset = monitor.getClientOffset()
+
+        // Get pixels to the top
+        const hoverClientY = clientOffset!.y - hoverBoundingRect.top
+
+        // Only perform the move when the mouse has crossed half of the items height
+        // When dragging downwards, only move when the cursor is below 50%
+        // When dragging upwards, only move when the cursor is above 50%
+
+        // Dragging downwards
+        if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+            return
+        }
+
+        // Dragging upwards
+        if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+            return
+        }
+
+        // Time to actually perform the action
+        TransformationStateManager.moveTransformation(dragIndex, hoverIndex)
+
+        // Note: we're mutating the monitor item here!
+        // Generally it's better to avoid mutations,
+        // but it's good here for the sake of performance
+        // to avoid expensive index searches.
+        item.index = hoverIndex
+        },
+    })
+
+    const [{ isDragging }, drag] = useDrag({
+        type: 'matrix',
+        item: () => {
+            return { transformation, idx }
+        },
+        collect: (monitor: any) => ({
+            isDragging: monitor.isDragging(),
+        }),
+    })
     
     return (
         <div key={idx} ref={drag} onClick={() => {

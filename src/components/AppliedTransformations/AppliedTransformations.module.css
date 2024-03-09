@@ -1,0 +1,8 @@
+.applied_transformations {
+    position: absolute;
+    display: flex;
+    align-items: end;
+    bottom: 20px;
+    right: 20px;
+    font-size: 0.6rem;
+}

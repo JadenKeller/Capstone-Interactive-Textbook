@@ -10,6 +10,7 @@ import { TransformationStateManager } from '../InteractiveCanvas/InteractiveCanv
 import { ArrowLeftCircle, Delete } from 'react-feather'
 import { MapControls, OrbitControls } from '@react-three/drei'
 import { InlineMath } from 'react-katex'
+import AppliedTransformations from '../AppliedTransformations/AppliedTransformations'
 
 /**
  * CanvasWrapper component props
@@ -117,7 +118,7 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
     return (
         <div className={styles.wrapper} ref={drop}>
             <Canvas camera={{position: [0, 0, 10]}} className={styles.canvas}>
-                <gridHelper args={[40, 40, 0xffffff, 0x555555]} rotation={[Math.PI /2, 0, 0]}/>
+                <gridHelper args={[40, 40, 0xF4FFFF, 0x4B585D]} rotation={[Math.PI /2, 0, 0]}/>
                 {props.scenes?.map((scene, idx) => {
                     return (
                         <Scene key={idx} geometry={scene.geometry} color={scene.color} initialPosition={scene.initialPosition} transformations={(scene.acceptTransformations) ? (scene.staticTransformations) ? TransformationStateManager.activeTransformations.concat(scene.staticTransformations) : TransformationStateManager.activeTransformations : scene.staticTransformations}/>
@@ -139,16 +140,7 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
                     <Delete />
                 </span>
             </div>
-            <div className={styles.applied_transformations}>
-                {TransformationStateManager.activeTransformations.map((t, idx) => {
-                    return (
-                        <div key={idx}>
-                            {(t.name) ? <InlineMath math={t.name} /> : <></> }
-                            <Matrix idx={idx} selected={false} transformation={t} small={true} />
-                        </div>
-                    )
-                })}
-            </div>
+            <AppliedTransformations transformations={TransformationStateManager.getTransformations()} />
         </div>
     )
 }
