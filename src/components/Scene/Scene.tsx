@@ -23,9 +23,12 @@ export interface SceneProps {
  * @param amount is the amount of rotation or translation to apply every frame
  */
 export interface Transformation {
-    type?: 'rotation' | 'translation' | 'raw'
-    matrix4: Matrix4
-    amount?: [number, number, number]
+    id: number,
+    type: 'rotation' | 'translation' | 'raw' | 'empty',
+    matrix4: Matrix4,
+    name?: string,
+    amount?: [number, number, number],
+    publishToId?: number
 }
 
 export default function Scene(props: SceneProps) {
