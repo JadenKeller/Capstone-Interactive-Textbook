@@ -48,6 +48,7 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
     let runID = useRef(-1)
     // Currently active transformations.
     const [stateTransformations, setStateTransformations] = useState<Transformation[]>(TransformationStateManager.getTransformations())
+	const hasTransformations = props.scenes?.some(scene => scene.acceptTransformations);
 
     // Handles animations.
     useEffect(() => {
@@ -126,20 +127,22 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
                 })}
                 {(props.cameraControls) ? <MapControls enableRotate={false} maxDistance={25}/> : <></>}
             </Canvas>
-            <div className={styles.controls_list}>
-                <span className={styles.control} onClick={() => {
-                    TransformationStateManager.undo()
-                    setStateTransformations(TransformationStateManager.getTransformations())
-                }}>
-                    <ArrowLeftCircle />
-                </span>
-                <span className={styles.control} onClick={() => {
-                    TransformationStateManager.clear()
-                    setStateTransformations(TransformationStateManager.getTransformations())
-                }}>
-                    <Delete />
-                </span>
-            </div>
+			{ hasTransformations &&
+				<div className={styles.controls_list}>
+					<span className={styles.control} onClick={() => {
+						TransformationStateManager.undo()
+						setStateTransformations(TransformationStateManager.getTransformations())
+					}}>
+						<ArrowLeftCircle />
+					</span>
+					<span className={styles.control} onClick={() => {
+						TransformationStateManager.clear()
+						setStateTransformations(TransformationStateManager.getTransformations())
+					}}>
+						<Delete />
+					</span>
+				</div>
+			}
             <AppliedTransformations transformations={TransformationStateManager.getTransformations()} />
         </div>
     )

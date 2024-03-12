@@ -3,6 +3,7 @@ import DemoLayout from "@components/DemoLayout/DemoLayout";
 import InteractiveCanvas from "@components/InteractiveCanvas/InteractiveCanvas";
 import { useEffect, useState } from "react";
 import { Line } from "@react-three/drei";
+import ArrowWrapper from "@components/ArrowWrapper/ArrowWrapper";
 
 export default function PlusMinus() {
 	const [x, setX] = useState<number>(-5);
@@ -20,10 +21,9 @@ export default function PlusMinus() {
 	useEffect(() => {
 		// Get new position and direction of car interactable
 		const newPos = new Vector3(x, 1, 0);
-		const newDir = vPositionFinish.sub(newPos);
+		const newDir = vPositionFinish.sub(newPos).normalize();
 		setVPositionCar(newPos);
-		if (!vDirectionCar.equals(newDir))
-			setVDirectionCar(newDir);
+		setVDirectionCar(newDir);
 
 		// Resolve new dot product result
 		const result = newDir.dot(vFinishNormal);
@@ -36,6 +36,7 @@ export default function PlusMinus() {
 	return (
 		<DemoLayout>
 			<>
+				{/* TODO: add widgets showing the dot product calculation + result && 'not/finished' and a range input */}
 				<input type={"range"} min={-5} max={7} step={0.05} value={x} onChange={(e) => setX(Number(e.target.value))} />
 				{dotResult}
 				{passed ? " finished" : " not finished"}
@@ -43,14 +44,15 @@ export default function PlusMinus() {
 					availableTransformations={[]}
 					scenes={[
 						{
-							geometry: <arrowHelper args={[vDirectionCar, vPositionCar, 1, Color.NAMES.yellow, 0.25, 0.4]} />, acceptTransformations: false
+							geometry: <ArrowWrapper lineWidth={3} arrowHelperArgs={[vDirectionCar, vPositionCar, 2, Color.NAMES.yellow, 0.4, 0.8]} />, acceptTransformations: false,
 						},
 						{
 							geometry: <arrowHelper args={[vFinishNormal, new Vector3(vPositionFinish.x, vPositionFinish.y + 2, vPositionFinish.z), 1, Color.NAMES.red, 0.25, 0.4]} />, acceptTransformations: false
 						},
 						{
-							geometry: <Line lineWidth={1} points={points} color={Color.NAMES.green}></Line>, acceptTransformations: false
-						}
+							geometry: <Line lineWidth={3} points={points} color={Color.NAMES.green}></Line>, acceptTransformations: false
+						},
+
 					]}
 				/>
 			</>
