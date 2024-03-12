@@ -1,4 +1,4 @@
-import { Color, Vector3 } from "three";
+import { Color, LineDashedMaterial, Vector3 } from "three";
 import DemoLayout from "@components/DemoLayout/DemoLayout";
 import InteractiveCanvas from "@components/InteractiveCanvas/InteractiveCanvas";
 import { useEffect, useState } from "react";
@@ -6,6 +6,8 @@ import { Line } from "@react-three/drei";
 import ArrowWrapper from "@components/ArrowWrapper/ArrowWrapper";
 import DotProductWidget from "@components/lessons/vector_operations/dot_product/DotProductWidget/DotProductWidget";
 import styles from "./PlusMinus.module.css";
+import DotProductInteractiveWidget from "@components/lessons/vector_operations/dot_product/DotProductInteractiveWidget/DotProductInteractiveWidget";
+import { dashSize } from "three/examples/jsm/nodes/Nodes.js";
 
 export default function PlusMinus() {
 	const [x, setX] = useState<number>(-5);
@@ -15,6 +17,7 @@ export default function PlusMinus() {
 	const vPositionFinish = new Vector3(3, 1, 0);
 	const vFinishNormal = new Vector3(1, 0, 0);
 	const [dotResult, setDotResult] = useState(vDirectionCar.dot(vFinishNormal));
+	const finishLineWidth = 5;
 
 	const points = []
 	points.push(new Vector3(vPositionFinish.x, 10, 0));
@@ -41,19 +44,22 @@ export default function PlusMinus() {
 				{/* TODO: add widgets showing the dot product calculation + result && 'not/finished' and a range input */}
 				<div className={styles.wrapper}>
 					<DotProductWidget dotResult={dotResult} passed={passed} x={x} setX={setX} />
+					<DotProductInteractiveWidget dotResult={dotResult} passed={passed} x={x} setX={setX} />
 					<InteractiveCanvas
 						availableTransformations={[]}
 						scenes={[
 							{
-								geometry: <ArrowWrapper lineWidth={3} arrowHelperArgs={[vDirectionCar, vPositionCar, 2, Color.NAMES.yellow, 0.4, 0.8]} />, acceptTransformations: false,
+								geometry: <ArrowWrapper lineWidth={3} arrowHelperArgs={[vDirectionCar, vPositionCar, 2, "#57FFEB", 0.4, 0.8]} />, acceptTransformations: false,
 							},
 							{
 								geometry: <arrowHelper args={[vFinishNormal, new Vector3(vPositionFinish.x, vPositionFinish.y + 2, vPositionFinish.z), 1, Color.NAMES.red, 0.25, 0.4]} />, acceptTransformations: false
 							},
 							{
-								geometry: <Line lineWidth={3} points={points} color={Color.NAMES.green}></Line>, acceptTransformations: false
+								geometry: <Line lineWidth={finishLineWidth} points={points} color={Color.NAMES.black}></Line>, acceptTransformations: false
 							},
-
+							{
+								geometry: <Line lineWidth={finishLineWidth} points={points} dashed={true} color={Color.NAMES.white}></Line>, acceptTransformations: false
+							},
 						]}
 					/>
 				</div>
