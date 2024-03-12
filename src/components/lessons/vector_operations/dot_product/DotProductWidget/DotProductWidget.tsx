@@ -23,7 +23,7 @@ export default function DotProductWidget({ dotResult, passed, x, setX }: WidgetP
 			<span className={styles.control}>
 				<div>
 					<InlineMath math={`{{\\color{57FFEB}\\vec A}}\\cdot{\\color{red}{{\\hat N}}} 
-					= {\\left|{A}\\right|}{cos(\\theta)}`} />
+					= {\\left|{A}\\right|}{\\left|{N}\\right|}{cos(\\theta)}`} />
 				</div>
 			</span>
 			<span className={styles.control}>
