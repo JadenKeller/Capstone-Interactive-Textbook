@@ -4,6 +4,8 @@ import InteractiveCanvas from "@components/InteractiveCanvas/InteractiveCanvas";
 import { useEffect, useState } from "react";
 import { Line } from "@react-three/drei";
 import ArrowWrapper from "@components/ArrowWrapper/ArrowWrapper";
+import DotProductWidget from "@components/lessons/vector_operations/dot_product/DotProductWidget/DotProductWidget";
+import styles from "./PlusMinus.module.css";
 
 export default function PlusMinus() {
 	const [x, setX] = useState<number>(-5);
@@ -37,24 +39,24 @@ export default function PlusMinus() {
 		<DemoLayout>
 			<>
 				{/* TODO: add widgets showing the dot product calculation + result && 'not/finished' and a range input */}
-				<input type={"range"} min={-5} max={7} step={0.05} value={x} onChange={(e) => setX(Number(e.target.value))} />
-				{dotResult}
-				{passed ? " finished" : " not finished"}
-				<InteractiveCanvas
-					availableTransformations={[]}
-					scenes={[
-						{
-							geometry: <ArrowWrapper lineWidth={3} arrowHelperArgs={[vDirectionCar, vPositionCar, 2, Color.NAMES.yellow, 0.4, 0.8]} />, acceptTransformations: false,
-						},
-						{
-							geometry: <arrowHelper args={[vFinishNormal, new Vector3(vPositionFinish.x, vPositionFinish.y + 2, vPositionFinish.z), 1, Color.NAMES.red, 0.25, 0.4]} />, acceptTransformations: false
-						},
-						{
-							geometry: <Line lineWidth={3} points={points} color={Color.NAMES.green}></Line>, acceptTransformations: false
-						},
+				<div className={styles.wrapper}>
+					<DotProductWidget dotResult={dotResult} passed={passed} x={x} setX={setX} />
+					<InteractiveCanvas
+						availableTransformations={[]}
+						scenes={[
+							{
+								geometry: <ArrowWrapper lineWidth={3} arrowHelperArgs={[vDirectionCar, vPositionCar, 2, Color.NAMES.yellow, 0.4, 0.8]} />, acceptTransformations: false,
+							},
+							{
+								geometry: <arrowHelper args={[vFinishNormal, new Vector3(vPositionFinish.x, vPositionFinish.y + 2, vPositionFinish.z), 1, Color.NAMES.red, 0.25, 0.4]} />, acceptTransformations: false
+							},
+							{
+								geometry: <Line lineWidth={3} points={points} color={Color.NAMES.green}></Line>, acceptTransformations: false
+							},
 
-					]}
-				/>
+						]}
+					/>
+				</div>
 			</>
 		</DemoLayout>
 	)
