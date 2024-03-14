@@ -29,27 +29,29 @@ export default function DemoLayout() {
 				</div>
 				<div className={styles.right_section}>
 					<section className={styles.nav_bar}>
-					<div className={`${styles.lessons_button} ${styles.nav_button}`}>Lessons</div> 
+						<div className={`${styles.lessons_button} ${styles.nav_button}`}>Lessons</div> 
 						<div className={`${styles.home_button} ${styles.nav_button}`}>Links</div>
 						<div className={`${styles.lessons_button} ${styles.nav_button}`}>Home</div>
-						<div className={`${styles.logo} ${styles.nav_button}`}><img src="/logo.svg" height={"75px"} width={"75px"}></img></div>
+						<div className={`${styles.logo}`}><img src="/logo.svg" height={"75px"} width={"75px"}></img></div>
 					</section>
-					<InteractiveCanvas
-						availableTransformations={[
-							{ type: 'rotation', amount: [0, 0, 1], matrix4: new Matrix4().makeRotationFromEuler(new Euler(0, 0, 1)) },
-							{ type: 'raw', matrix4: new Matrix4().makeTranslation(new Vector3(2, 0, 0)) },
-							{ type: 'raw', matrix4: new Matrix4().makeTranslation(new Vector3(0, 2, 0)) },
-						]}
-						scenes={[
-							{ geometry: <boxGeometry args={[1, 1, 0.1]} />, acceptTransformations: true },
-							{
-								geometry: <boxGeometry args={[1, 1, 0.1]} />, acceptTransformations: false, color: new Color(0x44cc44), staticTransformations: [
-									{ type: 'rotation', amount: [0, 0, 1], matrix4: new Matrix4().makeRotationFromEuler(new Euler(0, 0, 1)) },
-									{ type: 'raw', matrix4: new Matrix4().makeTranslation(new Vector3(2, 2, 0)) }
-								]
-							}
-						]}
-					/>
+					<section className={styles.canvas_section}>
+						<InteractiveCanvas
+							availableTransformations={[
+								{ type: 'rotation', amount: [0, 0, 1], matrix4: new Matrix4().makeRotationFromEuler(new Euler(0, 0, 1)) },
+								{ type: 'raw', matrix4: new Matrix4().makeTranslation(new Vector3(2, 0, 0)) },
+								{ type: 'raw', matrix4: new Matrix4().makeTranslation(new Vector3(0, 2, 0)) },
+							]}
+							scenes={[
+								{ geometry: <boxGeometry args={[1, 1, 0.1]} />, acceptTransformations: true },
+								{
+									geometry: <boxGeometry args={[1, 1, 0.1]} />, acceptTransformations: false, color: new Color(0x44cc44), staticTransformations: [
+										{ type: 'rotation', amount: [0, 0, 1], matrix4: new Matrix4().makeRotationFromEuler(new Euler(0, 0, 1)) },
+										{ type: 'raw', matrix4: new Matrix4().makeTranslation(new Vector3(2, 2, 0)) }
+									]
+								}
+							]}
+						/>
+					</section>
 				</div>
 			</div>
 		</div>

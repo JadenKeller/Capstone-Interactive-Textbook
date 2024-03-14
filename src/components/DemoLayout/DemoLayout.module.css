@@ -1,3 +1,4 @@
+/* Page styles */
 body {
 	background-color: #313B3E;
 	height: 100vh;
@@ -21,8 +22,21 @@ body {
 	height: 100%;
 }
 
+.left_section {
+	background-color: #313B3E;
+	width: 30%;
+	max-width: 600px;
+	min-width: 400px;
+	height: 100%;
+	display: grid;
+}
+
+
+
+/* Navigation bar styles */
 .nav_bar {
-	height: 120px;
+	height: 15%;
+	max-height: 150px;
 	background-color: #313B3E;
 	padding-right: 1.5em;
 	display: flex;
@@ -32,14 +46,13 @@ body {
 }
 
 .nav_button {
-	/* Font styles */
 	text-transform: uppercase;
 	font-size: 1.4em;
 	font-family: "Gabarito", sans-serif;
 	position: relative;
 }
-/* Hover animation styles */
 .nav_button::before {
+	/* Hover animation styles */
 	content: '';
 	position: absolute;
 	width: 100%;
@@ -54,17 +67,18 @@ body {
 .nav_button:hover::before {
 	transform-origin: left;
 	transform: scaleX(1);
-}   
-
-.left_section {
-	background-color: #313B3E;
-	width: 30%;
-	max-width: 600px;
-	min-width: 400px;
-	height: 100%;
-	display: grid;
 }
 
+
+
+/* Canvas section styling */
+.canvas_section {
+	max-height: 80%;
+}
+
+
+
+/* Text section styling */
 .lesson_content {
 	padding: 0 2em;
 	overflow-y: auto;
@@ -72,7 +86,6 @@ body {
 	scrollbar-width: thin;
 }
 
-/* =-=-= Type setting styles =-=-= */
 h1 {
 	font-family: "Gabarito", sans-serif;
 	font-size: 3.25em;
