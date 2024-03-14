@@ -50,6 +50,7 @@ body {
 	font-size: 1.4em;
 	font-family: "Gabarito", sans-serif;
 	position: relative;
+	cursor: pointer;
 }
 .nav_button::before {
 	/* Hover animation styles */
@@ -73,7 +74,8 @@ body {
 
 /* Canvas section styling */
 .canvas_section {
-	max-height: 80%;
+	height: 85%;
+	max-height: 1000px;
 }
 
 
