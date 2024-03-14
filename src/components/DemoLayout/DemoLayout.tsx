@@ -2,7 +2,12 @@ import { Color, Euler, Matrix4, Vector3 } from "three";
 import InteractiveCanvas from "../InteractiveCanvas/InteractiveCanvas";
 import styles from "./DemoLayout.module.css";
 
-export default function DemoLayout() {
+/**
+ * A demonstration layout for developing lessons within page section constraints.
+ * @param children JSX Elements to be rendered within the interactable section of the page.
+ * @todo Fix: Change the sections do be their own individual UI components with required params for layout flexibility.
+ */
+export default function DemoLayout({ children }: { children: JSX.Element }) {
 	return (
 		<div className={styles.body_root}>
 			<div className={styles.vertical_divide}>
@@ -52,6 +57,7 @@ export default function DemoLayout() {
 							]}
 						/>
 					</section>
+					{children}
 				</div>
 			</div>
 		</div>
