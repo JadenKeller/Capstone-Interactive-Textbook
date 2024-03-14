@@ -4,9 +4,11 @@
     background-color: #313B3E;
     border-radius: 8px;
     border: 3px solid #313B3E;
+    transition: 0.2s ease;
 }
 .matrix:hover {
     border: 3px solid #57FFEB;
+    transition: 0.3s ease;
 }
 
 /*  Caution, strange selector ahead!

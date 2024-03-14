@@ -87,24 +87,25 @@ body {
 .lesson_content {
 	padding: 0 2.5em;
 	overflow-y: auto;
+	transition: 0.75s ease;
 }
 
+	/* Scroll bar */
 .lesson_content::-webkit-scrollbar {
 	width: 15px;
 }
-  
 .lesson_content::-webkit-scrollbar-track {
 	background: #4B585D;
 }
-  
 .lesson_content::-webkit-scrollbar-thumb {
 	background: #4B585D;
 	border: 2px solid #57FFEB;
 	border-radius: 10px;
+	transition: 0.75s ease;
 }
-  
 .lesson_content::-webkit-scrollbar-thumb:hover {
 	background: #313B3E;
+	transition: 0.75s ease;
 }
 
 h1 {
