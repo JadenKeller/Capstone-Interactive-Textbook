@@ -1,3 +1,5 @@
+import { Canvas, } from "@react-three/fiber";
+import RefDemo from "./RefDemo";
 import InteractiveCanvas from "./components/InteractiveCanvas/InteractiveCanvas";
 import { Color, Euler, Matrix4, Vector3 } from "three";
 import DemoLayout from "./components/DemoLayout/DemoLayout";
