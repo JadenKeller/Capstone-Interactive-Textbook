@@ -24,8 +24,8 @@ body {
 
 .left_section {
 	background-color: #313B3E;
-	width: 30%;
-	max-width: 600px;
+	width: 40%;
+	max-width: 700px;
 	min-width: 400px;
 	height: 100%;
 	display: grid;
@@ -47,8 +47,9 @@ body {
 
 .nav_button {
 	text-transform: uppercase;
-	font-size: 1.4em;
+	font-size: 1.2em;
 	font-family: "Gabarito", sans-serif;
+	letter-spacing: 0.1rem;
 	position: relative;
 	cursor: pointer;
 }
@@ -75,17 +76,35 @@ body {
 /* Canvas section styling */
 .canvas_section {
 	height: 85%;
-	max-height: 1000px;
+	/* Next line is for testing on other laptop/desktop
+	screen sizes other than my own laptop. */
+	max-height: 1200px;
 }
 
 
 
 /* Text section styling */
 .lesson_content {
-	padding: 0 2em;
+	padding: 0 2.5em;
 	overflow-y: auto;
-	scrollbar-color: #4B585D rgb(75, 88, 93, 50%);
-	scrollbar-width: thin;
+}
+
+.lesson_content::-webkit-scrollbar {
+	width: 15px;
+}
+  
+.lesson_content::-webkit-scrollbar-track {
+	background: #4B585D;
+}
+  
+.lesson_content::-webkit-scrollbar-thumb {
+	background: #4B585D;
+	border: 2px solid #57FFEB;
+	border-radius: 10px;
+}
+  
+.lesson_content::-webkit-scrollbar-thumb:hover {
+	background: #313B3E;
 }
 
 h1 {
