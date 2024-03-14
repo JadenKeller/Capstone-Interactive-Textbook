@@ -29,9 +29,10 @@ export default function DemoLayout() {
 				</div>
 				<div className={styles.right_section}>
 					<section className={styles.nav_bar}>
-						<div className={`${styles.home_button} ${styles.nav_button}`}>HOME</div>
-						<div className={`${styles.lessons_button} ${styles.nav_button}`}>LESSONS</div>
-						<div className={`${styles.logo} ${styles.nav_button}`}>@</div>
+					<div className={`${styles.lessons_button} ${styles.nav_button}`}>Lessons</div> 
+						<div className={`${styles.home_button} ${styles.nav_button}`}>Links</div>
+						<div className={`${styles.lessons_button} ${styles.nav_button}`}>Home</div>
+						<div className={`${styles.logo} ${styles.nav_button}`}><img src="/logo.svg" height={"75px"} width={"75px"}></img></div>
 					</section>
 					<InteractiveCanvas
 						availableTransformations={[
