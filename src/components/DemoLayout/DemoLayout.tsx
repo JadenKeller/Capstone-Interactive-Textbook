@@ -18,7 +18,7 @@ export default function DemoLayout() {
 						<p>
 							Suspendisse potenti. Nullam eu nunc et libero ultrices ornare. Nulla et ultrices nisl. Vivamus lacinia sodales diam id ullamcorper. Morbi eleifend eros volutpat dolor vehicula efficitur. Sed porttitor metus pharetra odio scelerisque interdum. Ut lacinia felis in ullamcorper blandit. Aliquam ipsum magna, porttitor sed diam quis, imperdiet laoreet purus. Donec dictum odio a mi pharetra, nec auctor sem feugiat. Aenean nisl elit, egestas at fringilla ut, luctus ut libero. Ut ac risus ante. Nullam eu efficitur lectus.
 						</p>
-						<p>Suspendisse potenti. Mauris quis justo</p><h2> Matrix Multiplication</h2>
+						<p>Suspendisse potenti. Mauris quis justo</p><h3> Matrix Multiplication</h3>
 						<p>
 							vehicula, cursus lorem quis, pellentesque justo. Proin quis ligula metus. In egestas sollicitudin magna sed posuere. Duis aliquet volutpat tristique. Nullam
 						</p>

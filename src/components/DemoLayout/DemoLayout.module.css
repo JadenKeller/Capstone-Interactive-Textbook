@@ -2,20 +2,17 @@ body {
 	background-color: #313B3E;
 	height: 100vh;
 	margin: 0;
-	padding: 20px;
 	color: #F4FFFF;
 }
 
 .body_root {
-	background-color: white;
-	height: 1024px;
 	width: 100%;
 }
 
 .vertical_divide {
 	display: flex;
 	flex-direction: row;
-	height: 100%;
+	height: 100vh;
 }
 
 .right_section {
@@ -40,31 +37,59 @@ body {
 }
 
 .left_section {
-	background-color: #4B585D;
+	background-color: #313B3E;
 	width: 30%;
+	max-width: 600px;
+	min-width: 400px;
 	height: 100%;
 	display: grid;
 }
 
 .lesson_content {
-	padding: 15px;
+	padding: 0 2em;
 	overflow-y: auto;
-	scrollbar-color: rgba(49, 59, 62, 100%) rgba(49, 59, 62, 50%);
+	scrollbar-color: #4B585D rgb(75, 88, 93, 50%);
 	scrollbar-width: thin;
 }
 
-/*#scroll-thumb {
-	width: 25px;
-	height: 100%;
-	background-color: rgba(49, 59, 62, 50%);
-	display: flex;
-	grid-column: 8 / span 9;
+h1 {
+	font-family: "Gabarito", sans-serif;
+	font-size: 3.25em;
+	font-weight: 550;
+	letter-spacing: 0.06rem;
+	line-height: 0.9em;
+	padding-top: 0.75em;
+	margin: 0;
+
 }
 
-#scroll-bar {
-	width: 18px;
-	height: 80px;
-	background-color: black;
-	border-radius: 38%;
-	margin: 0 auto;
-}*/
+h2 {
+	font-family: "Gabarito", sans-serif;
+	font-size: 2em;
+	font-weight: 500;
+	letter-spacing: 0.075rem;
+	line-height: 0.85em;
+	padding-top: 0.5em;
+	margin: 0;
+}
+
+h3 {
+	font-family: "Gabarito", sans-serif;
+	font-size: 1.25em;
+	font-weight: 550;
+	letter-spacing: 0.05rem;
+	line-height: 0.85em;
+	padding-top: 0.5em;
+	margin: 0;
+}
+
+p {
+	font-family: "Lexend", sans-serif;
+	font-size: 16px;
+	font-weight: 250;
+	letter-spacing: 0.0525rem;
+	line-height: 1.55em;
+	padding: 0.65em 0 1.5em 0;
+	margin: 0;
+
+}
