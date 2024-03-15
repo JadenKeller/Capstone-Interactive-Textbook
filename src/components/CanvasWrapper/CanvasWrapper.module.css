@@ -10,6 +10,7 @@
     /* background-color: #0E1112; */
 }
 
+/* Undo and delete buttions */
 .controls_list {
     position: absolute;
     top: 10px;
@@ -19,6 +20,7 @@
     border-radius: 7px;
     display: flex;
     gap: 1.5em;
+    padding: 1em 1em;
 }
 
 .control {
@@ -29,3 +31,6 @@
     transition: 0.2s ease;
     color: #57FFEB;
 }
+
+/* Tooltip button */
+
