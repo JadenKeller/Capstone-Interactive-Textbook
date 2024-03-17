@@ -3,17 +3,19 @@ import { TransformationStateManager } from "../InteractiveCanvas/InteractiveCanv
 import { Transformation } from "../Scene/Scene";
 import Matrix from "../Matrix/Matrix";
 import styles from './AppliedTransformations.module.css'
-
-export interface AppliedTransformationProps {
-    transformations: Transformation[]
-}
+import { useEffect, useState } from "react";
 
 
-export default function AppliedTransformations(props: AppliedTransformationProps) {
-    // This needs to be moved to the Matrix somehow
+
+export default function AppliedTransformations() {
+    const [activeTransforms, setActiveTransforms] = useState(TransformationStateManager.getTransformations())
+
+    useEffect(() => {
+      TransformationStateManager.addChangedCallback(setActiveTransforms)  
+    }, [])
     return (
         <div className={styles.applied_transformations}>
-                {props.transformations.map((t, idx) => {
+                {activeTransforms && activeTransforms.map((t, idx) => {
                     return (
                         <div key={idx}>
                             {(t.name) ? <InlineMath math={t.name} /> : <></> }

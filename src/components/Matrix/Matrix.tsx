@@ -22,7 +22,7 @@ export interface DraggingMatrix {
  * @param {function} onClick - A function to be called when the matrix is clicked
  * @returns 
  */
-export default function Matrix({idx, selected, transformation, small, onClick}: {idx: number, transformation: Transformation, selected: boolean, small?: boolean, onClick?: (t: Transformation) => void}) {
+export default function Matrix({idx, selected, transformation, small, onClick,}: {idx: number, transformation: Transformation, selected: boolean, small?: boolean, onClick?: (t: Transformation) => void}) {
     
     /**
      * Renders the given matrix as a LaTeX formatted 4x4 matrix.
@@ -46,63 +46,64 @@ export default function Matrix({idx, selected, transformation, small, onClick}: 
         void,
         { handlerId: Identifier | null }
     >({
-        accept: 'matrix',
+        accept: 'matrix-list',
         collect(monitor) {
         return {
             handlerId: monitor.getHandlerId(),
         }
         },
         hover(item: DraggingMatrix, monitor) {
-        if (!ref.current) {
-            return
-        }
-        const dragIndex = item.index
-        const hoverIndex = idx
+            if (!ref.current) {
+                return
+            }
+            // console.log('hovering matrix')
+            const dragIndex = item.index
+            const hoverIndex = idx
 
-        // Don't replace items with themselves
-        if (dragIndex === hoverIndex) {
-            return
-        }
+            // Don't replace items with themselves
+            if (dragIndex === hoverIndex) {
+                // console.log('hovering same matrix')
+                return
+            }
 
-        // Determine rectangle on screen
-        const hoverBoundingRect = ref.current?.getBoundingClientRect()
+            // Determine rectangle on screen
+            const hoverBoundingRect = ref.current?.getBoundingClientRect()
 
-        // Get vertical middle
-        const hoverMiddleY =
-            (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+            // Get vertical middle
+            const hoverMiddleX =
+                (hoverBoundingRect.right - hoverBoundingRect.left) / 2
 
-        // Determine mouse position
-        const clientOffset = monitor.getClientOffset()
+            // Determine mouse position
+            const clientOffset = monitor.getClientOffset()
 
-        // Get pixels to the top
-        const hoverClientY = clientOffset!.y - hoverBoundingRect.top
+            // Get pixels to the top
+            const hoverClientX = clientOffset!.x - hoverBoundingRect.left
 
-        // Only perform the move when the mouse has crossed half of the items height
-        // When dragging downwards, only move when the cursor is below 50%
-        // When dragging upwards, only move when the cursor is above 50%
+            // Only perform the move when the mouse has crossed half of the items height
+            // When dragging downwards, only move when the cursor is below 50%
+            // When dragging upwards, only move when the cursor is above 50%
 
-        // Dragging downwards
-        if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-            return
-        }
+            // Dragging downwards
+            if (dragIndex < hoverIndex && hoverClientX < hoverMiddleX) {
+                return
+            }
 
-        // Dragging upwards
-        if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-            return
-        }
+            // Dragging upwards
+            if (dragIndex > hoverIndex && hoverClientX > hoverMiddleX) {
+                return
+            }
 
-        // Time to actually perform the action
-        TransformationStateManager.moveTransformation(dragIndex, hoverIndex)
-
-        // Note: we're mutating the monitor item here!
-        // Generally it's better to avoid mutations,
-        // but it's good here for the sake of performance
-        // to avoid expensive index searches.
-        item.index = hoverIndex
+            // Time to actually perform the action
+            TransformationStateManager.moveTransformation(dragIndex, hoverIndex)
+            // Note: we're mutating the monitor item here!
+            // Generally it's better to avoid mutations,
+            // but it's good here for the sake of performance
+            // to avoid expensive index searches.
+            item.index = hoverIndex
         },
     })
 
-    const [{ isDragging }, drag] = useDrag({
+    let [{ isDragging }, drag] = useDrag({
         type: 'matrix',
         item: () => {
             return { transformation, idx }
@@ -111,12 +112,25 @@ export default function Matrix({idx, selected, transformation, small, onClick}: 
             isDragging: monitor.isDragging(),
         }),
     })
+
+    if(small) {
+        [{ isDragging }, drag] = useDrag({
+            type: 'matrix-list',
+            item: () => {
+                return { transformation, idx }
+            },
+            collect: (monitor: any) => ({
+                isDragging: monitor.isDragging(),
+            }),
+        })
+        drag(drop(ref))
+    }
     
     return (
-        <div key={idx} ref={drag} onClick={() => {
+        <div key={idx} ref={(small) ? ref : drag} onClick={() => {
             if(onClick)
                 onClick(transformation)
-        }} className={(selected) ? styles.matrix_selected : styles.matrix}>
+        }} className={(selected) ? styles.matrix_selected : styles.matrix} data-handler-id={handlerId}>
             {(small) ? <InlineMath math={`${renderLatex(transformation.matrix4)}`} /> : 
             <BlockMath math={(transformation.name) ? `${transformation.name} = ${renderLatex(transformation.matrix4)}` : `${String.fromCharCode(idx + 80)} = ${renderLatex(transformation.matrix4)}`} />}
         </div>
