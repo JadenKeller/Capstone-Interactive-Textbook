@@ -1,4 +1,4 @@
-import { Color, LineDashedMaterial, Vector3 } from "three";
+import { Color, Group, LineDashedMaterial, Object3DEventMap, Vector3 } from "three";
 import DemoLayout from "@components/DemoLayout/DemoLayout";
 import InteractiveCanvas from "@components/InteractiveCanvas/InteractiveCanvas";
 import { useEffect, useState } from "react";
@@ -8,6 +8,7 @@ import DotProductWidget from "@components/lessons/vector_operations/dot_product/
 import styles from "./PlusMinus.module.css";
 import DotProductInteractiveWidget from "@components/lessons/vector_operations/dot_product/DotProductInteractiveWidget/DotProductInteractiveWidget";
 import { dashSize } from "three/examples/jsm/nodes/Nodes.js";
+import { GLTFLoader } from "three/examples/jsm/Addons.js";
 
 export default function PlusMinus() {
 	const [x, setX] = useState<number>(-5);
@@ -19,9 +20,21 @@ export default function PlusMinus() {
 	const [dotResult, setDotResult] = useState(vDirectionCar.dot(vFinishNormal));
 	const finishLineWidth = 5;
 
+	const [model, setModel] = useState<Group<Object3DEventMap>>();
+
 	const points = []
 	points.push(new Vector3(vPositionFinish.x, 10, 0));
 	points.push(new Vector3(vPositionFinish.x, -10, 0));
+
+	useEffect(() => {
+		// TODO: fetch the asset to be used in modeling the car, only on mount
+		const loadModel = async () => {
+			const gltf = await new GLTFLoader().loadAsync('/src/assets/models/yellow_car/scene.gltf');
+			setModel(gltf.scene);
+		};
+
+		loadModel();
+	}, [])
 
 	useEffect(() => {
 		// Get new position and direction of car interactable
@@ -60,10 +73,28 @@ export default function PlusMinus() {
 							{
 								geometry: <Line lineWidth={finishLineWidth} points={points} dashed={true} color={Color.NAMES.white}></Line>, acceptTransformations: false
 							},
+							model ? {
+								geometry:
+									<>
+										<group
+											scale={[0.02, 0.02, 0.02]}
+											position={[vPositionCar.x - 3, 0, 2.5]}
+											rotation={[0, -Math.PI / 2, 0]}
+										>
+											<primitive object={model} />
+										</group>
+										<ambientLight intensity={0.9} />
+										<pointLight intensity={3} position={[vPositionCar.x - 2, 2, 1]} />
+									</>,
+								acceptTransformations: false
+							} :
+								{
+									geometry: <Line lineWidth={finishLineWidth} points={points} dashed={true} color={Color.NAMES.white}></Line>, acceptTransformations: false
+								}
 						]}
 					/>
 				</div>
 			</>
-		</DemoLayout>
+		</DemoLayout >
 	)
 }
