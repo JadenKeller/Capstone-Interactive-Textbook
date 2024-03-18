@@ -1,4 +1,4 @@
-import { Color, Group, LineDashedMaterial, Object3DEventMap, Vector3 } from "three";
+import { Color, Group, Object3DEventMap, Vector3 } from "three";
 import DemoLayout from "@components/DemoLayout/DemoLayout";
 import InteractiveCanvas from "@components/InteractiveCanvas/InteractiveCanvas";
 import { useEffect, useState } from "react";
@@ -7,18 +7,18 @@ import ArrowWrapper from "@components/ArrowWrapper/ArrowWrapper";
 import DotProductWidget from "@components/lessons/vector_operations/dot_product/DotProductWidget/DotProductWidget";
 import styles from "./PlusMinus.module.css";
 import DotProductInteractiveWidget from "@components/lessons/vector_operations/dot_product/DotProductInteractiveWidget/DotProductInteractiveWidget";
-import { dashSize } from "three/examples/jsm/nodes/Nodes.js";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
 
 export default function PlusMinus() {
 	const [x, setX] = useState<number>(-5);
 	const [vDirectionCar, setVDirectionCar] = useState(new Vector3(1, 0, 0));
 	const [vPositionCar, setVPositionCar] = useState(new Vector3(x, 1, 0));
-	const [passed, setPassed] = useState(false);
+	const [hasPassed, setHasPassed] = useState(false);
 	const vPositionFinish = new Vector3(3, 1, 0);
 	const vFinishNormal = new Vector3(1, 0, 0);
 	const [dotResult, setDotResult] = useState(vDirectionCar.dot(vFinishNormal));
 	const finishLineWidth = 5;
+	const carVectorLength = 3;
 
 	const [model, setModel] = useState<Group<Object3DEventMap>>();
 
@@ -27,7 +27,7 @@ export default function PlusMinus() {
 	points.push(new Vector3(vPositionFinish.x, -10, 0));
 
 	useEffect(() => {
-		// TODO: fetch the asset to be used in modeling the car, only on mount
+		// TODO: export function out & import into this useEffect
 		const loadModel = async () => {
 			const gltf = await new GLTFLoader().loadAsync('/src/assets/models/yellow_car/scene.gltf');
 			setModel(gltf.scene);
@@ -46,8 +46,8 @@ export default function PlusMinus() {
 		// Resolve new dot product result
 		const result = newDir.dot(vFinishNormal);
 		const isFinished = result < 0;
-		if (!isFinished == passed)
-			setPassed(result < 0);
+		if (!isFinished == hasPassed)
+			setHasPassed(result < 0);
 		setDotResult(result);
 	}, [x]);
 
@@ -56,13 +56,26 @@ export default function PlusMinus() {
 			<>
 				{/* TODO: add widgets showing the dot product calculation + result && 'not/finished' and a range input */}
 				<div className={styles.wrapper}>
-					<DotProductWidget dotResult={dotResult} passed={passed} x={x} setX={setX} />
-					<DotProductInteractiveWidget dotResult={dotResult} passed={passed} x={x} setX={setX} />
+					<DotProductWidget dotResult={dotResult} passed={hasPassed} x={x} setX={setX} />
+					<DotProductInteractiveWidget dotResult={dotResult} passed={hasPassed} x={x} setX={setX} />
 					<InteractiveCanvas
 						availableTransformations={[]}
 						scenes={[
 							{
-								geometry: <ArrowWrapper lineWidth={3} arrowHelperArgs={[vDirectionCar, vPositionCar, 2, "#57FFEB", 0.4, 0.8]} />, acceptTransformations: false,
+								geometry:
+									<ArrowWrapper
+										lineWidth={carVectorLength}
+										arrowHelperArgs={[
+											vDirectionCar,
+											!hasPassed ? // If the car has passed the finish line, move the dir vector to behind the model
+												vPositionCar :
+												new Vector3(vPositionCar.x - 4, vPositionCar.y, vPositionCar.z),
+											2,
+											"#57FFEB",
+											0.4,
+											0.8]}
+									/>,
+								acceptTransformations: false,
 							},
 							{
 								geometry: <arrowHelper args={[vFinishNormal, new Vector3(vPositionFinish.x, vPositionFinish.y + 2, vPositionFinish.z), 1, Color.NAMES.red, 0.25, 0.4]} />, acceptTransformations: false
@@ -78,7 +91,7 @@ export default function PlusMinus() {
 									<>
 										<group
 											scale={[0.02, 0.02, 0.02]}
-											position={[vPositionCar.x - 3, 0, 2.5]}
+											position={[vPositionCar.x - carVectorLength + 0.25, 0, 2.5]}
 											rotation={[0, -Math.PI / 2, 0]}
 										>
 											<primitive object={model} />

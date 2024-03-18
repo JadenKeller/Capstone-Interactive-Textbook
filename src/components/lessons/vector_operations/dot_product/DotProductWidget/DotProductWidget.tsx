@@ -17,7 +17,7 @@ export default function DotProductWidget({ dotResult, passed, x, setX }: WidgetP
 	return (
 		<div className={styles.controls_list}>
 			<span className={styles.control}>
-				<input type={"range"} min={-5} max={7} step={0.05} value={x} onChange={
+				<input type={"range"} min={-5} max={9} step={0.05} value={x} onChange={
 					(e) => setX(Number(e.target.value))
 				} />
 			</span>
