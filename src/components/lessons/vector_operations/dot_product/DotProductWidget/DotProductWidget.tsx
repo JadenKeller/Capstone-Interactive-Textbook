@@ -11,6 +11,7 @@ interface WidgetProps {
 /**
  * Dot product widget - informational only
  * @todo convert this widget to show the components of a dot product calculation (vars => values => result)
+ * @todo add value conversion for mag(vecA) and angle within cos(angle)
  */
 export default function DotProductWidget({ dotResult, passed, x, setX }: WidgetProps) {
 	return (
