@@ -1,13 +1,12 @@
 import styles from "./DotProductInteractiveWidget.module.css";
 
 interface WidgetProps {
-	dotResult: number,
 	passed: boolean,
 	x: number,
 	setX: React.Dispatch<React.SetStateAction<number>>
 };
 
-export default function DotProductInteractiveWidget({ dotResult, passed, x, setX }: WidgetProps) {
+export default function DotProductInteractiveWidget({ passed, x, setX }: WidgetProps) {
 	return (
 		<div className={styles.controls_list}>
 			<span className={styles.control}>
