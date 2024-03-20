@@ -56,8 +56,8 @@ export default function PlusMinus() {
 			<>
 				{/* TODO: add widgets showing the dot product calculation + result && 'not/finished' and a range input */}
 				<div className={styles.wrapper}>
-					<DotProductWidget dotResult={dotResult} passed={hasPassed} x={x} setX={setX} />
-					<DotProductInteractiveWidget dotResult={dotResult} passed={hasPassed} x={x} setX={setX} />
+					<DotProductWidget dotResult={dotResult} />
+					<DotProductInteractiveWidget passed={hasPassed} x={x} setX={setX} />
 					<InteractiveCanvas
 						availableTransformations={[]}
 						scenes={[
