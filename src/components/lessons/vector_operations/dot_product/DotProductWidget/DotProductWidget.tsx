@@ -14,13 +14,14 @@ interface WidgetProps {
  * @todo add value conversion for mag(vecA) and angle within cos(angle)
  */
 export default function DotProductWidget({ dotResult, passed, x, setX }: WidgetProps) {
+	const theta = Math.round(Math.acos(dotResult) * (180 / Math.PI));
 	return (
 		<div className={styles.controls_list}>
-			<span className={styles.control}>
+			{/* <span className={styles.control}>
 				<input type={"range"} min={-5} max={9} step={0.05} value={x} onChange={
 					(e) => setX(Number(e.target.value))
 				} />
-			</span>
+			</span> */}
 			<span className={styles.control}>
 				<div>
 					<InlineMath math={`{{\\color{57FFEB}\\vec A}}\\cdot{\\color{red}{{\\hat N}}} 
@@ -29,7 +30,7 @@ export default function DotProductWidget({ dotResult, passed, x, setX }: WidgetP
 			</span>
 			<span className={styles.control}>
 				<div>
-					<InlineMath math={`{\\left|{A}\\right|}{cos(\\theta)} = ${Math.round(dotResult)}`} />
+					<InlineMath math={`{\\left|{A}\\right|}{cos(${theta})} = ${Math.round(dotResult)}`} />
 				</div>
 			</span>
 		</div>

@@ -11,15 +11,12 @@ export default function DotProductInteractiveWidget({ dotResult, passed, x, setX
 	return (
 		<div className={styles.controls_list}>
 			<span className={styles.control}>
-				<input type={"range"} min={-5} max={7} step={0.05} value={x} onChange={
+				<input type={"range"} min={-5} max={9} step={0.05} value={x} onChange={
 					(e) => setX(Number(e.target.value))
 				} />
 			</span>
-			<span className={styles.control}>
-				{dotResult}
-			</span>
-			<span className={styles.control}>
-				{passed ? " finished" : " not finished"}
+			<span className={styles.control} color={passed ? "green" : "red"}>
+				{passed ? " Finished" : " Not Finished"}
 			</span>
 		</div>
 	);
