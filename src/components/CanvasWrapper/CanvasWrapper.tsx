@@ -32,7 +32,7 @@ export interface CanvasWrapperProps {
  */
 export interface Scene {
     geometry: ReactElement,
-    acceptTransformations: boolean,
+    acceptTransformations?: boolean,
     color?: Color,
     initialPosition?: Vector3,
     staticTransformations?: Transformation[]
