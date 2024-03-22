@@ -13,12 +13,14 @@ import styles from "./InteractiveCanvas.module.css"
  */
 export class TransformationStateManager {
     static activeTransformations: Transformation[] = []
+    static transformationChangeCallbacks: Function[] = []
 
     /**
      * Undoes the last transformation
      */
     static undo() {
         this.activeTransformations.pop();
+        this.transformationChangeCallbacks.forEach((callback) => callback())
     }
 
     /**
@@ -26,6 +28,7 @@ export class TransformationStateManager {
      */
     static clear() {
         this.activeTransformations = [];
+        this.transformationChangeCallbacks.forEach((callback) => callback(this.activeTransformations))
     }
 
     /**
@@ -34,6 +37,7 @@ export class TransformationStateManager {
      */
     static pushTransformation(t: Transformation) {
        this.activeTransformations.push(t)
+       this.transformationChangeCallbacks.forEach((callback) => callback(this.activeTransformations))
     }
 
     /**
@@ -45,7 +49,12 @@ export class TransformationStateManager {
     }
 
     static moveTransformation(fromIndex: number, toIndex: number) {
-        
+        this.activeTransformations.splice(toIndex, 0, this.activeTransformations.splice(fromIndex, 1)[0]);
+        this.transformationChangeCallbacks.forEach((callback) => callback(this.activeTransformations))
+    }
+
+    static addChangedCallback(callback: Function) {
+        this.transformationChangeCallbacks.push(callback)
     }
 }
 

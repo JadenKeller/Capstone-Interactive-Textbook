@@ -32,10 +32,15 @@ export interface CanvasWrapperProps {
  */
 export interface Scene {
     geometry: ReactElement,
-    acceptTransformations: boolean,
-    color?: Color,
+    acceptTransformations?: boolean,
+    color?: Color | TransparentColor,
     initialPosition?: Vector3,
     staticTransformations?: Transformation[]
+}
+
+export interface TransparentColor {
+    color: Color,
+    opacity: number
 }
 
 /**
@@ -48,63 +53,64 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
     let runID = useRef(-1)
     // Currently active transformations.
     const [stateTransformations, setStateTransformations] = useState<Transformation[]>(TransformationStateManager.getTransformations())
-
+    console.log('transformations', stateTransformations)
     // Handles animations.
     useEffect(() => {
+        TransformationStateManager.addChangedCallback(setStateTransformations)
         clearInterval(runID.current)
-    runID.current = setInterval(() => {
-        incrementor.current = incrementor.current + 0.01
+        runID.current = setInterval(() => {
+            incrementor.current = incrementor.current + 0.01
 
-        // Animate applied transformations
-        TransformationStateManager.activeTransformations.forEach((transformation) => {
-                switch (transformation.type) {
-                    case 'rotation': 
-                        if(!transformation.amount) {
-                            console.error('Transformations of type rotation require an amount field')
-                            return;
-                        }
-                        transformation.matrix4 = new Matrix4().makeRotationFromEuler(new Euler(incrementor.current * transformation.amount[0], incrementor.current * transformation.amount[1], incrementor.current * transformation.amount[2]));
-                        break;
-                    case 'translation':
-                        if(!transformation.amount) {
-                            console.error('Transformations of type translation require an amount field')
-                            return;
-                        }
-                        transformation.matrix4 = new Matrix4().makeTranslation(new Vector3(incrementor.current * transformation.amount[0], incrementor.current * transformation.amount[1], incrementor.current * transformation.amount[2]))
-                        break;
-                }
-        })
-
-        // Animate static transformations
-        props.scenes?.forEach(scene => {
-            scene.staticTransformations?.forEach(transformation => {
-                switch (transformation.type) {
-                    case 'rotation': 
-                        if(!transformation.amount) {
-                            console.error('Transformations of type rotation require an amount field')
-                            return;
-                        }
-                        transformation.matrix4 = new Matrix4().makeRotationFromEuler(new Euler(incrementor.current * transformation.amount[0], incrementor.current * transformation.amount[1], incrementor.current * transformation.amount[2]));
-                        if(transformation.publishToId !== undefined) {
-                            TransformationStateManager.activeTransformations.forEach((t) => {
-                                if(t.id === transformation.publishToId && transformation.publishToId !== undefined) {
-                                    t.matrix4 = new Matrix4().makeRotationFromEuler(new Euler(incrementor.current * transformation.amount![0], incrementor.current * transformation.amount![1], incrementor.current * transformation.amount![2]));
-                                }
-                            })
-                        }
-                        break;
-                    case 'translation':
-                        if(!transformation.amount) {
-                            console.error('Transformations of type translation require an amount field')
-                            return;
-                        }
-                        transformation.matrix4 = new Matrix4().makeTranslation(new Vector3(incrementor.current * transformation.amount[0], incrementor.current * transformation.amount[1], incrementor.current * transformation.amount[2]))
-                        break;
-                }
+            // Animate applied transformations
+            TransformationStateManager.activeTransformations.forEach((transformation) => {
+                    switch (transformation.type) {
+                        case 'rotation': 
+                            if(!transformation.amount) {
+                                console.error('Transformations of type rotation require an amount field')
+                                return;
+                            }
+                            transformation.matrix4 = new Matrix4().makeRotationFromEuler(new Euler(incrementor.current * transformation.amount[0], incrementor.current * transformation.amount[1], incrementor.current * transformation.amount[2]));
+                            break;
+                        case 'translation':
+                            if(!transformation.amount) {
+                                console.error('Transformations of type translation require an amount field')
+                                return;
+                            }
+                            transformation.matrix4 = new Matrix4().makeTranslation(new Vector3(incrementor.current * transformation.amount[0], incrementor.current * transformation.amount[1], incrementor.current * transformation.amount[2]))
+                            break;
+                    }
             })
-        })
-    }, 10)
-    })
+
+            // Animate static transformations
+            props.scenes?.forEach(scene => {
+                scene.staticTransformations?.forEach(transformation => {
+                    switch (transformation.type) {
+                        case 'rotation': 
+                            if(!transformation.amount) {
+                                console.error('Transformations of type rotation require an amount field')
+                                return;
+                            }
+                            transformation.matrix4 = new Matrix4().makeRotationFromEuler(new Euler(incrementor.current * transformation.amount[0], incrementor.current * transformation.amount[1], incrementor.current * transformation.amount[2]));
+                            if(transformation.publishToId !== undefined) {
+                                TransformationStateManager.activeTransformations.forEach((t) => {
+                                    if(t.id === transformation.publishToId && transformation.publishToId !== undefined) {
+                                        t.matrix4 = new Matrix4().makeRotationFromEuler(new Euler(incrementor.current * transformation.amount![0], incrementor.current * transformation.amount![1], incrementor.current * transformation.amount![2]));
+                                    }
+                                })
+                            }
+                            break;
+                        case 'translation':
+                            if(!transformation.amount) {
+                                console.error('Transformations of type translation require an amount field')
+                                return;
+                            }
+                            transformation.matrix4 = new Matrix4().makeTranslation(new Vector3(incrementor.current * transformation.amount[0], incrementor.current * transformation.amount[1], incrementor.current * transformation.amount[2]))
+                            break;
+                    }
+                })
+            })
+        }, 10)
+    }, [])
 
     // ReactDnD drop handler
     const [, drop] = useDrop(() => ({
@@ -140,7 +146,7 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
                     <Delete />
                 </span>
             </div>
-            <AppliedTransformations transformations={TransformationStateManager.getTransformations()} />
+            <AppliedTransformations />
         </div>
     )
 }
