@@ -1,9 +1,21 @@
 .matrix {
-    margin: 5px;
-    border: 1px solid #171717;
+    margin: 1em 0;
+    padding: 0.4em 0.5em;
+    background-color: #313B3E;
+    border-radius: 8px;
+    border: 3px solid #313B3E;
+    transition: 0.2s ease;
+}
+.matrix:hover {
+    border: 3px solid #57FFEB;
+    transition: 0.3s ease;
 }
 
-.matrix_selected {
-    border: 1px solid blue;
-    margin: 5px;
+/*  Caution, strange selector ahead!
+    To overwrite the font-family css in react-katex node_modules,
+    I am targeting the DOM element with that styling.    */
+.matrix div span span span {
+    font-family: "Lexend", sans-serif;
+    font-weight: 300;
+    font-size: 0.85rem;
 }

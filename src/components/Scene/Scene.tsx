@@ -1,6 +1,7 @@
 import { useFrame } from "@react-three/fiber";
 import { ReactElement, useEffect, useRef } from "react";
 import { Color, Matrix4, Mesh, Vector3 } from "three";
+import { TransparentColor } from "../CanvasWrapper/CanvasWrapper";
 
 /**
  * Scene component props
@@ -12,7 +13,7 @@ import { Color, Matrix4, Mesh, Vector3 } from "three";
 export interface SceneProps {
     transformations?: Transformation[],
     geometry?: ReactElement,
-    color?: Color,
+    color?: Color | TransparentColor,
     initialPosition?: Vector3
 }
 
@@ -50,7 +51,7 @@ export default function Scene(props: SceneProps) {
     return (
         <mesh position={props.initialPosition} ref={box}>
             {props.geometry}
-            <meshBasicMaterial color={(props.color) ? props.color :  0xdd6666} />
+            <meshBasicMaterial transparent={(props.color && 'opacity' in props.color)} opacity={(props.color && 'opacity' in props.color) ? props.color.opacity : 1} color={(props.color && props.color instanceof Color) ? props.color : (props.color && 'opacity' in props.color) ? props.color.color :  0xdd6666} />
         </mesh>
     )
 }
