@@ -1,0 +1,26 @@
+.controls_list {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	top: 10px;
+	left: 250px;
+	background-color: #272727;
+	padding: 10px;
+	border-radius: 5px;
+	z-index: 999;
+	align-items: center;
+	height: 65px;
+}
+
+.control {
+	margin: 2px 8px;
+	cursor: pointer;
+	align-items: center;
+	transition: 0.2s ease;
+	padding: 2px;
+}
+
+.control:hover {
+	transition: 0.2s ease;
+	color: #aaa;
+}

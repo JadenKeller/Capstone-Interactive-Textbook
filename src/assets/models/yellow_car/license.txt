@@ -1,0 +1,11 @@
+Model Information:
+* title:	Yellow Car
+* source:	https://sketchfab.com/3d-models/yellow-car-daa4b18055424681927818fd23e5b7a1
+* author:	aysenaz (https://sketchfab.com/Aysenazkara)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Yellow Car" (https://sketchfab.com/3d-models/yellow-car-daa4b18055424681927818fd23e5b7a1) by aysenaz (https://sketchfab.com/Aysenazkara) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
