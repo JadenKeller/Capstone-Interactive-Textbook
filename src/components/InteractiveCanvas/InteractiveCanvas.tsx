@@ -2,7 +2,6 @@ import 'katex/dist/katex.min.css';
 
 import CanvasWrapper, { Scene } from "../CanvasWrapper/CanvasWrapper";
 import { Transformation } from "../Scene/Scene";
-import { useState } from "react";
 import TransformationOptions from './TransformationOptions';
 import { DndProvider, useDrop } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'

@@ -1,70 +1,149 @@
+/* Page styles */
 body {
 	background-color: #313B3E;
 	height: 100vh;
 	margin: 0;
-	padding: 20px;
 	color: #F4FFFF;
 }
 
 .body_root {
-	background-color: white;
-	height: 1024px;
 	width: 100%;
 }
 
 .vertical_divide {
 	display: flex;
 	flex-direction: row;
-	height: 100%;
+	height: 100vh;
 }
 
 .right_section {
 	background-color: #4B585D;
 	width: 70%;
 	height: 100%;
-	/*	border: 1px solid white;*/
-}
-
-.nav_bar {
-	height: 120px;
-	display: flex;
-	background-color: #313B3E;
-	flex-direction: row;
-	justify-content: flex-end;
-	align-items: center;
-}
-
-.nav_button {
-	padding: 20px;
-	font-size: 1.4em;
 }
 
 .left_section {
-	background-color: #4B585D;
-	width: 30%;
+	background-color: #313B3E;
+	width: 40%;
+	max-width: 700px;
+	min-width: 400px;
 	height: 100%;
 	display: grid;
 }
 
-.lesson_content {
-	padding: 15px;
-	overflow-y: auto;
-	scrollbar-color: rgba(49, 59, 62, 100%) rgba(49, 59, 62, 50%);
-	scrollbar-width: thin;
-}
 
-/*#scroll-thumb {
-	width: 25px;
-	height: 100%;
-	background-color: rgba(49, 59, 62, 50%);
+
+/* Navigation bar styles */
+.nav_bar {
+	height: 15%;
+	max-height: 150px;
+	background-color: #313B3E;
+	padding-right: 1.5em;
 	display: flex;
-	grid-column: 8 / span 9;
+	justify-content: flex-end;
+	align-items: center;
+	gap: 2.25em;
 }
 
-#scroll-bar {
-	width: 18px;
-	height: 80px;
-	background-color: black;
-	border-radius: 38%;
-	margin: 0 auto;
-}*/
+.nav_button {
+	text-transform: uppercase;
+	font-size: 1.2em;
+	font-family: "Gabarito", sans-serif;
+	letter-spacing: 0.1rem;
+	position: relative;
+	cursor: pointer;
+}
+.nav_button::before {
+	/* Hover animation styles */
+	content: '';
+	position: absolute;
+	width: 100%;
+	height: 3px;
+	background-color: #57FFEB;
+	bottom: 0;
+	left: 0;
+	transform-origin: right;
+	transform: scaleX(0);
+	transition: transform 0.3s ease-in-out;
+  }
+.nav_button:hover::before {
+	transform-origin: left;
+	transform: scaleX(1);
+}
+
+
+
+/* Canvas section styling */
+.canvas_section {
+	height: 85%;
+	/* Next line is for testing on other laptop/desktop
+	screen sizes other than my own laptop. */
+	max-height: 1200px;
+}
+
+
+
+/* Text section styling */
+.lesson_content {
+	padding: 0 2.5em;
+	overflow-y: auto;
+	transition: 0.75s ease;
+}
+
+	/* Scroll bar */
+.lesson_content::-webkit-scrollbar {
+	width: 15px;
+}
+.lesson_content::-webkit-scrollbar-track {
+	background: #4B585D;
+}
+.lesson_content::-webkit-scrollbar-thumb {
+	background: #4B585D;
+	border: 2px solid #57FFEB;
+	border-radius: 10px;
+	transition: 0.75s ease;
+}
+.lesson_content::-webkit-scrollbar-thumb:hover {
+	background: #313B3E;
+	transition: 0.75s ease;
+}
+
+h1 {
+	font-family: "Gabarito", sans-serif;
+	font-size: 3.25em;
+	font-weight: 550;
+	letter-spacing: 0.06rem;
+	line-height: 0.9em;
+	padding-top: 0.75em;
+	margin: 0;
+}
+
+h2 {
+	font-family: "Gabarito", sans-serif;
+	font-size: 2em;
+	font-weight: 500;
+	letter-spacing: 0.075rem;
+	line-height: 0.85em;
+	padding-top: 0.5em;
+	margin: 0;
+}
+
+h3 {
+	font-family: "Gabarito", sans-serif;
+	font-size: 1.25em;
+	font-weight: 550;
+	letter-spacing: 0.05rem;
+	line-height: 0.85em;
+	padding-top: 0.5em;
+	margin: 0;
+}
+
+p {
+	font-family: "Lexend", sans-serif;
+	font-size: 16px;
+	font-weight: 250;
+	letter-spacing: 0.0525rem;
+	line-height: 1.55em;
+	padding: 0.65em 0 1.5em 0;
+	margin: 0;
+}

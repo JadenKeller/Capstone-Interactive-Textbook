@@ -1,3 +1,5 @@
+import { Color, Euler, Matrix4, Vector3 } from "three";
+import InteractiveCanvas from "../InteractiveCanvas/InteractiveCanvas";
 import styles from "./DemoLayout.module.css";
 
 /**
@@ -21,7 +23,7 @@ export default function DemoLayout({ children }: { children: JSX.Element }) {
 						<p>
 							Suspendisse potenti. Nullam eu nunc et libero ultrices ornare. Nulla et ultrices nisl. Vivamus lacinia sodales diam id ullamcorper. Morbi eleifend eros volutpat dolor vehicula efficitur. Sed porttitor metus pharetra odio scelerisque interdum. Ut lacinia felis in ullamcorper blandit. Aliquam ipsum magna, porttitor sed diam quis, imperdiet laoreet purus. Donec dictum odio a mi pharetra, nec auctor sem feugiat. Aenean nisl elit, egestas at fringilla ut, luctus ut libero. Ut ac risus ante. Nullam eu efficitur lectus.
 						</p>
-						<p>Suspendisse potenti. Mauris quis justo</p><h2> Matrix Multiplication</h2>
+						<p>Suspendisse potenti. Mauris quis justo</p><h3> Matrix Multiplication</h3>
 						<p>
 							vehicula, cursus lorem quis, pellentesque justo. Proin quis ligula metus. In egestas sollicitudin magna sed posuere. Duis aliquet volutpat tristique. Nullam
 						</p>
@@ -32,9 +34,10 @@ export default function DemoLayout({ children }: { children: JSX.Element }) {
 				</div>
 				<div className={styles.right_section}>
 					<section className={styles.nav_bar}>
-						<div className={`${styles.home_button} ${styles.nav_button}`}>HOME</div>
-						<div className={`${styles.lessons_button} ${styles.nav_button}`}>LESSONS</div>
-						<div className={`${styles.logo} ${styles.nav_button}`}>@</div>
+						<div className={`${styles.lessons_button} ${styles.nav_button}`}>Lessons</div>
+						<div className={`${styles.links_button} ${styles.nav_button}`}>Links</div>
+						<div className={`${styles.home_button} ${styles.nav_button}`}>Home</div>
+						<div className={`${styles.logo}`}><img src="/logo.svg" height={"70px"} width={"70px"}></img></div>
 					</section>
 					{children}
 				</div>
