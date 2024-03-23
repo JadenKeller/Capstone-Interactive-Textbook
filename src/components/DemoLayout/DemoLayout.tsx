@@ -1,6 +1,7 @@
 import { Color, Euler, Matrix4, Vector3 } from "three";
 import InteractiveCanvas from "../InteractiveCanvas/InteractiveCanvas";
 import styles from "./DemoLayout.module.css";
+import LessonNav from "../LessonNav/LessonNav";
 
 /**
  * A demonstration layout for developing lessons within page section constraints.
@@ -30,6 +31,7 @@ export default function DemoLayout({ children }: { children: JSX.Element }) {
 						<p>
 							semper aliquet nulla suscipit elementum. Nulla volutpat orci nisl, vel mollis nibh tincidunt sit amet. Praesent id sapien ipsum. Fusce tempusSed porttitor metus pharetra odio scelerisque interdum. Ut lacinia felis in ullamcorper blandit. Aliquam ipsum magna, porttitor sed diam quis, imperdiet laoreet purus. Donec dictum odio a mi pharetra,
 						</p>
+						<LessonNav />
 					</section>
 				</div>
 				<div className={styles.right_section}>
