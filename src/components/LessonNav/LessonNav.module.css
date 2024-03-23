@@ -12,8 +12,11 @@
     padding: 0;
 }
 
-.lessonNav_item svg:hover circle {
+.lessonNav_item svg:hover {
     cursor: pointer;
+}
+
+.lessonNav_item svg:hover circle {
     stroke: #57FFEB;
     transition: 0.2s ease;
 }
