@@ -1,9 +1,9 @@
 .matrix_list {
 	display: flex;
-	gap: 2em;
+	gap: 1em;
 	justify-content: center;
 }
 
 .canvas {
-	height: 70vh;
+	height: 68.5vh;
 }
