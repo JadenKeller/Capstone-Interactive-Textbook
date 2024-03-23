@@ -1,0 +1,19 @@
+.lessonNav_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3em;
+    margin: 3em 0 4em 0;
+    transition: 0.2s ease;
+}
+
+.lessonNav_item {
+    margin: 0;
+    padding: 0;
+}
+
+.lessonNav_item svg:hover circle {
+    cursor: pointer;
+    stroke: #57FFEB;
+    transition: 0.2s ease;
+}
