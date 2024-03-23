@@ -2,22 +2,26 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import MatrixTransformations from 'pages/lessons/matrices/MatrixTranformations/MatrixTransformations.tsx';
-import PlusMinus from 'pages/lessons/vector_operations/dot_product/PlusMinus/PlusMinus.tsx';
+import VectorOpChapter from 'pages/lessons/vector_operations/index.tsx';
+import MatrixChapter from 'pages/lessons/matrices/index.tsx';
+import VectorChapter from 'pages/lessons/vectors/index.tsx';
 
 const router = createBrowserRouter([
 	{
 		path: "/",
 		element: <App />,
 	},
-
 	{
-		path: "lesson/vector-operations/dot-product/plus-minus",
-		element: <PlusMinus />
+		path: "lesson/vectors",
+		element: <VectorChapter />
 	},
 	{
-		path: "lesson/matrix/transformations",
-		element: <MatrixTransformations />
+		path: "lesson/vector-operations",
+		element: <VectorOpChapter />
+	},
+	{
+		path: "lesson/matrices",
+		element: <MatrixChapter />
 	},
 ]);
 
