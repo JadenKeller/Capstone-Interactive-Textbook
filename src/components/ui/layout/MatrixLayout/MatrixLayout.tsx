@@ -1,12 +1,12 @@
 import Header from "@components/ui/Header/Header";
-import styles from "./DemoLayout.module.css";
+import styles from "./MatrixLayout.module.css";
 
 /**
  * A demonstration layout for developing lessons within page section constraints.
  * @param children JSX Elements to be rendered within the interactable section of the page.
  * @todo Fix: Change the sections do be their own individual UI components with required params for layout flexibility.
  */
-export default function DemoLayout({ children }: { children: JSX.Element }) {
+export default function MatrixLayout({ children }: { children: JSX.Element }) {
 	return (
 		<div className={styles.body_root}>
 			<div className={styles.vertical_divide}>

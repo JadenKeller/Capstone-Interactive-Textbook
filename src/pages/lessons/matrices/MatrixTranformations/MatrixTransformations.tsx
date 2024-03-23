@@ -1,4 +1,4 @@
-import DemoLayout from "@components/DemoLayout/DemoLayout";
+import DemoLayout from "@components/ui/layout/MatrixLayout/MatrixLayout";
 import InteractiveCanvas from "@components/InteractiveCanvas/InteractiveCanvas";
 import { Color, Euler, Matrix4, Vector3 } from "three";
 
