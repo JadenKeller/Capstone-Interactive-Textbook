@@ -1,5 +1,5 @@
 .matrix {
-    margin: 1em 0;
+    margin: 0.5em 0;
     padding: 0.4em 0.5em;
     background-color: #313B3E;
     border-radius: 8px;
@@ -16,6 +16,6 @@
     I am targeting the DOM element with that styling.    */
 .matrix div span span span {
     font-family: "Lexend", sans-serif;
-    font-weight: 300;
-    font-size: 0.85rem;
+    font-weight: 250;
+    font-size: 0.65rem;
 }

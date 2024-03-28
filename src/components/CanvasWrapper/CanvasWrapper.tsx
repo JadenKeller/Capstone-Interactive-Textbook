@@ -10,6 +10,7 @@ import { TransformationStateManager } from '../InteractiveCanvas/InteractiveCanv
 import { ArrowLeftCircle, Delete } from 'react-feather'
 import { MapControls, OrbitControls } from '@react-three/drei'
 import { InlineMath } from 'react-katex'
+import CanvasTooltipButton from "../CanvasTooltipButton/CanvasTooltipButton"
 import AppliedTransformations from '../AppliedTransformations/AppliedTransformations'
 
 /**
@@ -146,6 +147,7 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 					<Delete />
 				</span>
 			</div>
+			<CanvasTooltipButton />
 			<AppliedTransformations />
 		</div>
 	)
