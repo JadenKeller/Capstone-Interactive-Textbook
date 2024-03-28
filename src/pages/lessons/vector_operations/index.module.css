@@ -33,45 +33,6 @@ body {
 
 
 
-/* Navigation bar styles */
-.nav_bar {
-	height: 15%;
-	max-height: 150px;
-	background-color: #313B3E;
-	padding-right: 1.5em;
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
-	gap: 3.5em;
-}
-
-.nav_button {
-	text-transform: uppercase;
-	font-size: 1.2em;
-	font-family: "Gabarito", sans-serif;
-	letter-spacing: 0.1rem;
-	position: relative;
-	cursor: pointer;
-}
-.nav_button::before {
-	/* Hover animation styles */
-	content: '';
-	position: absolute;
-	width: 100%;
-	height: 3px;
-	background-color: #57FFEB;
-	bottom: 0;
-	left: 0;
-	transform-origin: right;
-	transform: scaleX(0);
-	transition: transform 0.3s ease-in-out;
-  }
-.nav_button:hover::before {
-	transform-origin: left;
-	transform: scaleX(1);
-}
-
-
 
 /* Canvas section styling */
 .canvas_section {
@@ -90,19 +51,22 @@ body {
 	transition: 0.75s ease;
 }
 
-	/* Scroll bar */
+/* Scroll bar */
 .lesson_content::-webkit-scrollbar {
 	width: 15px;
 }
+
 .lesson_content::-webkit-scrollbar-track {
 	background: #4B585D;
 }
+
 .lesson_content::-webkit-scrollbar-thumb {
 	background: #4B585D;
 	border: 2px solid #57FFEB;
 	border-radius: 10px;
 	transition: 0.75s ease;
 }
+
 .lesson_content::-webkit-scrollbar-thumb:hover {
 	background: #313B3E;
 	transition: 0.75s ease;
