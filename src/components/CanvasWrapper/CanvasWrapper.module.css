@@ -13,8 +13,8 @@
 /* Undo and delete buttions */
 .controls_list {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 15px;
+    left: 15px;
     background-color: #272727;
     padding: 10px;
     border-radius: 7px;

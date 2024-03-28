@@ -1,5 +1,6 @@
 import Header from "@components/ui/Header/Header";
 import styles from "./MatrixLayout.module.css";
+import LessonNav from "@components/LessonNav/LessonNav";
 
 /**
  * A demonstration layout for developing lessons within page section constraints.
@@ -29,6 +30,7 @@ export default function MatrixLayout({ children }: { children: JSX.Element }) {
 						<p>
 							semper aliquet nulla suscipit elementum. Nulla volutpat orci nisl, vel mollis nibh tincidunt sit amet. Praesent id sapien ipsum. Fusce tempusSed porttitor metus pharetra odio scelerisque interdum. Ut lacinia felis in ullamcorper blandit. Aliquam ipsum magna, porttitor sed diam quis, imperdiet laoreet purus. Donec dictum odio a mi pharetra,
 						</p>
+						<LessonNav />
 					</section>
 				</div>
 				<div className={styles.right_section}>
