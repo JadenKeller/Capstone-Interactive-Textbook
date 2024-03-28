@@ -1,5 +1,10 @@
 import styles from "./Header.module.css"
 
+
+/**
+ * 
+ * @todo fix me: this should really be a nav component, not a header
+ */
 export default function Header() {
 	return (
 		<section className={styles.nav_bar}>

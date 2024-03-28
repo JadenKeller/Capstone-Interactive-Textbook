@@ -1,6 +1,6 @@
 import Header from "@components/ui/Header/Header";
 import styles from "./MatrixLayout.module.css";
-import LessonNav from "@components/LessonNav/LessonNav";
+import LessonNav from "@components/ui/LessonNav/LessonNav";
 
 /**
  * A demonstration layout for developing lessons within page section constraints.
