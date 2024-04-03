@@ -2,6 +2,7 @@ import Header from "@components/ui/Header/Header";
 import PlusMinus from "./dot_product/PlusMinus/PlusMinus";
 import VectorLayout from "@components/ui/layout/VectorLayout/VectorLayout";
 import styles from "./index.module.css";
+import LambertianLighting from "./lighting/Lighting";
 
 export default function VectorOpChapter() {
 	return (
@@ -33,7 +34,7 @@ export default function VectorOpChapter() {
 							semper aliquet nulla suscipit elementum. Nulla volutpat orci nisl, vel mollis nibh tincidunt sit amet. Praesent id sapien ipsum. Fusce tempusSed porttitor metus pharetra odio scelerisque interdum. Ut lacinia felis in ullamcorper blandit. Aliquam ipsum magna, porttitor sed diam quis, imperdiet laoreet purus. Donec dictum odio a mi pharetra,
 						</p>
 					</section>}
-				canvas={<PlusMinus />} />
+				canvas={<LambertianLighting />} />
 
 			{/* Chapter navigation buttons */}
 		</div>

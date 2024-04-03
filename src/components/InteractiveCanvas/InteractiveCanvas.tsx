@@ -63,14 +63,14 @@ export class TransformationStateManager {
  * @param scenes - A list of scenes to be rendered. A scene represents a 3D object to be rendered in the canvas. 
  * @returns 
  */
-export default function InteractiveCanvas({availableTransformations, scenes}: {availableTransformations: Transformation[], scenes: Scene[]}) {
+export default function InteractiveCanvas({availableTransformations, scenes, useUndoControls, tooltipText}: {availableTransformations: Transformation[], scenes: Scene[], useUndoControls?: boolean, tooltipText?: string}) {
 
     return (
         <div className={styles.canvas}>
             <DndProvider backend={HTML5Backend}>
                 <TransformationOptions transformations={availableTransformations} />
                 {/* Draggable matrices are applied to the canvas. Order is maintained :p */}
-                <CanvasWrapper scenes={scenes} cameraControls={true}/>
+                <CanvasWrapper scenes={scenes} cameraControls={true} useUndoControls={useUndoControls} tooltipText={tooltipText}/>
             </DndProvider>
         </div>
     )

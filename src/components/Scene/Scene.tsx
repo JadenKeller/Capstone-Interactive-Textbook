@@ -25,11 +25,14 @@ export interface SceneProps {
  */
 export interface Transformation {
     id: number,
-    type: 'rotation' | 'translation' | 'raw' | 'empty',
+    type: 'rotation' | 'translation' | 'raw' | 'empty' | 'scale',
     matrix4: Matrix4,
     name?: string,
     amount?: [number, number, number],
-    publishToId?: number
+    publishToId?: number,
+    max?: [number, number, number],
+    startTime?: number,
+    delay?: number
 }
 
 export default function Scene(props: SceneProps) {

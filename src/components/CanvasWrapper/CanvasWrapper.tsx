@@ -1,26 +1,29 @@
 import styles from './CanvasWrapper.module.css'
 
-import { Canvas, Node, extend } from '@react-three/fiber'
+import { Canvas } from '@react-three/fiber'
 import Scene, { Transformation } from '../Scene/Scene'
 import { Color, Euler, Matrix4, Vector3 } from 'three'
 import { ReactElement, useEffect, useRef, useState } from 'react'
 import { useDrop } from 'react-dnd'
-import Matrix from '../Matrix/Matrix'
 import { TransformationStateManager } from '../InteractiveCanvas/InteractiveCanvas'
 import { ArrowLeftCircle, Delete } from 'react-feather'
-import { MapControls, OrbitControls } from '@react-three/drei'
-import { InlineMath } from 'react-katex'
-import CanvasTooltipButton from "../CanvasTooltipButton/CanvasTooltipButton"
+import { MapControls } from '@react-three/drei'
 import AppliedTransformations from '../AppliedTransformations/AppliedTransformations'
+import CanvasTooltipButton from '@components/CanvasTooltipButton/CanvasTooltipButton'
+import { arrowArgs } from '@components/ArrowWrapper/ArrowWrapper'
 
 /**
  * CanvasWrapper component props
  * @param orbitCamera - Enables camera controls, this is currently WIP.
  * @param scenes - A list of scenes to be rendered. A scene represents a 3D object to be rendered in the canvas.
+ * @param useUndoControls - Enables undo and clear controls.
+ * @param tooltipText - The text to be displayed in the tooltip.
  */
 export interface CanvasWrapperProps {
 	cameraControls?: boolean,
-	scenes?: Scene[]
+	scenes?: Scene[],
+	useUndoControls?: boolean,
+	tooltipText?: string
 }
 
 /**
@@ -54,7 +57,6 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 	let runID = useRef(-1)
 	// Currently active transformations.
 	const [stateTransformations, setStateTransformations] = useState<Transformation[]>(TransformationStateManager.getTransformations())
-	console.log('transformations', stateTransformations)
 	// Handles animations.
 	useEffect(() => {
 		TransformationStateManager.addChangedCallback(setStateTransformations)
@@ -64,54 +66,64 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 
 			// Animate applied transformations
 			TransformationStateManager.activeTransformations.forEach((transformation) => {
+				
+				let transform;
 				switch (transformation.type) {
 					case 'rotation':
-						if (!transformation.amount) {
-							console.error('Transformations of type rotation require an amount field')
-							return;
-						}
-						transformation.matrix4 = new Matrix4().makeRotationFromEuler(new Euler(incrementor.current * transformation.amount[0], incrementor.current * transformation.amount[1], incrementor.current * transformation.amount[2]));
+						transform = applyTransformation(transformation)
+						if(!transform) return;
+
+						transformation.matrix4 = new Matrix4().makeRotationFromEuler(new Euler(transform[0], transform[1], transform[2]));
 						break;
 					case 'translation':
-						if (!transformation.amount) {
-							console.error('Transformations of type translation require an amount field')
-							return;
-						}
-						transformation.matrix4 = new Matrix4().makeTranslation(new Vector3(incrementor.current * transformation.amount[0], incrementor.current * transformation.amount[1], incrementor.current * transformation.amount[2]))
+						transform = applyTransformation(transformation)
+						if(!transform) return;
+
+						transformation.matrix4 = new Matrix4().makeTranslation(new Vector3(transform[0], transform[1], transform[2]))
+						break;
+					case 'scale':
+						transform = applyTransformation(transformation)
+						if(!transform) return;
+
+						transformation.matrix4 = new Matrix4().makeScale(transform[0], transform[1], transform[2])
 						break;
 				}
 			})
-
+			let transform;
 			// Animate static transformations
 			props.scenes?.forEach(scene => {
 				scene.staticTransformations?.forEach(transformation => {
 					switch (transformation.type) {
 						case 'rotation':
-							if (!transformation.amount) {
-								console.error('Transformations of type rotation require an amount field')
-								return;
-							}
-							transformation.matrix4 = new Matrix4().makeRotationFromEuler(new Euler(incrementor.current * transformation.amount[0], incrementor.current * transformation.amount[1], incrementor.current * transformation.amount[2]));
+							transform = applyTransformation(transformation)
+							if(!transform) return;
+
+							transformation.matrix4 = new Matrix4().makeRotationFromEuler(new Euler(transform[0], transform[1], transform[2]));
 							if (transformation.publishToId !== undefined) {
 								TransformationStateManager.activeTransformations.forEach((t) => {
 									if (t.id === transformation.publishToId && transformation.publishToId !== undefined) {
-										t.matrix4 = new Matrix4().makeRotationFromEuler(new Euler(incrementor.current * transformation.amount![0], incrementor.current * transformation.amount![1], incrementor.current * transformation.amount![2]));
+										t.matrix4 = new Matrix4().makeRotationFromEuler(new Euler(transform![0], transform![1], transform![2]));
 									}
 								})
 							}
 							break;
 						case 'translation':
-							if (!transformation.amount) {
-								console.error('Transformations of type translation require an amount field')
-								return;
-							}
-							transformation.matrix4 = new Matrix4().makeTranslation(new Vector3(incrementor.current * transformation.amount[0], incrementor.current * transformation.amount[1], incrementor.current * transformation.amount[2]))
+							transform = applyTransformation(transformation)
+							if(!transform) return;
+
+							transformation.matrix4 = new Matrix4().makeTranslation(new Vector3(transform[0], transform[1], transform[2]))
+							break;
+						case 'scale':
+							transform = applyTransformation(transformation)
+							if(!transform) return;
+
+							transformation.matrix4 = new Matrix4().makeScale(transform[0], transform[1], transform[2])
 							break;
 					}
 				})
 			})
 		}, 10)
-	}, [])
+	})
 
 	// ReactDnD drop handler
 	const [, drop] = useDrop(() => ({
@@ -121,6 +133,36 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 			setStateTransformations(TransformationStateManager.getTransformations());
 		}
 	}))
+
+	const applyTransformation = (transformation: Transformation) => {
+		if (!transformation.amount) {
+			console.error('Transformations of type rotation, translation or scale require an amount field')
+			return;
+		}
+		if(!transformation.startTime) transformation.startTime = incrementor.current;
+		if(transformation.delay && transformation.delay > incrementor.current - transformation.startTime) return;
+		if(!transformation.delay) transformation.delay = 0;
+	
+		let transformX = 0;
+		let transformY = 0;
+		let transformZ = 0;
+	
+		transformX = (incrementor.current - (transformation.startTime + transformation.delay)) * transformation.amount[0]
+		transformY = (incrementor.current - (transformation.startTime + transformation.delay)) * transformation.amount[1]
+		transformZ = (incrementor.current - (transformation.startTime + transformation.delay)) * transformation.amount[2]
+		if(transformation.max) {
+			if((incrementor.current - (transformation.startTime + transformation.delay)) * transformation.amount[0] > transformation.max[0]) {
+				transformX = transformation.max[0]
+			}
+			if((incrementor.current - (transformation.startTime + transformation.delay)) * transformation.amount[1] > transformation.max[1]) {
+				transformY = transformation.max[1]
+			}
+			if((incrementor.current - (transformation.startTime + transformation.delay)) * transformation.amount[2] > transformation.max[2]) {
+				transformZ = transformation.max[2]
+			}
+		}
+		return [transformX, transformY, transformZ]
+	}
 
 	return (
 		<div className={styles.wrapper} ref={drop}>
@@ -133,7 +175,7 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 				})}
 				{(props.cameraControls) ? <MapControls enableRotate={false} maxDistance={25} /> : <></>}
 			</Canvas>
-			<div className={styles.controls_list}>
+			{props.useUndoControls && <div className={styles.controls_list}>
 				<span className={styles.control} onClick={() => {
 					TransformationStateManager.undo()
 					setStateTransformations(TransformationStateManager.getTransformations())
@@ -146,7 +188,7 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 				}}>
 					<Delete />
 				</span>
-			</div>
+			</div>}
 			<CanvasTooltipButton />
 			<AppliedTransformations />
 		</div>
