@@ -32,7 +32,8 @@ export interface Transformation {
     publishToId?: number,
     max?: [number, number, number],
     startTime?: number,
-    delay?: number
+    delay?: number,
+    operation?: 'multiply' | 'set'
 }
 
 export default function Scene(props: SceneProps) {
@@ -43,8 +44,10 @@ export default function Scene(props: SceneProps) {
             box.current.matrixAutoUpdate = false;
             box.current.matrix = new Matrix4()
             props.transformations.forEach(transformation => {
-                if(transformation.matrix4)
+                if(transformation.matrix4 && !transformation.operation || transformation.operation === 'multiply')
                     box.current!.matrix?.multiply(transformation.matrix4)
+                else if(transformation.matrix4 && transformation.operation === 'set')
+                    box.current.matrix = transformation.matrix4.clone();
             })
         }
     })
