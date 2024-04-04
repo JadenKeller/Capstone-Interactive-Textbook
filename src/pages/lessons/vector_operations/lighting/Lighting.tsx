@@ -1,11 +1,12 @@
 import { Scene } from "@components/CanvasWrapper/CanvasWrapper";
 import InteractiveCanvas from "@components/InteractiveCanvas/InteractiveCanvas";
 import LightingControlWidget from "@components/lessons/vector_operations/lighting/LightingControlWidget";
-import { Cone, Line, QuadraticBezierLine, Text } from "@react-three/drei";
+import { Line, QuadraticBezierLine, Text } from "@react-three/drei";
 import { useState } from "react";
 import { Color, Euler, Matrix4, Vector3 } from "three";
 
 export default function LambertianLighting() {
+    // The light and object to be lit
     const defaultScenes: Scene[] = [
         {
             geometry: <circleGeometry />, color: new Color(0x999999), acceptTransformations: false, initialPosition: new Vector3(0, 0, 0.01)
@@ -17,6 +18,11 @@ export default function LambertianLighting() {
 
     const [scenes, setScenes] = useState<Scene[]>(defaultScenes)
 
+    /**
+     * Sets up the scene to show the vectors and color of the object at the hit location
+     * @param angle The location to hit on the sphere
+     * @returns `cos()` part of `cos() = dot(light, normal)`
+     */
     const generateRandomRay = (angle: number) => {
         // const angle = Math.random()*Math.PI*0.5;
         console.log(angle)
@@ -33,24 +39,31 @@ export default function LambertianLighting() {
         console.log(lightRayAngle,color)
 
         let rayScenes: Scene[] = [
+            // Normal Vector
             {
                 geometry: <Line lineWidth={2} points={[new Vector3(0, 0, 0), new Vector3(hitX, hitY, 0)]} color={0xdd0000} />, staticTransformations: [{id: 0, type: 'scale', amount: [3, 3, 1], max: [4, 4, 1], delay: 1, matrix4: new Matrix4()}]
             },
+            // Light Vector
             {
                 geometry: <Line lineWidth={2} points={[new Vector3(hitX - 4, hitY - 4, 0), new Vector3(0, 0, 0)]} color={0xccaa22} />, staticTransformations: [{id: 1, type: 'raw', matrix4: new Matrix4().makeTranslation(4, 4, 0)}, { id: 0, type: 'scale', amount: [1, 1, 1], max: [1, 1, 1], matrix4: new Matrix4().makeScale(0, 0, 0)}]
             },
+            // Arc to show angle between vectors
             {
                 geometry: <QuadraticBezierLine start={arcStartPosition} end={arcEndPotion} mid={arcStartPosition.clone().lerp(arcEndPotion, 0.5).multiplyScalar(1.1)} />, staticTransformations: [{id: 1, type: 'scale', matrix4: new Matrix4().makeScale(0, 0, 0), operation: 'set', delay: 2.5, amount: [100, 100, 100], max: [1, 1, 1]}]
             },
+            // Arc label
             {
                 geometry: <Text position={arcStartPosition.clone().lerp(arcEndPotion, 0.5).multiplyScalar(1.15)} fontSize={0.25} anchorX="center" anchorY="middle" outlineWidth={0.02} outlineColor={0x000000}>Angle</Text>, staticTransformations: [{id: 1, type: 'scale', matrix4: new Matrix4().makeScale(0, 0, 0), operation: 'set', delay: 2.6, amount: [100, 100, 100], max: [1, 1, 1]}]
             },
+            // Light Vector label
             {
                 geometry: <Text position={[arcStartPosition.x/1.5 - 0.15, arcStartPosition.y/1.5 + 0.15, 0.1]} fontSize={0.25} anchorX="center" anchorY="middle" outlineWidth={0.02} outlineColor={0x000000}>Light Vector</Text>, staticTransformations: [{id: 1, type: 'scale', matrix4: new Matrix4().makeScale(0, 0, 0), operation: 'set', delay: 2.7, amount: [100, 100, 100], max: [1, 1, 1]}]
             },
+            // Normal Vector label
             {
                 geometry: <Text position={[arcEndPotion.x * 1.25 + 0.15, arcEndPotion.y * 1.25 - 0.15, 0.1]} fontSize={0.25} anchorX="center" anchorY="middle" outlineWidth={0.02} outlineColor={0x000000}>Normal Vector</Text>, staticTransformations: [{id: 1, type: 'scale', matrix4: new Matrix4().makeScale(0, 0, 0), operation: 'set', delay: 2.7, amount: [100, 100, 100], max: [1, 1, 1]}]
             },
+            // Color swatch geometries
             {
                 geometry: <circleGeometry args={[0.2]} />, color: new Color(color.x, color.y, color.z), staticTransformations: [{ id: 0, type: 'raw', matrix4: new Matrix4().makeTranslation(new Vector3(hitX - 0.5, hitY, 0.012) )}, {id: 1, type: 'scale', matrix4: new Matrix4().makeScale(0, 0, 0), amount: [100, 100, 100], max: [1, 1, 1], delay: 2.8}]
             },

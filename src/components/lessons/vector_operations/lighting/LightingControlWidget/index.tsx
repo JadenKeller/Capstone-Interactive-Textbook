@@ -23,8 +23,8 @@ export default function LightingControlWidget({fireRays, clearRays, setHitLocati
                 <button className={styles.button} onClick={() => {clearRays(); setAngle(0)}}>Clear</button>
             </div>
             <div className={styles.info}>
-                <p>Angle: <InlineMath math={`${angle.toFixed(2)} r`} /><br></br>
-                Light Amount: <InlineMath math={`${Math.cos(angle).toFixed(2)}`} /><br></br>
+                {/* <p>Angle: <InlineMath math={`${angle.toFixed(2)} r`} /><br></br> */}
+                <p>Light Amount: <InlineMath math={`cos(\\theta) = ${Math.cos(angle).toFixed(2)}`} /><br></br>
                 Color: <InlineMath math={`albedo * color * ${Math.max(0, Math.cos(angle)).toFixed(2)}`} /></p>
             </div>
         </div>
