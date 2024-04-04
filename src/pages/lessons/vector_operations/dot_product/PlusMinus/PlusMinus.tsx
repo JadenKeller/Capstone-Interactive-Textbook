@@ -1,5 +1,5 @@
 import { Color, Group, Object3DEventMap, Vector3 } from "three";
-import DemoLayout from "@components/DemoLayout/DemoLayout";
+import DemoLayout from "@components/ui/layout/MatrixLayout/MatrixLayout";
 import InteractiveCanvas from "@components/InteractiveCanvas/InteractiveCanvas";
 import { useEffect, useState } from "react";
 import { Line } from "@react-three/drei";
@@ -52,62 +52,59 @@ export default function PlusMinus() {
 	}, [x]);
 
 	return (
-		<DemoLayout>
-			<>
-				{/* TODO: add widgets showing the dot product calculation + result && 'not/finished' and a range input */}
-				<div className={styles.wrapper}>
-					<DotProductWidget dotResult={dotResult} />
-					<DotProductInteractiveWidget passed={hasPassed} x={x} setX={setX} />
-					<InteractiveCanvas
-						availableTransformations={[]}
-						scenes={[
-							{
-								geometry:
-									<ArrowWrapper
-										lineWidth={carVectorLength}
-										arrowHelperArgs={[
-											vDirectionCar,
-											!hasPassed ? // If the car has passed the finish line, move the dir vector to behind the model
-												vPositionCar :
-												new Vector3(vPositionCar.x - 4, vPositionCar.y, vPositionCar.z),
-											2,
-											"#57FFEB",
-											0.4,
-											0.8]}
-									/>,
-								acceptTransformations: false,
-							},
-							{
-								geometry: <arrowHelper args={[vFinishNormal, new Vector3(vPositionFinish.x, vPositionFinish.y + 2, vPositionFinish.z), 1, Color.NAMES.red, 0.25, 0.4]} />, acceptTransformations: false
-							},
-							{
-								geometry: <Line lineWidth={finishLineWidth} points={points} color={Color.NAMES.black}></Line>, acceptTransformations: false
-							},
+		<>
+			<div className={styles.wrapper}>
+				<DotProductWidget dotResult={dotResult} />
+				<DotProductInteractiveWidget passed={hasPassed} x={x} setX={setX} />
+				<InteractiveCanvas
+					availableTransformations={[]}
+					scenes={[
+						{
+							geometry:
+								<ArrowWrapper
+									lineWidth={carVectorLength}
+									arrowHelperArgs={[
+										vDirectionCar,
+										!hasPassed ? // If the car has passed the finish line, move the dir vector to behind the model
+											vPositionCar :
+											new Vector3(vPositionCar.x - 4, vPositionCar.y, vPositionCar.z),
+										2,
+										"#57FFEB",
+										0.4,
+										0.8]}
+								/>,
+							acceptTransformations: false,
+						},
+						{
+							geometry: <arrowHelper args={[vFinishNormal, new Vector3(vPositionFinish.x, vPositionFinish.y + 2, vPositionFinish.z), 1, Color.NAMES.red, 0.25, 0.4]} />, acceptTransformations: false
+						},
+						{
+							geometry: <Line lineWidth={finishLineWidth} points={points} color={Color.NAMES.black}></Line>, acceptTransformations: false
+						},
+						{
+							geometry: <Line lineWidth={finishLineWidth} points={points} dashed={true} color={Color.NAMES.white}></Line>, acceptTransformations: false
+						},
+						model ? {
+							geometry:
+								<>
+									<group
+										scale={[0.02, 0.02, 0.02]}
+										position={[vPositionCar.x - carVectorLength + 0.25, 0, 2.5]}
+										rotation={[0, -Math.PI / 2, 0]}
+									>
+										<primitive object={model} />
+									</group>
+									<ambientLight intensity={0.9} />
+									<pointLight intensity={3} position={[vPositionCar.x - 2, 2, 1]} />
+								</>,
+							acceptTransformations: false
+						} :
 							{
 								geometry: <Line lineWidth={finishLineWidth} points={points} dashed={true} color={Color.NAMES.white}></Line>, acceptTransformations: false
-							},
-							model ? {
-								geometry:
-									<>
-										<group
-											scale={[0.02, 0.02, 0.02]}
-											position={[vPositionCar.x - carVectorLength + 0.25, 0, 2.5]}
-											rotation={[0, -Math.PI / 2, 0]}
-										>
-											<primitive object={model} />
-										</group>
-										<ambientLight intensity={0.9} />
-										<pointLight intensity={3} position={[vPositionCar.x - 2, 2, 1]} />
-									</>,
-								acceptTransformations: false
-							} :
-								{
-									geometry: <Line lineWidth={finishLineWidth} points={points} dashed={true} color={Color.NAMES.white}></Line>, acceptTransformations: false
-								}
-						]}
-					/>
-				</div>
-			</>
-		</DemoLayout >
+							}
+					]}
+				/>
+			</div>
+		</>
 	)
 }

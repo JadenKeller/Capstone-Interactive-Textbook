@@ -1,19 +1,20 @@
-import { Color, Euler, Matrix4, Vector3 } from "three";
-import InteractiveCanvas from "../InteractiveCanvas/InteractiveCanvas";
-import styles from "./DemoLayout.module.css";
-import LessonNav from "../LessonNav/LessonNav";
+import Header from "@components/ui/Header/Header";
+import PlusMinus from "./dot_product/PlusMinus/PlusMinus";
+import VectorLayout from "@components/ui/layout/VectorLayout/VectorLayout";
+import styles from "./index.module.css";
 
-/**
- * A demonstration layout for developing lessons within page section constraints.
- * @param children JSX Elements to be rendered within the interactable section of the page.
- * @todo Fix: Change the sections do be their own individual UI components with required params for layout flexibility.
- */
-export default function DemoLayout({ children }: { children: JSX.Element }) {
+export default function VectorOpChapter() {
 	return (
 		<div className={styles.body_root}>
-			<div className={styles.vertical_divide}>
-				<div className={styles.left_section}>
-					<section className={styles.lesson_content}>
+			<Header />
+			{/* Each lessons':
+			- structured content
+			- canvas element
+			 */}
+			 {/* TODO: consider exporting into different lesson components? */}
+			<VectorLayout
+				content={
+					<section>
 						<h1>Matrix Transformations</h1>
 						<p>
 							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi congue, dolor sit amet viverra convallis, tortor est faucibus erat, eu ullamcorper mauris odio quis quam. Integer in gravida enim, eu lobortis orci.
@@ -31,19 +32,10 @@ export default function DemoLayout({ children }: { children: JSX.Element }) {
 						<p>
 							semper aliquet nulla suscipit elementum. Nulla volutpat orci nisl, vel mollis nibh tincidunt sit amet. Praesent id sapien ipsum. Fusce tempusSed porttitor metus pharetra odio scelerisque interdum. Ut lacinia felis in ullamcorper blandit. Aliquam ipsum magna, porttitor sed diam quis, imperdiet laoreet purus. Donec dictum odio a mi pharetra,
 						</p>
-						<LessonNav />
-					</section>
-				</div>
-				<div className={styles.right_section}>
-					<section className={styles.nav_bar}>
-						<div className={`${styles.lessons_button} ${styles.nav_button}`}>Lessons</div>
-						<div className={`${styles.links_button} ${styles.nav_button}`}>Links</div>
-						<div className={`${styles.home_button} ${styles.nav_button}`}>Home</div>
-						<div className={`${styles.logo}`}><img src="/logo.svg" height={"70px"} width={"70px"}></img></div>
-					</section>
-					{children}
-				</div>
-			</div>
+					</section>}
+				canvas={<PlusMinus />} />
+
+			{/* Chapter navigation buttons */}
 		</div>
-	);
+	)
 }
