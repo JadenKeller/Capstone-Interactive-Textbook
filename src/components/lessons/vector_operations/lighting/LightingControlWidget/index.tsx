@@ -17,7 +17,7 @@ export default function LightingControlWidget({fireRays, clearRays, setHitLocati
     return (
         <div className={styles.widget}>
             <div className={styles.buttons}>
-                <input type='range' min={0} max={1.57} step={0.01} defaultValue={angle} onChange={(e) => setFireAngle(parseFloat(e.target.value))} className={styles.slider}></input>
+                <input type='range' min={-1.57} max={1.57} step={0.01} defaultValue={angle} onChange={(e) => setFireAngle(parseFloat(e.target.value))} className={styles.slider}></input>
                 {fireAngle.toFixed(2)}
                 <button className={styles.button} onClick={fireRay}>Fire!</button>
                 <button className={styles.button} onClick={() => {clearRays(); setAngle(0)}}>Clear</button>
@@ -25,7 +25,7 @@ export default function LightingControlWidget({fireRays, clearRays, setHitLocati
             <div className={styles.info}>
                 <p>Angle: <InlineMath math={`${angle.toFixed(2)} r`} /><br></br>
                 Light Amount: <InlineMath math={`${Math.cos(angle).toFixed(2)}`} /><br></br>
-                Color: <InlineMath math={`albedo * color * ${Math.cos(angle).toFixed(2)}`} /></p>
+                Color: <InlineMath math={`albedo * color * ${Math.max(0, Math.cos(angle)).toFixed(2)}`} /></p>
             </div>
         </div>
     )
