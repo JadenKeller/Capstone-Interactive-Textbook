@@ -22,6 +22,11 @@ export interface SceneProps {
  * @param type is the type of transformation. `rotation` and `translation` require an amount field and are animated.
  * @param matrix4 is the transformation matrix
  * @param amount is the amount of rotation or translation to apply every frame
+ * @param publishToId is the id of the transformation to publish to, will effectively copy the current value of this transformation to that transformation
+ * @param max is the maximum value of the transformation when using amount. Helpful for animations
+ * @param startTime is the time the transformation started. Do not set this manually, it will be set by the canvas wrapper
+ * @param delay is the delay before the transformation starts. Helpful for animations
+ * @param operation is the operation to apply to the transformation. `multiply` will multiply the transformation matrix with the current matrix, `set` will set the transformation matrix to the current matrix
  */
 export interface Transformation {
     id: number,

@@ -34,6 +34,13 @@ export default function MatrixTransformations() {
 						{ id: 1, type: 'raw', matrix4: new Matrix4().makeTranslation(new Vector3(0, 0, 0.1)) }
 					]},
                 ]}
+				tooltipContent={[<h4>How To Use The Interactive Canvas</h4>,<p>
+                Drag and drop matrices from the top on to the canvas grid to apply 
+                transformations to the "moon". 
+                Apply multiple matrices together to change the final transformation.
+                Undo a matrix with the arrow icon, and clear all transformations with the delete icon.
+                Experiment with different order combinations of matrices to see 
+                different transformation behavior.</p>]}
 				/>
 		</DemoLayout>
 	)

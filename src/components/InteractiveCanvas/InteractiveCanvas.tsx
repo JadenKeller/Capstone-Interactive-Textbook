@@ -61,16 +61,18 @@ export class TransformationStateManager {
  * An Interactive Canvas
  * @param availableTransformations - A list of transformations that can be applied to the canvas.
  * @param scenes - A list of scenes to be rendered. A scene represents a 3D object to be rendered in the canvas. 
+ * @param useUndoControls - Enables undo and clear controls.
+ * @param tooltipText - The text to be displayed in the tooltip.
  * @returns 
  */
-export default function InteractiveCanvas({availableTransformations, scenes, useUndoControls, tooltipText}: {availableTransformations: Transformation[], scenes: Scene[], useUndoControls?: boolean, tooltipText?: string}) {
+export default function InteractiveCanvas({availableTransformations, scenes, useUndoControls, tooltipContent}: {availableTransformations: Transformation[], scenes: Scene[], useUndoControls?: boolean, tooltipContent?: React.ReactNode}) {
 
     return (
         <div className={styles.canvas}>
             <DndProvider backend={HTML5Backend}>
                 <TransformationOptions transformations={availableTransformations} />
                 {/* Draggable matrices are applied to the canvas. Order is maintained :p */}
-                <CanvasWrapper scenes={scenes} cameraControls={true} useUndoControls={useUndoControls} tooltipText={tooltipText}/>
+                <CanvasWrapper scenes={scenes} cameraControls={true} useUndoControls={useUndoControls} tooltipContent={tooltipContent}/>
             </DndProvider>
         </div>
     )

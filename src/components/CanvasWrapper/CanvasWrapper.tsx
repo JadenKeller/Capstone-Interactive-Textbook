@@ -23,7 +23,7 @@ export interface CanvasWrapperProps {
 	cameraControls?: boolean,
 	scenes?: Scene[],
 	useUndoControls?: boolean,
-	tooltipText?: string
+	tooltipContent?: React.ReactNode
 }
 
 /**
@@ -99,6 +99,8 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 							if(!transform) return;
 
 							transformation.matrix4 = new Matrix4().makeRotationFromEuler(new Euler(transform[0], transform[1], transform[2]));
+							
+							// If the transformation is set to publish to another transformation, copy the current transformation to the other transformation
 							if (transformation.publishToId !== undefined) {
 								TransformationStateManager.activeTransformations.forEach((t) => {
 									if (t.id === transformation.publishToId && transformation.publishToId !== undefined) {
@@ -134,22 +136,33 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 		}
 	}))
 
+	/**
+	 * Name is disingenuous, actually formats the transformation matrix based on the transformation type.
+	 * @param transformation The transformation to format
+	 * @returns An x, y and z value to create a new matrix
+	 */
 	const applyTransformation = (transformation: Transformation) => {
 		if (!transformation.amount) {
 			console.error('Transformations of type rotation, translation or scale require an amount field')
 			return;
 		}
+		// Start the transformation if it has not started yet
 		if(!transformation.startTime) transformation.startTime = incrementor.current;
+		// Is the start time currently less than the delay?
 		if(transformation.delay && transformation.delay > incrementor.current - transformation.startTime) return;
+		// Set the delay to 0 if it is not set
 		if(!transformation.delay) transformation.delay = 0;
 	
 		let transformX = 0;
 		let transformY = 0;
 		let transformZ = 0;
 	
+		// Calculate the transformation based on the start time, delay and amount
 		transformX = (incrementor.current - (transformation.startTime + transformation.delay)) * transformation.amount[0]
 		transformY = (incrementor.current - (transformation.startTime + transformation.delay)) * transformation.amount[1]
 		transformZ = (incrementor.current - (transformation.startTime + transformation.delay)) * transformation.amount[2]
+
+		// If the transformation is going to be greater than it's max, cap it at max.
 		if(transformation.max) {
 			if((incrementor.current - (transformation.startTime + transformation.delay)) * transformation.amount[0] > transformation.max[0]) {
 				transformX = transformation.max[0]
@@ -189,7 +202,7 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 					<Delete />
 				</span>
 			</div>}
-			<CanvasTooltipButton />
+			<CanvasTooltipButton>{props.tooltipContent}</CanvasTooltipButton>
 			<AppliedTransformations />
 		</div>
 	)
