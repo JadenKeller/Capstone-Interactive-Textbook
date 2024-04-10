@@ -69,11 +69,12 @@ export default function InteractiveCanvas({availableTransformations, scenes, use
 
     return (
         <div className={styles.canvas}>
-            <DndProvider backend={HTML5Backend}>
+            {availableTransformations && <DndProvider backend={HTML5Backend}>
                 <TransformationOptions transformations={availableTransformations} />
                 {/* Draggable matrices are applied to the canvas. Order is maintained :p */}
                 <CanvasWrapper scenes={scenes} cameraControls={true} useUndoControls={useUndoControls} tooltipContent={tooltipContent}/>
-            </DndProvider>
+            </DndProvider>}
+            {!availableTransformations && <CanvasWrapper scenes={scenes} cameraControls={true} useUndoControls={useUndoControls} tooltipContent={tooltipContent}/>}
         </div>
     )
 }

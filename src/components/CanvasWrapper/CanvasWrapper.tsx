@@ -4,7 +4,8 @@ import { Canvas } from '@react-three/fiber'
 import Scene, { Transformation } from '../Scene/Scene'
 import { Color, Euler, Matrix4, Vector3 } from 'three'
 import { ReactElement, useEffect, useRef, useState } from 'react'
-import { useDrop } from 'react-dnd'
+import { ConnectDropTarget, useDrop } from 'react-dnd'
+import Matrix from '../Matrix/Matrix'
 import { TransformationStateManager } from '../InteractiveCanvas/InteractiveCanvas'
 import { ArrowLeftCircle, Delete } from 'react-feather'
 import { MapControls } from '@react-three/drei'
@@ -24,6 +25,7 @@ export interface CanvasWrapperProps {
 	scenes?: Scene[],
 	useUndoControls?: boolean,
 	tooltipContent?: React.ReactNode
+	useDND?: boolean
 }
 
 /**
@@ -127,14 +129,18 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 		}, 10)
 	})
 
+	let [, drop]: [undefined, ConnectDropTarget | undefined] = [undefined, undefined]
+
+	if(props.useDND) {
+		[, drop] = useDrop(() => ({
+			accept: "matrix",
+			drop: (item, monitor) => {
+				TransformationStateManager.pushTransformation((monitor.getItem() as any).transformation)
+				setStateTransformations(TransformationStateManager.getTransformations());
+			}
+		}))
+	}
 	// ReactDnD drop handler
-	const [, drop] = useDrop(() => ({
-		accept: "matrix",
-		drop: (item, monitor) => {
-			TransformationStateManager.pushTransformation((monitor.getItem() as any).transformation)
-			setStateTransformations(TransformationStateManager.getTransformations());
-		}
-	}))
 
 	/**
 	 * Name is disingenuous, actually formats the transformation matrix based on the transformation type.
@@ -178,7 +184,7 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 	}
 
 	return (
-		<div className={styles.wrapper} ref={drop}>
+		<div className={styles.wrapper} ref={(props.useDND) ? drop: undefined}>
 			<Canvas camera={{ position: [0, 0, 10] }} className={styles.canvas}>
 				<gridHelper args={[40, 40, 0xF4FFFF, 0x4B585D]} rotation={[Math.PI / 2, 0, 0]} />
 				{props.scenes?.map((scene, idx) => {
