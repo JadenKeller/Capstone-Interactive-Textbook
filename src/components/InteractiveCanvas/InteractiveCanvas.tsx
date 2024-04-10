@@ -65,7 +65,7 @@ export class TransformationStateManager {
  * @param tooltipText - The text to be displayed in the tooltip.
  * @returns 
  */
-export default function InteractiveCanvas({availableTransformations, scenes, useUndoControls, tooltipContent}: {availableTransformations: Transformation[], scenes: Scene[], useUndoControls?: boolean, tooltipContent?: React.ReactNode}) {
+export default function InteractiveCanvas({availableTransformations, scenes, useUndoControls, tooltipContent}: {availableTransformations?: Transformation[], scenes: Scene[], useUndoControls?: boolean, tooltipContent?: React.ReactNode}) {
 
     return (
         <div className={styles.canvas}>
