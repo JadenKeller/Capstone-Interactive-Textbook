@@ -7,20 +7,32 @@ enum BasisToward {
     Standard = "standard",
     Altered = "altered",
 }
-
+/**
+ * 
+ * @todo TODO: calculate the goal vectors (free and basis) after toggle
+ * @todo TODO: keep base saved or have logic to send back to standard
+ * @todo TODO: investigate whether the grid can be easily altered alongside the base
+ * @todo TODO: options for transformation matrix to apply - rotation, shear, scale, reflect
+ */
 export default function BasisVectors() {
     const vDefault = new Vector3(2, 3, 1);
+    const defaultBasis = {
+        x: new Vector3(1, 0, 0),
+        y: new Vector3(0, 1, 0),
+        z: new Vector3(0, 0, 1),
+    }
+    const tempVector = new Vector3(1, -2, 3);
+
+    const [toggle, setToggle] = useState(BasisToward.Standard);
     const [dynamicVector, setDynamicVector] = useState(vDefault);
+    const [basisVectors, setBasisVectors] = useState(defaultBasis);
+
     const vOrigin = new Vector3(0, 0, 0);
-    const basisLength = 3;
+    const basisLengthScalar = 3;
     const basisHeadLength = 0.25;
     const basisHeadWidth = 0.3;
 
-    const [tempVector, setTempVector] = useState(new Vector3(1, -2, 3));
-    const [toggle, setToggle] = useState(BasisToward.Standard);
-
     useEffect(() => {
-        console.log("Toggled basis to: " + toggle)
         const goalVector = toggle == BasisToward.Standard
             ? vDefault
             : tempVector;
@@ -29,12 +41,11 @@ export default function BasisVectors() {
         const startTime = Date.now();
 
         const interval = setInterval(() => {
-            console.log(dynamicVector.x, dynamicVector.y, dynamicVector.z)
             const currentTime = Date.now();
             const elapsedTime = currentTime - startTime;
             const duration = 1000;
 
-            if (dynamicVector.equals(goalVector) || elapsedTime >= duration) {
+            if (elapsedTime >= duration) {
                 clearInterval(interval)
                 setDynamicVector(goalVector);
                 return;
@@ -43,12 +54,12 @@ export default function BasisVectors() {
 
             const interpolationFactor = elapsedTime / duration;
             setDynamicVector(new Vector3().copy(fromVector).lerp(goalVector, interpolationFactor))
-        }, 10)
+        }, 16)
 
         return () => clearInterval(interval);
     }, [toggle])
 
-    const handleStandard = () => {
+    const handleToggle = () => {
         setToggle((prevToward) =>
             prevToward == BasisToward.Standard
                 ? BasisToward.Altered
@@ -56,15 +67,10 @@ export default function BasisVectors() {
         );
     };
 
-    const handleChanged = () => { };
-
     return (
         <>
-            <button type="button" onClick={handleStandard}>
+            <button type="button" onClick={handleToggle}>
                 Standard
-            </button>
-            <button type="button" onClick={handleChanged}>
-                Changed
             </button>
             <InteractiveCanvas
                 availableTransformations={[]}
@@ -75,9 +81,9 @@ export default function BasisVectors() {
                                 lineWidth={3}
                                 arrowHelperArgs={[
                                     // X
-                                    new Vector3(1, 0, 0),
+                                    basisVectors.x.normalize(),
                                     vOrigin,
-                                    basisLength,
+                                    basisVectors.x.length() * basisLengthScalar,
                                     Color.NAMES.indianred,
                                     basisHeadLength,
                                     basisHeadWidth,
@@ -91,9 +97,9 @@ export default function BasisVectors() {
                                 lineWidth={3}
                                 arrowHelperArgs={[
                                     // Y
-                                    new Vector3(0, 1, 0),
+                                    basisVectors.y.normalize(),
                                     vOrigin,
-                                    basisLength,
+                                    basisVectors.y.length() * basisLengthScalar,
                                     Color.NAMES.green,
                                     basisHeadLength,
                                     basisHeadWidth,
@@ -107,9 +113,9 @@ export default function BasisVectors() {
                                 lineWidth={3}
                                 arrowHelperArgs={[
                                     // Z
-                                    new Vector3(0, 0, 1),
+                                    basisVectors.z.normalize(),
                                     vOrigin,
-                                    basisLength,
+                                    basisVectors.z.length() * basisLengthScalar,
                                     Color.NAMES.skyblue,
                                     basisHeadLength,
                                     basisHeadWidth,
