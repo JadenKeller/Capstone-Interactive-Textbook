@@ -11,6 +11,11 @@
 
 }
 
+.page_title {
+	margin: auto;
+	width: 70%;
+}
+
 /* Scroll bar */
 body::-webkit-scrollbar {
 	width: 15px;

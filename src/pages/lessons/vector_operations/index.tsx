@@ -1,4 +1,5 @@
 import PlusMinus from "./dot_product/PlusMinus/PlusMinus";
+
 import VectorLayout from "@components/ui/layout/VectorLayout/VectorLayout";
 import styles from "./index.module.css";
 
@@ -19,10 +20,13 @@ export default function VectorOpChapter() {
 			 */}
 			{/* TODO: consider exporting into different lesson components? */}
 
+			<div className={styles.page_title}>
+				<h1>Vector Operations</h1>
+			</div>
+
 			<VectorLayout
 				content={
 					<section>
-						<h1>Vector Operations</h1>
 						<p>
 							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi congue, dolor sit amet viverra convallis, tortor est faucibus erat, eu ullamcorper mauris odio quis quam. Integer in gravida enim, eu lobortis orci.
 						</p>
@@ -40,6 +44,13 @@ export default function VectorOpChapter() {
 
 				canvas={<PlusMinus />} 
 			/>
+
+			{/* <VectorLayout
+				content={
+
+				}
+				canvas={}
+			/> */}
 
 			<div className={styles.lesson_nav_section}>
 				<LessonNav />
