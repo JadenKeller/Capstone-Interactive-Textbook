@@ -39,9 +39,8 @@ export default function LambertianLighting() {
         console.log(lightRayAngle,color)
 
         let rayScenes: Scene[] = [
-            // Normal Vector
             {
-                geometry: <Line lineWidth={2} points={[new Vector3(0, 0, 0), new Vector3(hitX, hitY, 0)]} color={0xdd0000} />, staticTransformations: [{id: 0, type: 'scale', amount: [3, 3, 1], max: [4, 4, 1], delay: 1, matrix4: new Matrix4()}]
+                geometry: <Line lineWidth={2} points={[new Vector3(0, 0, 0), new Vector3(hitX, hitY, 0)]} color={0xdd0000} />, staticTransformations: [{id: 0, type: 'raw', matrix4: new Matrix4().makeScale(4, 4, 1)}]
             },
             // Light Vector
             {
@@ -49,29 +48,29 @@ export default function LambertianLighting() {
             },
             // Arc to show angle between vectors
             {
-                geometry: <QuadraticBezierLine start={arcStartPosition} end={arcEndPotion} mid={arcStartPosition.clone().lerp(arcEndPotion, 0.5).multiplyScalar(1.1)} />, staticTransformations: [{id: 1, type: 'scale', matrix4: new Matrix4().makeScale(0, 0, 0), operation: 'set', delay: 2.5, amount: [100, 100, 100], max: [1, 1, 1]}]
+                geometry: <QuadraticBezierLine start={arcStartPosition} end={arcEndPotion} mid={arcStartPosition.clone().lerp(arcEndPotion, 0.5).multiplyScalar(1.1)} />, staticTransformations: [{id: 1, type: 'scale', matrix4: new Matrix4().makeScale(0, 0, 0), operation: 'set', delay: 1, amount: [100, 100, 100], max: [1, 1, 1]}]
             },
             // Arc label
             {
-                geometry: <Text position={arcStartPosition.clone().lerp(arcEndPotion, 0.5).multiplyScalar(1.15)} fontSize={0.25} anchorX="center" anchorY="middle" outlineWidth={0.02} outlineColor={0x000000}>Angle</Text>, staticTransformations: [{id: 1, type: 'scale', matrix4: new Matrix4().makeScale(0, 0, 0), operation: 'set', delay: 2.6, amount: [100, 100, 100], max: [1, 1, 1]}]
+                geometry: <Text position={arcStartPosition.clone().lerp(arcEndPotion, 0.5).multiplyScalar(1.15)} fontSize={0.25} anchorX="center" anchorY="middle" outlineWidth={0.02} outlineColor={0x000000}>Angle</Text>, staticTransformations: [{id: 1, type: 'scale', matrix4: new Matrix4().makeScale(0, 0, 0), operation: 'set', delay: 1.1, amount: [100, 100, 100], max: [1, 1, 1]}]
             },
             // Light Vector label
             {
-                geometry: <Text position={[arcStartPosition.x/1.5 - 0.15, arcStartPosition.y/1.5 + 0.15, 0.1]} fontSize={0.25} anchorX="center" anchorY="middle" outlineWidth={0.02} outlineColor={0x000000}>Light Vector</Text>, staticTransformations: [{id: 1, type: 'scale', matrix4: new Matrix4().makeScale(0, 0, 0), operation: 'set', delay: 2.7, amount: [100, 100, 100], max: [1, 1, 1]}]
+                geometry: <Text position={[arcStartPosition.x/1.5 - 0.15, arcStartPosition.y/1.5 + 0.15, 0.1]} fontSize={0.25} anchorX="center" anchorY="middle" outlineWidth={0.02} outlineColor={0x000000}>Light Vector</Text>, staticTransformations: [{id: 1, type: 'scale', matrix4: new Matrix4().makeScale(0, 0, 0), operation: 'set', delay: 1.2, amount: [100, 100, 100], max: [1, 1, 1]}]
             },
             // Normal Vector label
             {
-                geometry: <Text position={[arcEndPotion.x * 1.25 + 0.15, arcEndPotion.y * 1.25 - 0.15, 0.1]} fontSize={0.25} anchorX="center" anchorY="middle" outlineWidth={0.02} outlineColor={0x000000}>Normal Vector</Text>, staticTransformations: [{id: 1, type: 'scale', matrix4: new Matrix4().makeScale(0, 0, 0), operation: 'set', delay: 2.7, amount: [100, 100, 100], max: [1, 1, 1]}]
+                geometry: <Text position={[arcEndPotion.x * 1.25 + 0.15, arcEndPotion.y * 1.25 - 0.15, 0.1]} fontSize={0.25} anchorX="center" anchorY="middle" outlineWidth={0.02} outlineColor={0x000000}>Normal Vector</Text>, staticTransformations: [{id: 1, type: 'scale', matrix4: new Matrix4().makeScale(0, 0, 0), operation: 'set', delay: 1.2, amount: [100, 100, 100], max: [1, 1, 1]}]
             },
             // Color swatch geometries
             {
-                geometry: <circleGeometry args={[0.2]} />, color: new Color(color.x, color.y, color.z), staticTransformations: [{ id: 0, type: 'raw', matrix4: new Matrix4().makeTranslation(new Vector3(hitX - 0.5, hitY, 0.012) )}, {id: 1, type: 'scale', matrix4: new Matrix4().makeScale(0, 0, 0), amount: [100, 100, 100], max: [1, 1, 1], delay: 2.8}]
+                geometry: <circleGeometry args={[0.2]} />, color: new Color(color.x, color.y, color.z), staticTransformations: [{ id: 0, type: 'raw', matrix4: new Matrix4().makeTranslation(new Vector3(hitX - 0.5, hitY, 0.012) )}, {id: 1, type: 'scale', matrix4: new Matrix4().makeScale(0, 0, 0), amount: [100, 100, 100], max: [1, 1, 1], delay: 1.3}]
             },
             {
-                geometry: <circleGeometry args={[0.25]} />, color: new Color(0x000000), staticTransformations: [{ id: 0, type: 'raw', matrix4: new Matrix4().makeTranslation(new Vector3(hitX - 0.5, hitY, 0.01) )}, {id: 1, type: 'scale', matrix4: new Matrix4().makeScale(0, 0, 0), amount: [100, 100, 100], max: [1, 1, 1], delay: 2.8}]
+                geometry: <circleGeometry args={[0.25]} />, color: new Color(0x000000), staticTransformations: [{ id: 0, type: 'raw', matrix4: new Matrix4().makeTranslation(new Vector3(hitX - 0.5, hitY, 0.01) )}, {id: 1, type: 'scale', matrix4: new Matrix4().makeScale(0, 0, 0), amount: [100, 100, 100], max: [1, 1, 1], delay: 1.3}]
             },
             {
-                geometry: <coneGeometry args={[0.15, 0.3, 32]} />, color: new Color(0x000000), staticTransformations: [{ id: 1, type: 'raw', matrix4: new Matrix4().makeTranslation(new Vector3(hitX - 0.2, hitY, 0.01) )},{id: 2, type: 'raw', matrix4: new Matrix4().makeScale(1.3, 1.3, 0.01)},{ id: 0, type: 'raw', matrix4: new Matrix4().makeRotationFromEuler(new Euler(0, 0, -Math.PI * 0.5))}, {id: 1, type: 'scale', matrix4: new Matrix4().makeScale(0, 0, 0), amount: [100, 100, 100], max: [1, 1, 1], delay: 2.8}]
+                geometry: <coneGeometry args={[0.15, 0.3, 32]} />, color: new Color(0x000000), staticTransformations: [{ id: 1, type: 'raw', matrix4: new Matrix4().makeTranslation(new Vector3(hitX - 0.2, hitY, 0.01) )},{id: 2, type: 'raw', matrix4: new Matrix4().makeScale(1.3, 1.3, 0.01)},{ id: 0, type: 'raw', matrix4: new Matrix4().makeRotationFromEuler(new Euler(0, 0, -Math.PI * 0.5))}, {id: 1, type: 'scale', matrix4: new Matrix4().makeScale(0, 0, 0), amount: [100, 100, 100], max: [1, 1, 1], delay: 1.3}]
             }
         ]
         setScenes([...scenes.slice(0, 2), ...rayScenes])
@@ -80,14 +79,14 @@ export default function LambertianLighting() {
     }
 
     const clearRays = () => {
-        setScenes([...scenes.slice(0, 2)])
+        setScenes([...scenes.slice(0, 3)])
     }
 
     const setFireLocation = (location: number) => {
         const hitX = Math.cos(location);
         const hitY = Math.sin(location);
         setScenes([...defaultScenes, {
-            geometry: <circleGeometry args={[0.05]} />, color: new Color(0xaa0000), staticTransformations: [{ id: 0, type: 'raw', matrix4: new Matrix4().makeTranslation(new Vector3(hitX, hitY, 0.01) )}]
+            geometry: <Line lineWidth={2} points={[new Vector3(0, 0, 0), new Vector3(hitX, hitY, 0)]} color={0xdd0000} />, staticTransformations: [{id: 0, type: 'raw', matrix4: new Matrix4().makeScale(4, 4, 1)}]
         }])
     }
 
