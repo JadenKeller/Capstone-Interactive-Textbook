@@ -23,7 +23,10 @@ export default function BasisVectors() {
     };
     const tempVector = new Vector3(1, -2, 3);
 
+    /** Trigger state object */
     const [toggle, setToggle] = useState(BasisToward.Standard);
+
+    /** Vector shown as being relative to the basis adjustments */
     const [dynamicVector, setDynamicVector] = useState(vDefault);
 
     /** Basis vectors that are to be shown and the result of interpolations between open and default */
@@ -32,9 +35,8 @@ export default function BasisVectors() {
     /** Used alongside input elements to be the changed-to basis */
     const [openVectors, setOpenVectors] = useState(defaultBasis);
 
-    const vOrigin = new Vector3(0, 0, 0);
-
     /** Configuration for vectors in the scene via ArrowWrappers */
+    const vOrigin = new Vector3(0, 0, 0);
     const basisLengthScalar = 3;
     const basisHeadLength = 0.25;
     const basisHeadWidth = 0.3;
@@ -43,8 +45,10 @@ export default function BasisVectors() {
      * @todo consider having this be effected by a change in basis values
     */
     useEffect(() => {
-        const goalVector = toggle == BasisToward.Standard ? vDefault : tempVector;
+        const goalVector = toggle == BasisToward.Standard ? vDefault : tempVector; // TODO: change this tempVector to be a relative change
+        const goalBasis = toggle == BasisToward.Standard ? defaultBasis : openVectors
         const fromVector = dynamicVector;
+        const fromBasis = basisVectors;
 
         const startTime = Date.now();
 
@@ -56,14 +60,20 @@ export default function BasisVectors() {
             if (elapsedTime >= duration) {
                 clearInterval(interval);
                 setDynamicVector(goalVector);
+                setBasisVectors(goalBasis);
                 return;
             }
             console.log(elapsedTime);
 
             const interpolationFactor = elapsedTime / duration;
-            setDynamicVector(
+            setDynamicVector( // lerp relative vector
                 new Vector3().copy(fromVector).lerp(goalVector, interpolationFactor)
             );
+            setBasisVectors({ // lerp basis vectors
+                i: new Vector3().copy(fromBasis.i).lerp(goalBasis.i, interpolationFactor),
+                j: new Vector3().copy(fromBasis.j).lerp(goalBasis.j, interpolationFactor),
+                k: new Vector3().copy(fromBasis.k).lerp(goalBasis.k, interpolationFactor),
+            })
         }, 16);
 
         return () => clearInterval(interval);
@@ -104,135 +114,141 @@ export default function BasisVectors() {
 
         return (
             <div>
-                i
-                <input
-                    placeholder={editableBasis.i.x.toString()}
-                    type="number"
-                    value={editableBasis.i.x}
-                    onChange={(e) => {
-                        changeBasisAxis({
-                            i: new Vector3(
-                                Number(e.target.value),
-                                editableBasis.i.y,
-                                editableBasis.i.z
-                            ),
-                        });
-                    }}
-                ></input>
-                <input
-                    placeholder={editableBasis.i.y.toString()}
-                    type="number"
-                    value={editableBasis.i.y}
-                    onChange={(e) => {
-                        changeBasisAxis({
-                            i: new Vector3(
-                                editableBasis.i.x,
-                                Number(e.target.value),
-                                editableBasis.i.z
-                            ),
-                        });
-                    }}
-                ></input>
-                <input
-                    placeholder={editableBasis.i.z.toString()}
-                    type="number"
-                    value={editableBasis.i.z}
-                    onChange={(e) => {
-                        changeBasisAxis({
-                            i: new Vector3(
-                                editableBasis.i.x,
-                                editableBasis.i.y,
-                                Number(e.target.value),
-                            ),
-                        });
-                    }}
-                ></input>
-                j
-                <input
-                    placeholder={editableBasis.j.x.toString()}
-                    type="number"
-                    value={editableBasis.j.x}
-                    onChange={(e) => {
-                        changeBasisAxis({
-                            j: new Vector3(
-                                Number(e.target.value),
-                                editableBasis.j.y,
-                                editableBasis.j.z
-                            ),
-                        });
-                    }}
-                ></input>
-                <input
-                    placeholder={editableBasis.j.y.toString()}
-                    type="number"
-                    value={editableBasis.j.y}
-                    onChange={(e) => {
-                        changeBasisAxis({
-                            j: new Vector3(
-                                editableBasis.j.x,
-                                Number(e.target.value),
-                                editableBasis.j.z
-                            ),
-                        });
-                    }}
-                ></input>
-                <input
-                    placeholder={editableBasis.j.z.toString()}
-                    type="number"
-                    value={editableBasis.j.z}
-                    onChange={(e) => {
-                        changeBasisAxis({
-                            j: new Vector3(
-                                editableBasis.j.x,
-                                editableBasis.j.y,
-                                Number(e.target.value),
-                            ),
-                        });
-                    }}
-                ></input>
-                k
-                <input
-                    placeholder={editableBasis.k.x.toString()}
-                    type="number"
-                    value={editableBasis.k.x}
-                    onChange={(e) => {
-                        changeBasisAxis({
-                            k: new Vector3(
-                                Number(e.target.value),
-                                editableBasis.k.y,
-                                editableBasis.k.z
-                            ),
-                        });
-                    }}
-                ></input>
-                <input
-                    placeholder={editableBasis.k.y.toString()}
-                    type="number"
-                    value={editableBasis.k.y}
-                    onChange={(e) => {
-                        changeBasisAxis({
-                            k: new Vector3(
-                                editableBasis.k.x,
-                                Number(e.target.value),
-                                editableBasis.k.z
-                            ),
-                        });
-                    }}
-                ></input>
-                <input
-                    placeholder={editableBasis.k.z.toString()}
-                    type="number"
-                    value={editableBasis.k.z}
-                    onChange={(e) => {
-                        changeBasisAxis({
-                            k: new Vector3(
-                                editableBasis.k.x,
-                                editableBasis.k.y,
-                                Number(e.target.value),
-                            ),
-                        });
-                    }}
-                ></input>
+                <div>
+                    i
+                    <input
+                        placeholder={editableBasis.i.x.toString()}
+                        type="number"
+                        value={editableBasis.i.x}
+                        onChange={(e) => {
+                            changeBasisAxis({
+                                i: new Vector3(
+                                    Number(e.target.value),
+                                    editableBasis.i.y,
+                                    editableBasis.i.z
+                                ),
+                            });
+                        }}
+                    ></input>
+                    <input
+                        placeholder={editableBasis.i.y.toString()}
+                        type="number"
+                        value={editableBasis.i.y}
+                        onChange={(e) => {
+                            changeBasisAxis({
+                                i: new Vector3(
+                                    editableBasis.i.x,
+                                    Number(e.target.value),
+                                    editableBasis.i.z
+                                ),
+                            });
+                        }}
+                    ></input>
+                    <input
+                        placeholder={editableBasis.i.z.toString()}
+                        type="number"
+                        value={editableBasis.i.z}
+                        onChange={(e) => {
+                            changeBasisAxis({
+                                i: new Vector3(
+                                    editableBasis.i.x,
+                                    editableBasis.i.y,
+                                    Number(e.target.value),
+                                ),
+                            });
+                        }}
+                    ></input>
+                </div>
+                <div>
+                    j
+                    <input
+                        placeholder={editableBasis.j.x.toString()}
+                        type="number"
+                        value={editableBasis.j.x}
+                        onChange={(e) => {
+                            changeBasisAxis({
+                                j: new Vector3(
+                                    Number(e.target.value),
+                                    editableBasis.j.y,
+                                    editableBasis.j.z
+                                ),
+                            });
+                        }}
+                    ></input>
+                    <input
+                        placeholder={editableBasis.j.y.toString()}
+                        type="number"
+                        value={editableBasis.j.y}
+                        onChange={(e) => {
+                            changeBasisAxis({
+                                j: new Vector3(
+                                    editableBasis.j.x,
+                                    Number(e.target.value),
+                                    editableBasis.j.z
+                                ),
+                            });
+                        }}
+                    ></input>
+                    <input
+                        placeholder={editableBasis.j.z.toString()}
+                        type="number"
+                        value={editableBasis.j.z}
+                        onChange={(e) => {
+                            changeBasisAxis({
+                                j: new Vector3(
+                                    editableBasis.j.x,
+                                    editableBasis.j.y,
+                                    Number(e.target.value),
+                                ),
+                            });
+                        }}
+                    ></input>
+                </div>
+                <div>
+                    k
+                    <input
+                        placeholder={editableBasis.k.x.toString()}
+                        type="number"
+                        value={editableBasis.k.x}
+                        onChange={(e) => {
+                            changeBasisAxis({
+                                k: new Vector3(
+                                    Number(e.target.value),
+                                    editableBasis.k.y,
+                                    editableBasis.k.z
+                                ),
+                            });
+                        }}
+                    ></input>
+                    <input
+                        placeholder={editableBasis.k.y.toString()}
+                        type="number"
+                        value={editableBasis.k.y}
+                        onChange={(e) => {
+                            changeBasisAxis({
+                                k: new Vector3(
+                                    editableBasis.k.x,
+                                    Number(e.target.value),
+                                    editableBasis.k.z
+                                ),
+                            });
+                        }}
+                    ></input>
+                    <input
+                        placeholder={editableBasis.k.z.toString()}
+                        type="number"
+                        value={editableBasis.k.z}
+                        onChange={(e) => {
+                            changeBasisAxis({
+                                k: new Vector3(
+                                    editableBasis.k.x,
+                                    editableBasis.k.y,
+                                    Number(e.target.value),
+                                ),
+                            });
+                        }}
+                    ></input>
+                </div>
             </div>
         );
     }
