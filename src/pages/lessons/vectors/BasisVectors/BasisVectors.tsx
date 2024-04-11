@@ -1,6 +1,6 @@
 import ArrowWrapper from "@components/ArrowWrapper/ArrowWrapper";
 import InteractiveCanvas from "@components/InteractiveCanvas/InteractiveCanvas";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Color, Vector3 } from "three";
 
 enum BasisToward {
@@ -8,7 +8,7 @@ enum BasisToward {
     Altered = "altered",
 }
 /**
- * 
+ *
  * @todo TODO: calculate the goal vectors (free and basis) after toggle
  * @todo TODO: keep base saved or have logic to send back to standard
  * @todo TODO: investigate whether the grid can be easily altered alongside the base
@@ -17,25 +17,33 @@ enum BasisToward {
 export default function BasisVectors() {
     const vDefault = new Vector3(2, 3, 1);
     const defaultBasis = {
-        x: new Vector3(1, 0, 0),
-        y: new Vector3(0, 1, 0),
-        z: new Vector3(0, 0, 1),
-    }
+        i: new Vector3(1, 0, 0),
+        j: new Vector3(0, 1, 0),
+        k: new Vector3(0, 0, 1),
+    };
     const tempVector = new Vector3(1, -2, 3);
 
     const [toggle, setToggle] = useState(BasisToward.Standard);
     const [dynamicVector, setDynamicVector] = useState(vDefault);
+
+    /** Basis vectors that are to be shown and the result of interpolations between open and default */
     const [basisVectors, setBasisVectors] = useState(defaultBasis);
 
+    /** Used alongside input elements to be the changed-to basis */
+    const [openVectors, setOpenVectors] = useState(defaultBasis);
+
     const vOrigin = new Vector3(0, 0, 0);
+
+    /** Configuration for vectors in the scene via ArrowWrappers */
     const basisLengthScalar = 3;
     const basisHeadLength = 0.25;
     const basisHeadWidth = 0.3;
 
+    /** useEffect for interpolating between basis changes, triggered via toggles 
+     * @todo consider having this be effected by a change in basis values
+    */
     useEffect(() => {
-        const goalVector = toggle == BasisToward.Standard
-            ? vDefault
-            : tempVector;
+        const goalVector = toggle == BasisToward.Standard ? vDefault : tempVector;
         const fromVector = dynamicVector;
 
         const startTime = Date.now();
@@ -46,18 +54,20 @@ export default function BasisVectors() {
             const duration = 1000;
 
             if (elapsedTime >= duration) {
-                clearInterval(interval)
+                clearInterval(interval);
                 setDynamicVector(goalVector);
                 return;
             }
-            console.log(elapsedTime)
+            console.log(elapsedTime);
 
             const interpolationFactor = elapsedTime / duration;
-            setDynamicVector(new Vector3().copy(fromVector).lerp(goalVector, interpolationFactor))
-        }, 16)
+            setDynamicVector(
+                new Vector3().copy(fromVector).lerp(goalVector, interpolationFactor)
+            );
+        }, 16);
 
         return () => clearInterval(interval);
-    }, [toggle])
+    }, [toggle]);
 
     const handleToggle = () => {
         setToggle((prevToward) =>
@@ -67,11 +77,172 @@ export default function BasisVectors() {
         );
     };
 
+    interface BasisWidgetProps {
+        editableBasis: {
+            i: Vector3;
+            j: Vector3;
+            k: Vector3;
+        };
+        setBasis: Dispatch<SetStateAction<{ i: Vector3; j: Vector3; k: Vector3 }>>;
+    }
+
+    interface BasisVectorI {
+        i: Vector3;
+    }
+    interface BasisVectorJ {
+        j: Vector3;
+    }
+    interface BasisVectorK {
+        k: Vector3;
+    }
+    type BasisVector = BasisVectorI | BasisVectorJ | BasisVectorK;
+
+    function BasisWidget({ editableBasis, setBasis }: BasisWidgetProps) {
+        const changeBasisAxis = (changedBasis: BasisVector) => {
+            setBasis((prev) => ({ ...prev, ...changedBasis }));
+        };
+
+        return (
+            <div>
+                i
+                <input
+                    placeholder={editableBasis.i.x.toString()}
+                    type="number"
+                    value={editableBasis.i.x}
+                    onChange={(e) => {
+                        changeBasisAxis({
+                            i: new Vector3(
+                                Number(e.target.value),
+                                editableBasis.i.y,
+                                editableBasis.i.z
+                            ),
+                        });
+                    }}
+                ></input>
+                <input
+                    placeholder={editableBasis.i.y.toString()}
+                    type="number"
+                    value={editableBasis.i.y}
+                    onChange={(e) => {
+                        changeBasisAxis({
+                            i: new Vector3(
+                                editableBasis.i.x,
+                                Number(e.target.value),
+                                editableBasis.i.z
+                            ),
+                        });
+                    }}
+                ></input>
+                <input
+                    placeholder={editableBasis.i.z.toString()}
+                    type="number"
+                    value={editableBasis.i.z}
+                    onChange={(e) => {
+                        changeBasisAxis({
+                            i: new Vector3(
+                                editableBasis.i.x,
+                                editableBasis.i.y,
+                                Number(e.target.value),
+                            ),
+                        });
+                    }}
+                ></input>
+                j
+                <input
+                    placeholder={editableBasis.j.x.toString()}
+                    type="number"
+                    value={editableBasis.j.x}
+                    onChange={(e) => {
+                        changeBasisAxis({
+                            j: new Vector3(
+                                Number(e.target.value),
+                                editableBasis.j.y,
+                                editableBasis.j.z
+                            ),
+                        });
+                    }}
+                ></input>
+                <input
+                    placeholder={editableBasis.j.y.toString()}
+                    type="number"
+                    value={editableBasis.j.y}
+                    onChange={(e) => {
+                        changeBasisAxis({
+                            j: new Vector3(
+                                editableBasis.j.x,
+                                Number(e.target.value),
+                                editableBasis.j.z
+                            ),
+                        });
+                    }}
+                ></input>
+                <input
+                    placeholder={editableBasis.j.z.toString()}
+                    type="number"
+                    value={editableBasis.j.z}
+                    onChange={(e) => {
+                        changeBasisAxis({
+                            j: new Vector3(
+                                editableBasis.j.x,
+                                editableBasis.j.y,
+                                Number(e.target.value),
+                            ),
+                        });
+                    }}
+                ></input>
+                k
+                <input
+                    placeholder={editableBasis.k.x.toString()}
+                    type="number"
+                    value={editableBasis.k.x}
+                    onChange={(e) => {
+                        changeBasisAxis({
+                            k: new Vector3(
+                                Number(e.target.value),
+                                editableBasis.k.y,
+                                editableBasis.k.z
+                            ),
+                        });
+                    }}
+                ></input>
+                <input
+                    placeholder={editableBasis.k.y.toString()}
+                    type="number"
+                    value={editableBasis.k.y}
+                    onChange={(e) => {
+                        changeBasisAxis({
+                            k: new Vector3(
+                                editableBasis.k.x,
+                                Number(e.target.value),
+                                editableBasis.k.z
+                            ),
+                        });
+                    }}
+                ></input>
+                <input
+                    placeholder={editableBasis.k.z.toString()}
+                    type="number"
+                    value={editableBasis.k.z}
+                    onChange={(e) => {
+                        changeBasisAxis({
+                            k: new Vector3(
+                                editableBasis.k.x,
+                                editableBasis.k.y,
+                                Number(e.target.value),
+                            ),
+                        });
+                    }}
+                ></input>
+            </div>
+        );
+    }
+
     return (
         <>
             <button type="button" onClick={handleToggle}>
                 Standard
             </button>
+            <BasisWidget editableBasis={openVectors} setBasis={setOpenVectors} />
             <InteractiveCanvas
                 availableTransformations={[]}
                 scenes={[
@@ -80,10 +251,10 @@ export default function BasisVectors() {
                             <ArrowWrapper
                                 lineWidth={3}
                                 arrowHelperArgs={[
-                                    // X
-                                    basisVectors.x.normalize(),
+                                    // i
+                                    new Vector3().copy(basisVectors.i).normalize(),
                                     vOrigin,
-                                    basisVectors.x.length() * basisLengthScalar,
+                                    basisVectors.i.length() * basisLengthScalar,
                                     Color.NAMES.indianred,
                                     basisHeadLength,
                                     basisHeadWidth,
@@ -96,10 +267,10 @@ export default function BasisVectors() {
                             <ArrowWrapper
                                 lineWidth={3}
                                 arrowHelperArgs={[
-                                    // Y
-                                    basisVectors.y.normalize(),
+                                    // j
+                                    new Vector3().copy(basisVectors.j).normalize(),
                                     vOrigin,
-                                    basisVectors.y.length() * basisLengthScalar,
+                                    basisVectors.j.length() * basisLengthScalar,
                                     Color.NAMES.green,
                                     basisHeadLength,
                                     basisHeadWidth,
@@ -112,10 +283,10 @@ export default function BasisVectors() {
                             <ArrowWrapper
                                 lineWidth={3}
                                 arrowHelperArgs={[
-                                    // Z
-                                    basisVectors.z.normalize(),
+                                    // k
+                                    new Vector3().copy(basisVectors.k).normalize(),
                                     vOrigin,
-                                    basisVectors.z.length() * basisLengthScalar,
+                                    basisVectors.k.length() * basisLengthScalar,
                                     Color.NAMES.skyblue,
                                     basisHeadLength,
                                     basisHeadWidth,
