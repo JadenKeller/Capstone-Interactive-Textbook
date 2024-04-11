@@ -87,18 +87,18 @@ h2 {
 	font-size: 2em;
 	font-weight: 500;
 	letter-spacing: 0.075rem;
-	line-height: 0.85em;
+	line-height: 1em;
 	padding-top: 0.5em;
 	margin: 0;
 }
 
 h3 {
 	font-family: "Gabarito", sans-serif;
-	font-size: 1.25em;
-	font-weight: 550;
+	font-size: 1.3em;
+	font-weight: 450;
 	letter-spacing: 0.05rem;
 	line-height: 0.85em;
-	padding-top: 0.5em;
+	padding: 0;
 	margin: 0;
 }
 
@@ -108,6 +108,6 @@ p {
 	font-weight: 250;
 	letter-spacing: 0.0525rem;
 	line-height: 1.55em;
-	padding: 0.65em 0 1.5em 0;
+	padding: 0.65em 0 1.15em 0;
 	margin: 0;
 }

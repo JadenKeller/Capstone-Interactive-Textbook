@@ -11,32 +11,60 @@ export default function MatrixLayout({ children }: { children: JSX.Element }) {
 	return (
 		<div className={styles.body_root}>
 			<div className={styles.vertical_divide}>
+
 				<div className={styles.left_section}>
 					<section className={styles.lesson_content}>
 						<h1>Matrix Transformations</h1>
 						<p>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi congue, dolor sit amet viverra convallis, tortor est faucibus erat, eu ullamcorper mauris odio quis quam. Integer in gravida enim, eu lobortis orci.
+							In this lesson, we discuss matrix transformations and their importance to computer graphics.
+							Additionally, we will go over how to visualize each transformation to get the desired result using different kinds of transformations.
 						</p>
-						<h2>
-							Order Matters
-						</h2>
+
+						<h2>What is a Matrix Transformation?</h2>
 						<p>
-							Suspendisse potenti. Nullam eu nunc et libero ultrices ornare. Nulla et ultrices nisl. Vivamus lacinia sodales diam id ullamcorper. Morbi eleifend eros volutpat dolor vehicula efficitur. Sed porttitor metus pharetra odio scelerisque interdum. Ut lacinia felis in ullamcorper blandit. Aliquam ipsum magna, porttitor sed diam quis, imperdiet laoreet purus. Donec dictum odio a mi pharetra, nec auctor sem feugiat. Aenean nisl elit, egestas at fringilla ut, luctus ut libero. Ut ac risus ante. Nullam eu efficitur lectus.
+							Matrices are rectangular arrays of numbers arranged in rows and columns.
+							Matrices support various operations such as addition, subtraction, multiplication, and scalar multiplication. These operations are essential for performing transformations in computer graphics.
+							When combining multiple matrices together, the order in which they are applied matters greatly to get the desired result.
 						</p>
-						<p>Suspendisse potenti. Mauris quis justo</p><h3> Matrix Multiplication</h3>
+
+						<h3>Scaling</h3>
 						<p>
-							vehicula, cursus lorem quis, pellentesque justo. Proin quis ligula metus. In egestas sollicitudin magna sed posuere. Duis aliquet volutpat tristique. Nullam
+							Vehicula, cursus lorem quis, pellentesque justo. Proin quis ligula metus. In egestas sollicitudin magna sed posuere. Duis aliquet volutpat tristique. 
 						</p>
+
+						<h3>Translations</h3>
 						<p>
-							semper aliquet nulla suscipit elementum. Nulla volutpat orci nisl, vel mollis nibh tincidunt sit amet. Praesent id sapien ipsum. Fusce tempusSed porttitor metus pharetra odio scelerisque interdum. Ut lacinia felis in ullamcorper blandit. Aliquam ipsum magna, porttitor sed diam quis, imperdiet laoreet purus. Donec dictum odio a mi pharetra,
+							Translation involves moving an object from one position to another in a specific direction.
 						</p>
+
+						<h3>Rotations</h3>
+						<p>
+							Vehicula, cursus lorem quis, pellentesque justo. Proin quis ligula metus. In egestas sollicitudin magna sed posuere. Duis aliquet volutpat tristique.
+						</p>
+
+						<h2>Applying Matrices Together</h2>
+						<p>
+							Multiple transformations can be combined using matrix multiplication to achieve complex effects.
+							Combining matrices together is as simple as multiplying them together.
+							Unlike multiplying a vector with a matrix (which results in a vector), multiplying matrix transformation results in a final matrix
+							contains a numerical representation of an objects position and scale.
+						</p>
+
+						<h3>Order Matters!</h3>
+						<p>
+							The order in which transformations are applied can significantly affect the final result.
+						</p>
+
+
 						<LessonNav />
 					</section>
 				</div>
+
 				<div className={styles.right_section}>
 					<Header />
 					{children}
 				</div>
+
 			</div>
 		</div>
 	);
