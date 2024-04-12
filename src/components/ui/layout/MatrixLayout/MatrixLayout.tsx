@@ -47,12 +47,15 @@ export default function MatrixLayout({ children }: { children: JSX.Element }) {
 						<p>
 							Multiple transformations can be combined to create more complex effects.
 							Combining matrices together is as simple as multiplying them together.
-							This reuslts in a final matrix that contains a numerical representation
-							of an objects position and scale.
+							This results in a final matrix that contains a numerical representation
+							of an object's position and scale.
 
 							In the activity to your right, you must add matrix transformations together to 
 							move the moon in its proper place. Currently it sits on top of our sun in the middle.
-							Ideally, it should be rotating itself and spinning around the Earth.
+							Ideally, it should be rotating itself and spinning around the Earth. To move it to its proper
+							position, applying the Earth transformations to the moon is half the battle. Once the moon is
+							in the same position as the Earth, you need only apply the moon transformations to move
+							it to its correct place.
 						</p>
 
 						<h3>Order Matters!</h3>
