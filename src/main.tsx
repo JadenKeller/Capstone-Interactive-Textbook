@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import LandingPage from 'pages/landing_page';
 import VectorOpChapter from 'pages/lessons/vector_operations/index.tsx';
 import MatrixChapter from 'pages/lessons/matrices/index.tsx';
 import VectorChapter from 'pages/lessons/vectors/index.tsx';
@@ -8,7 +9,7 @@ import VectorChapter from 'pages/lessons/vectors/index.tsx';
 const router = createBrowserRouter([
 	{
 		path: "/",
-		element: <MatrixChapter />,
+		element: <LandingPage />,
 	},
 	{
 		path: "lesson/vectors",
