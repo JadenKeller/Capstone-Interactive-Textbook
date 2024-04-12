@@ -14,7 +14,8 @@ export interface SceneProps {
     transformations?: Transformation[],
     geometry?: ReactElement,
     color?: Color | TransparentColor,
-    initialPosition?: Vector3
+    initialPosition?: Vector3,
+    moveable?: boolean
 }
 
 /**
