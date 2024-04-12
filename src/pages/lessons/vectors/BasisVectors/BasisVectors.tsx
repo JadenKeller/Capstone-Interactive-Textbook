@@ -10,7 +10,6 @@ enum BasisToward {
 /**
  *
  * @todo TODO: calculate the goal vectors (free and basis) after toggle
- * @todo TODO: keep base saved or have logic to send back to standard
  * @todo TODO: investigate whether the grid can be easily altered alongside the base
  * @todo TODO: options for transformation matrix to apply - rotation, shear, scale, reflect
  */
@@ -56,6 +55,7 @@ export default function BasisVectors() {
             const currentTime = Date.now();
             const elapsedTime = currentTime - startTime;
             const duration = 1000;
+            const interpolationFactor = elapsedTime / duration;
 
             if (elapsedTime >= duration) {
                 clearInterval(interval);
@@ -63,9 +63,7 @@ export default function BasisVectors() {
                 setBasisVectors(goalBasis);
                 return;
             }
-            console.log(elapsedTime);
 
-            const interpolationFactor = elapsedTime / duration;
             setDynamicVector( // lerp relative vector
                 new Vector3().copy(fromVector).lerp(goalVector, interpolationFactor)
             );
