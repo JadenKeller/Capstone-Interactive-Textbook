@@ -1,12 +1,9 @@
+import { BasisVectors } from "pages/lessons/vectors/BasisVectors/BasisVectors";
 import { Dispatch, SetStateAction } from "react";
 import { Vector3 } from "three";
 
 interface BasisWidgetProps {
-	editableBasis: {
-		i: Vector3;
-		j: Vector3;
-		k: Vector3;
-	};
+	editableBasis: BasisVectors
 	setBasis: Dispatch<SetStateAction<{ i: Vector3; j: Vector3; k: Vector3 }>>;
 }
 

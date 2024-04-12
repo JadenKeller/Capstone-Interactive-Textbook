@@ -2,12 +2,19 @@ import ArrowWrapper from "@components/ArrowWrapper/ArrowWrapper";
 import InteractiveCanvas from "@components/InteractiveCanvas/InteractiveCanvas";
 import BasisWidget from "@components/lessons/vectors/BasisWidget";
 import { useEffect, useState } from "react";
-import { Color, Vector3 } from "three";
+import { Color, Matrix3, Vector3 } from "three";
 
 enum BasisToward {
 	Standard = "standard",
 	Altered = "altered",
 }
+
+export type BasisVectors = {
+	i: Vector3;
+	j: Vector3;
+	k: Vector3;
+}
+
 /**
  *
  * @todo TODO: calculate the goal vectors (free and basis) after toggle
@@ -21,7 +28,6 @@ export default function BasisVectors() {
 		j: new Vector3(0, 1, 0),
 		k: new Vector3(0, 0, 1),
 	};
-	const tempVector = new Vector3(1, -2, 3);
 
 	/** Trigger state object */
 	const [toggle, setToggle] = useState(BasisToward.Standard);
@@ -35,18 +41,30 @@ export default function BasisVectors() {
 	/** Used alongside input elements to be the changed-to basis */
 	const [openVectors, setOpenVectors] = useState(defaultBasis);
 
+	const [transformationMatrix, setTransformationMatrix] = useState(new Matrix3());
+
 	/** Configuration for vectors in the scene via ArrowWrappers */
 	const vOrigin = new Vector3(0, 0, 0);
 	const basisLengthScalar = 3;
 	const basisHeadLength = 0.25;
 	const basisHeadWidth = 0.3;
 
+	const calcGoalVector = (toBasis: BasisVectors) => {
+		const newTransform = new Matrix3(
+			toBasis.i.x, toBasis.j.x, toBasis.k.x,
+			toBasis.i.y, toBasis.j.y, toBasis.k.y,
+			toBasis.i.z, toBasis.j.z, toBasis.k.z
+		);
+		setTransformationMatrix(newTransform)
+		return new Vector3().copy(vDefault).applyMatrix3(newTransform);
+	}
+
 	/** useEffect for interpolating between basis changes, triggered via toggles 
 	 * @todo consider having this be effected by a change in basis values
 	*/
 	useEffect(() => {
-		const goalVector = toggle == BasisToward.Standard ? vDefault : tempVector; // TODO: change this tempVector to be a relative change
 		const goalBasis = toggle == BasisToward.Standard ? defaultBasis : openVectors
+		const goalVector = toggle == BasisToward.Standard ? vDefault : calcGoalVector(goalBasis)
 		const fromVector = dynamicVector;
 		const fromBasis = basisVectors;
 
@@ -89,7 +107,7 @@ export default function BasisVectors() {
 	return (
 		<>
 			<button type="button" onClick={handleToggle}>
-				Standard
+				{toggle}
 			</button>
 			<BasisWidget editableBasis={openVectors} setBasis={setOpenVectors} />
 			<InteractiveCanvas
