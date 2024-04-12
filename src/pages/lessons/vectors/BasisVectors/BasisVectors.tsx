@@ -42,7 +42,7 @@ export function KHat() {
  * @todo TODO: options for transformation matrix to apply - rotation, shear, scale, reflect
  */
 export default function BasisVectors() {
-	const vDefault = new Vector3(2, 3, 1);
+	const [vDefault, setVDefault] = useState(new Vector3(2, 3, 1));
 	const identityBasis = {
 		i: new Vector3(1, 0, 0),
 		j: new Vector3(0, 1, 0),
@@ -119,7 +119,7 @@ export default function BasisVectors() {
 		}, 16);
 
 		return () => clearInterval(interval);
-	}, [toggle]);
+	}, [toggle, vDefault, openVectors]);
 
 	const handleToggle = () => {
 		setToggle((prevToward) =>
@@ -144,7 +144,7 @@ export default function BasisVectors() {
 			<button type="button" onClick={handleIdentity}>
 				set identity
 			</button>
-			<BasisWidget editableBasis={openVectors} setBasis={setOpenVectors} />
+			<BasisWidget editableBasis={openVectors} setBasis={setOpenVectors} editableVector={vDefault} setVector={setVDefault} />
 			<InteractiveCanvas
 				availableTransformations={[]}
 				scenes={[
