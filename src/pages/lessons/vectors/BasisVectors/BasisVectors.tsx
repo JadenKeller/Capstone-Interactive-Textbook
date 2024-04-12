@@ -37,12 +37,11 @@ export function KHat() {
 
 /**
  *
- * @todo TODO: calculate the goal vectors (free and basis) after toggle
  * @todo TODO: investigate whether the grid can be easily altered alongside the base
  * @todo TODO: options for transformation matrix to apply - rotation, shear, scale, reflect
  */
 export default function BasisVectors() {
-	const [vDefault, setVDefault] = useState(new Vector3(2, 3, 1));
+	const [openVector, setOpenVector] = useState(new Vector3(2, 3, 1));
 	const identityBasis = {
 		i: new Vector3(1, 0, 0),
 		j: new Vector3(0, 1, 0),
@@ -53,13 +52,13 @@ export default function BasisVectors() {
 	const [toggle, setToggle] = useState(BasisToward.Standard);
 
 	/** Vector shown as being relative to the basis adjustments */
-	const [dynamicVector, setDynamicVector] = useState(vDefault);
+	const [interpolatingVector, setInterpolatingVector] = useState(openVector);
 
 	/** Basis vectors that are to be shown and the result of interpolations between open and default, reflected only by visualization of the vectors on the canvas */
-	const [basisVectors, setBasisVectors] = useState(identityBasis);
+	const [interpolatingBasis, setInterpolatingBasis] = useState(identityBasis);
 
 	/** Used alongside input elements to be the changed-to basis */
-	const [openVectors, setOpenVectors] = useState(identityBasis);
+	const [openBasis, setOpenBasis] = useState(identityBasis);
 
 	const [transformationMatrix, setTransformationMatrix] = useState(new Matrix3());
 
@@ -76,7 +75,7 @@ export default function BasisVectors() {
 			toBasis.i.z, toBasis.j.z, toBasis.k.z
 		);
 		setTransformationMatrix(newTransform)
-		return new Vector3().copy(vDefault).applyMatrix3(newTransform);
+		return new Vector3().copy(openVector).applyMatrix3(newTransform);
 	}
 
 	const shiftedVectorLabelPosition = (position: Vector3, ignoreBasisShift?: boolean) => {
@@ -88,10 +87,10 @@ export default function BasisVectors() {
 	/** useEffect for interpolating between basis changes, triggered via toggles 
 	*/
 	useEffect(() => {
-		const goalBasis = toggle == BasisToward.Standard ? identityBasis : openVectors
-		const goalVector = toggle == BasisToward.Standard ? vDefault : calcGoalVector(goalBasis)
-		const fromVector = dynamicVector;
-		const fromBasis = basisVectors;
+		const goalBasis = toggle == BasisToward.Standard ? identityBasis : openBasis
+		const goalVector = toggle == BasisToward.Standard ? openVector : calcGoalVector(goalBasis)
+		const fromVector = interpolatingVector;
+		const fromBasis = interpolatingBasis;
 
 		const startTime = Date.now();
 
@@ -103,15 +102,15 @@ export default function BasisVectors() {
 
 			if (elapsedTime >= duration) {
 				clearInterval(interval);
-				setDynamicVector(goalVector);
-				setBasisVectors(goalBasis);
+				setInterpolatingVector(goalVector);
+				setInterpolatingBasis(goalBasis);
 				return;
 			}
 
-			setDynamicVector( // lerp relative vector
+			setInterpolatingVector( // lerp relative vector
 				new Vector3().copy(fromVector).lerp(goalVector, interpolationFactor)
 			);
-			setBasisVectors({ // lerp basis vectors
+			setInterpolatingBasis({ // lerp basis vectors
 				i: new Vector3().copy(fromBasis.i).lerp(goalBasis.i, interpolationFactor),
 				j: new Vector3().copy(fromBasis.j).lerp(goalBasis.j, interpolationFactor),
 				k: new Vector3().copy(fromBasis.k).lerp(goalBasis.k, interpolationFactor),
@@ -119,7 +118,7 @@ export default function BasisVectors() {
 		}, 16);
 
 		return () => clearInterval(interval);
-	}, [toggle, vDefault, openVectors]);
+	}, [toggle, openVector, openBasis]);
 
 	const handleToggle = () => {
 		setToggle((prevToward) =>
@@ -133,7 +132,7 @@ export default function BasisVectors() {
 	 * Resets the open vectors (reflected by the input matrix) to an identity matrix
 	 */
 	const handleIdentity = () => {
-		setOpenVectors(identityBasis);
+		setOpenBasis(identityBasis);
 	};
 
 	return (
@@ -144,7 +143,7 @@ export default function BasisVectors() {
 			<button type="button" onClick={handleIdentity}>
 				set identity
 			</button>
-			<BasisWidget editableBasis={openVectors} setBasis={setOpenVectors} editableVector={vDefault} setVector={setVDefault} />
+			<BasisWidget editableBasis={openBasis} setBasis={setOpenBasis} editableVector={openVector} setVector={setOpenVector} />
 			<InteractiveCanvas
 				availableTransformations={[]}
 				scenes={[
@@ -154,9 +153,9 @@ export default function BasisVectors() {
 								lineWidth={3}
 								arrowHelperArgs={[
 									// i
-									new Vector3().copy(basisVectors.i).normalize(),
+									new Vector3().copy(interpolatingBasis.i).normalize(),
 									vOrigin,
-									basisVectors.i.length() * basisLengthScalar,
+									interpolatingBasis.i.length() * basisLengthScalar,
 									Color.NAMES.indianred,
 									basisHeadLength,
 									basisHeadWidth,
@@ -170,9 +169,9 @@ export default function BasisVectors() {
 								lineWidth={3}
 								arrowHelperArgs={[
 									// j
-									new Vector3().copy(basisVectors.j).normalize(),
+									new Vector3().copy(interpolatingBasis.j).normalize(),
 									vOrigin,
-									basisVectors.j.length() * basisLengthScalar,
+									interpolatingBasis.j.length() * basisLengthScalar,
 									Color.NAMES.green,
 									basisHeadLength,
 									basisHeadWidth,
@@ -186,9 +185,9 @@ export default function BasisVectors() {
 								lineWidth={3}
 								arrowHelperArgs={[
 									// k
-									new Vector3().copy(basisVectors.k).normalize(),
+									new Vector3().copy(interpolatingBasis.k).normalize(),
 									vOrigin,
-									basisVectors.k.length() * basisLengthScalar,
+									interpolatingBasis.k.length() * basisLengthScalar,
 									Color.NAMES.skyblue,
 									basisHeadLength,
 									basisHeadWidth,
@@ -202,9 +201,9 @@ export default function BasisVectors() {
 								lineWidth={3}
 								arrowHelperArgs={[
 									// free-moving, change-able vector shown relative to basis
-									new Vector3().copy(dynamicVector).normalize(),
+									new Vector3().copy(interpolatingVector).normalize(),
 									vOrigin,
-									dynamicVector.length(),
+									interpolatingVector.length(),
 									Color.NAMES.yellow,
 									basisHeadLength,
 									basisHeadWidth,
@@ -215,22 +214,62 @@ export default function BasisVectors() {
 					// Labels for each basis vector and the relative vector
 					{
 						geometry: (
-							<Text position={shiftedVectorLabelPosition(basisVectors.i.clone())} fontSize={0.35} anchorX="center" anchorY="middle" outlineWidth={0.015} color={Color.NAMES.indianred} outlineColor={0x000000}>i</Text>
+							<Text
+								position={shiftedVectorLabelPosition(interpolatingBasis.i.clone())}
+								fontSize={0.35}
+								anchorX="center"
+								anchorY="middle"
+								outlineWidth={0.015}
+								color={Color.NAMES.indianred}
+								outlineColor={0x000000}
+							>
+								i
+							</Text>
 						),
 					},
 					{
 						geometry: (
-							<Text position={shiftedVectorLabelPosition(basisVectors.j.clone())} fontSize={0.35} anchorX="center" anchorY="middle" outlineWidth={0.015} color={Color.NAMES.green} outlineColor={0x000000}>j</Text>
+							<Text
+								position={shiftedVectorLabelPosition(interpolatingBasis.j.clone())}
+								fontSize={0.35}
+								anchorX="center"
+								anchorY="middle"
+								outlineWidth={0.015}
+								color={Color.NAMES.green}
+								outlineColor={0x000000}
+							>
+								j
+							</Text>
 						),
 					},
 					{
 						geometry: (
-							<Text position={shiftedVectorLabelPosition(basisVectors.k.clone())} fontSize={0.35} anchorX="center" anchorY="middle" outlineWidth={0.015} color={Color.NAMES.skyblue} outlineColor={0x000000}>k</Text>
+							<Text
+								position={shiftedVectorLabelPosition(interpolatingBasis.k.clone())}
+								fontSize={0.35}
+								anchorX="center"
+								anchorY="middle"
+								outlineWidth={0.015}
+								color={Color.NAMES.skyblue}
+								outlineColor={0x000000}
+							>
+								k
+							</Text>
 						),
 					},
 					{
 						geometry: (
-							<Text position={shiftedVectorLabelPosition(dynamicVector.clone(), true)} fontSize={0.35} anchorX="center" anchorY="middle" outlineWidth={0.015} color={Color.NAMES.yellow} outlineColor={0x000000}>v</Text>
+							<Text
+								position={shiftedVectorLabelPosition(interpolatingVector.clone(), true)}
+								fontSize={0.35}
+								anchorX="center"
+								anchorY="middle"
+								outlineWidth={0.015}
+								color={Color.NAMES.yellow}
+								outlineColor={0x000000}
+							>
+								v
+							</Text>
 						),
 					},
 				]}
