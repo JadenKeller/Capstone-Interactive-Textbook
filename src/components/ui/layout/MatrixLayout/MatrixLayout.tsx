@@ -17,44 +17,54 @@ export default function MatrixLayout({ children }: { children: JSX.Element }) {
 						<h1>Matrix Transformations</h1>
 						<p>
 							In this lesson, we discuss matrix transformations and their importance to computer graphics.
-							Additionally, we will go over how to visualize each transformation to get the desired result using different kinds of transformations.
+							Additionally, we will go over how to visualize each transformation to get the desired result using a model solar system.
 						</p>
 
 						<h2>What is a Matrix Transformation?</h2>
 						<p>
-							Matrices are rectangular arrays of numbers arranged in rows and columns.
-							Matrices support various operations such as addition, subtraction, multiplication, and scalar multiplication. These operations are essential for performing transformations in computer graphics.
-							When combining multiple matrices together, the order in which they are applied matters greatly to get the desired result.
+							Matrix transformations are used to manipulate objects in a graphical scene.
+							Matrices support various operations such as addition, subtraction, multiplication, and scalar multiplication. These operations are essential for animating objects and creating visual effects.
+							Multiple matrices are combined together to get the desired result, however,
+							the order in which they are applied matters greatly.
 						</p>
 
-						<h3>Scaling</h3>
+						<h3 className={styles.transformation_header}>Scaling</h3>
 						<p>
-							Vehicula, cursus lorem quis, pellentesque justo. Proin quis ligula metus. In egestas sollicitudin magna sed posuere. Duis aliquet volutpat tristique. 
+							Scaling involves modifying the size of an object along different axes. To uniformly scale an object, you scale each axis by the same value.
 						</p>
 
-						<h3>Translations</h3>
+						<h3 className={styles.transformation_header}>Translations</h3>
 						<p>
 							Translation involves moving an object from one position to another in a specific direction.
 						</p>
 
-						<h3>Rotations</h3>
+						<h3 className={styles.transformation_header}>Rotations</h3>
 						<p>
-							Vehicula, cursus lorem quis, pellentesque justo. Proin quis ligula metus. In egestas sollicitudin magna sed posuere. Duis aliquet volutpat tristique.
+							Rotation involves rotating an object around a specific point or axis.
 						</p>
 
 						<h2>Applying Matrices Together</h2>
 						<p>
-							Multiple transformations can be combined using matrix multiplication to achieve complex effects.
+							Multiple transformations can be combined to create more complex effects.
 							Combining matrices together is as simple as multiplying them together.
-							Unlike multiplying a vector with a matrix (which results in a vector), multiplying matrix transformation results in a final matrix
-							contains a numerical representation of an objects position and scale.
+							This reuslts in a final matrix that contains a numerical representation
+							of an objects position and scale.
+
+							In the activity to your right, you must add matrix transformations together to 
+							move the moon in its proper place. Currently it sits on top of our sun in the middle.
+							Ideally, it should be rotating itself and spinning around the Earth.
 						</p>
 
 						<h3>Order Matters!</h3>
 						<p>
 							The order in which transformations are applied can significantly affect the final result.
-						</p>
+							For example, rotating an object and then translating it produces a different result than 
+							translating it and then rotating it.
 
+							When reading an order of matrix transformations, remember that they orderer right to left. This is important
+							to note for the solar system activity to your right, where you will have to add matrix transformations in reverse
+							order so that they are read right to left. 
+						</p>
 
 						<LessonNav />
 					</section>

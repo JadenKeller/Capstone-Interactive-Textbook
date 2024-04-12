@@ -101,6 +101,9 @@ h3 {
 	padding: 0;
 	margin: 0;
 }
+.transformation_header {
+	color: #57FFEB;
+}
 
 p {
 	font-family: "Lexend", sans-serif;
@@ -108,6 +111,6 @@ p {
 	font-weight: 250;
 	letter-spacing: 0.07rem;
 	line-height: 1.55em;
-	padding: 0.65em 0 1.15em 0;
+	padding: 0.65em 0 0.85em 0;
 	margin: 0;
 }
