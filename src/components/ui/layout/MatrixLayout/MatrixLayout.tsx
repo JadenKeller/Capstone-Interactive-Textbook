@@ -16,26 +16,30 @@ export default function MatrixLayout({ children }: { children: JSX.Element }) {
 					<section className={styles.lesson_content}>
 						<h1>Matrix Transformations</h1>
 						<p>
-							In this lesson, we discuss matrix transformations and their importance to computer graphics.
-							Additionally, we will go over how to visualize each transformation to get the desired result using a model solar system.
+							In this lesson, we dive into the topic of matrix transformations and their importance to computer graphics.
+							While you read the lesson, practice applying transformations on an object, the moon, using a model solar system.
 						</p>
 
-						<h2>What is a Matrix Transformation?</h2>
+						<h2>What are they?</h2>
 						<p>
-							Matrix transformations are used to manipulate objects in a graphical scene.
-							Matrices support various operations such as addition, subtraction, multiplication, and scalar multiplication. These operations are essential for animating objects and creating visual effects.
-							Multiple matrices are combined together to get the desired result, however,
-							the order in which they are applied matters greatly.
+							Matrix transformations are used to manipulate objects in a graphical scene. 
+							Objects are manipulated using matrix operations to achieve desired (or undesired) effects like moving them around, rotating, or changing their size.
+							Matrices support various operations such as addition, subtraction, multiplication, scalar multiplication, and more.
+							These operations are essential for animating objects and creating visual effects.
+							Modern GPUs are highly optimized for performing matrix operations, making them a fundamental part of real-time rendering in computer graphics applications.
 						</p>
 
 						<h3 className={styles.transformation_header}>Scaling</h3>
 						<p>
-							Scaling involves modifying the size of an object along different axes. To uniformly scale an object, you scale each axis by the same value.
+							Scaling involves modifying the size of an object along different axes.
+							To uniformly scale an object, you scale each axis by the same value.
 						</p>
 
 						<h3 className={styles.transformation_header}>Translations</h3>
 						<p>
 							Translation involves moving an object from one position to another in a specific direction.
+							A homogeneous coordinate matrix is required for translations because it allows us to represent the translations
+							as matrix multiplication.
 						</p>
 
 						<h3 className={styles.transformation_header}>Rotations</h3>
@@ -43,29 +47,28 @@ export default function MatrixLayout({ children }: { children: JSX.Element }) {
 							Rotation involves rotating an object around a specific point or axis.
 						</p>
 
-						<h2>Applying Matrices Together</h2>
+						<h2>Applying matrices together</h2>
 						<p>
 							Multiple transformations can be combined to create more complex effects.
 							Combining matrices together is as simple as multiplying them together.
 							This results in a final matrix that contains a numerical representation
 							of an object's position and scale.
-
-							In the activity to your right, you must add matrix transformations together to 
-							move the moon in its proper place. Currently it sits on top of our sun in the middle.
-							Ideally, it should be rotating itself and spinning around the Earth. To move it to its proper
-							position, applying the Earth transformations to the moon is half the battle. Once the moon is
-							in the same position as the Earth, you need only apply the moon transformations to move
-							it to its correct place.
 						</p>
 
-						<h3>Order Matters!</h3>
+						<h3>Now you try!</h3>
 						<p>
-							The order in which transformations are applied can significantly affect the final result.
-							For example, rotating an object and then translating it produces a different result than 
-							translating it and then rotating it.
+							In the activity to your right, you must add matrix transformations together to 
+							help our <b>moon</b> find its proper place in the model solar system.
+							Currently it sits on top of our sun in the middle.
+							Ideally, it should be <b>moving exactly the same as the opaque red square.</b> Applying the Earth transformations to the moon is half the battle to moving it to its proper position.
+						</p>
 
+						<h3>Order matters</h3>
+						<p>
+							Just like following a recipe, the order in which transformations are applied can significantly affect the final result.
+							For example, rotating an object and then translating it produces a different result than translating it and then rotating it.
 							When reading an order of matrix transformations, remember that they orderer right to left. This is important
-							to note for the solar system activity to your right, where you will have to add matrix transformations in reverse
+							to note for the solar system activity, where you will have to add matrix transformations in reverse
 							order so that they are read right to left. 
 						</p>
 
