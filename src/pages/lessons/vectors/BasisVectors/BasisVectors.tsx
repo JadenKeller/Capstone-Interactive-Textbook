@@ -1,6 +1,7 @@
 import ArrowWrapper from "@components/ArrowWrapper/ArrowWrapper";
 import InteractiveCanvas from "@components/InteractiveCanvas/InteractiveCanvas";
 import BasisWidget from "@components/lessons/vectors/BasisWidget";
+import { Text } from "@react-three/drei";
 import { useEffect, useState } from "react";
 import { InlineMath } from "react-katex";
 import { Color, Matrix3, Vector3 } from "three";
@@ -42,7 +43,7 @@ export function KHat() {
  */
 export default function BasisVectors() {
 	const vDefault = new Vector3(2, 3, 1);
-	const defaultBasis = {
+	const identityBasis = {
 		i: new Vector3(1, 0, 0),
 		j: new Vector3(0, 1, 0),
 		k: new Vector3(0, 0, 1),
@@ -54,11 +55,11 @@ export default function BasisVectors() {
 	/** Vector shown as being relative to the basis adjustments */
 	const [dynamicVector, setDynamicVector] = useState(vDefault);
 
-	/** Basis vectors that are to be shown and the result of interpolations between open and default */
-	const [basisVectors, setBasisVectors] = useState(defaultBasis);
+	/** Basis vectors that are to be shown and the result of interpolations between open and default, reflected only by visualization of the vectors on the canvas */
+	const [basisVectors, setBasisVectors] = useState(identityBasis);
 
 	/** Used alongside input elements to be the changed-to basis */
-	const [openVectors, setOpenVectors] = useState(defaultBasis);
+	const [openVectors, setOpenVectors] = useState(identityBasis);
 
 	const [transformationMatrix, setTransformationMatrix] = useState(new Matrix3());
 
@@ -78,11 +79,16 @@ export default function BasisVectors() {
 		return new Vector3().copy(vDefault).applyMatrix3(newTransform);
 	}
 
+	const shiftedVectorLabelPosition = (position: Vector3, ignoreBasisShift?: boolean) => {
+		const shift = 0.25;
+		const vShift = position.clone().normalize().multiplyScalar(shift);
+		return !ignoreBasisShift ? vShift.add(position.multiplyScalar(basisLengthScalar)) : vShift.add(position);
+	}
+
 	/** useEffect for interpolating between basis changes, triggered via toggles 
-	 * @todo consider having this be effected by a change in basis values
 	*/
 	useEffect(() => {
-		const goalBasis = toggle == BasisToward.Standard ? defaultBasis : openVectors
+		const goalBasis = toggle == BasisToward.Standard ? identityBasis : openVectors
 		const goalVector = toggle == BasisToward.Standard ? vDefault : calcGoalVector(goalBasis)
 		const fromVector = dynamicVector;
 		const fromBasis = basisVectors;
@@ -123,10 +129,20 @@ export default function BasisVectors() {
 		);
 	};
 
+	/**
+	 * Resets the open vectors (reflected by the input matrix) to an identity matrix
+	 */
+	const handleIdentity = () => {
+		setOpenVectors(identityBasis);
+	};
+
 	return (
 		<>
 			<button type="button" onClick={handleToggle}>
 				{toggle}
+			</button>
+			<button type="button" onClick={handleIdentity}>
+				set identity
 			</button>
 			<BasisWidget editableBasis={openVectors} setBasis={setOpenVectors} />
 			<InteractiveCanvas
@@ -194,6 +210,27 @@ export default function BasisVectors() {
 									basisHeadWidth,
 								]}
 							/>
+						),
+					},
+					// Labels for each basis vector and the relative vector
+					{
+						geometry: (
+							<Text position={shiftedVectorLabelPosition(basisVectors.i.clone())} fontSize={0.35} anchorX="center" anchorY="middle" outlineWidth={0.015} color={Color.NAMES.indianred} outlineColor={0x000000}>i</Text>
+						),
+					},
+					{
+						geometry: (
+							<Text position={shiftedVectorLabelPosition(basisVectors.j.clone())} fontSize={0.35} anchorX="center" anchorY="middle" outlineWidth={0.015} color={Color.NAMES.green} outlineColor={0x000000}>j</Text>
+						),
+					},
+					{
+						geometry: (
+							<Text position={shiftedVectorLabelPosition(basisVectors.k.clone())} fontSize={0.35} anchorX="center" anchorY="middle" outlineWidth={0.015} color={Color.NAMES.skyblue} outlineColor={0x000000}>k</Text>
+						),
+					},
+					{
+						geometry: (
+							<Text position={shiftedVectorLabelPosition(dynamicVector.clone(), true)} fontSize={0.35} anchorX="center" anchorY="middle" outlineWidth={0.015} color={Color.NAMES.yellow} outlineColor={0x000000}>v</Text>
 						),
 					},
 				]}
