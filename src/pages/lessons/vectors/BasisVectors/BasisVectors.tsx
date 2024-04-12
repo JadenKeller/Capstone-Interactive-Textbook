@@ -2,6 +2,7 @@ import ArrowWrapper from "@components/ArrowWrapper/ArrowWrapper";
 import InteractiveCanvas from "@components/InteractiveCanvas/InteractiveCanvas";
 import BasisWidget from "@components/lessons/vectors/BasisWidget";
 import { useEffect, useState } from "react";
+import { InlineMath } from "react-katex";
 import { Color, Matrix3, Vector3 } from "three";
 
 enum BasisToward {
@@ -13,6 +14,24 @@ export type BasisVectors = {
 	i: Vector3;
 	j: Vector3;
 	k: Vector3;
+}
+
+export function IHat() {
+	return (
+		<InlineMath math={`{\\hat{\\textbf{\\i}}}`} />
+	);
+}
+
+export function JHat() {
+	return (
+		<InlineMath math={`{\\hat{\\textbf{\\j}}}`} />
+	);
+}
+
+export function KHat() {
+	return (
+		<InlineMath math={`{\\hat{k}}`} />
+	);
 }
 
 /**

@@ -1,6 +1,7 @@
-import { BasisVectors } from "pages/lessons/vectors/BasisVectors/BasisVectors";
+import { BasisVectors, IHat, JHat, KHat } from "pages/lessons/vectors/BasisVectors/BasisVectors";
 import { Dispatch, SetStateAction } from "react";
 import { Vector3 } from "three";
+import styles from "./BasisWidget.module.css";
 
 interface BasisWidgetProps {
 	editableBasis: BasisVectors
@@ -24,9 +25,9 @@ export default function BasisWidget({ editableBasis, setBasis }: BasisWidgetProp
 	};
 
 	return (
-		<div>
-			<div>
-				i
+		<div className={styles.basis_wrapper}>
+			<div className={styles.basis_vector}>
+				<IHat />
 				<input
 					placeholder={editableBasis.i.x.toString()}
 					type="number"
@@ -70,8 +71,8 @@ export default function BasisWidget({ editableBasis, setBasis }: BasisWidgetProp
 					}}
 				></input>
 			</div>
-			<div>
-				j
+			<div className={styles.basis_vector}>
+				<JHat />
 				<input
 					placeholder={editableBasis.j.x.toString()}
 					type="number"
@@ -115,8 +116,8 @@ export default function BasisWidget({ editableBasis, setBasis }: BasisWidgetProp
 					}}
 				></input>
 			</div>
-			<div>
-				k
+			<div className={styles.basis_vector}>
+				<KHat />
 				<input
 					placeholder={editableBasis.k.x.toString()}
 					type="number"
@@ -160,6 +161,6 @@ export default function BasisWidget({ editableBasis, setBasis }: BasisWidgetProp
 					}}
 				></input>
 			</div>
-		</div>
+		</div >
 	);
 }

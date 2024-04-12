@@ -1,0 +1,22 @@
+.basis_wrapper {
+	display: flex;
+	flex-direction: row;
+}
+
+.basis_vector {
+	display: flex;
+	flex-direction: column;
+	padding-left: 2px;
+	padding-right: 2px;
+	text-align: center;
+}
+
+.basis_vector input {
+	width: 3rem;
+	text-align: center;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+}
