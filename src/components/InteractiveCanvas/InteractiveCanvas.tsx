@@ -55,6 +55,10 @@ export class TransformationStateManager {
     static addChangedCallback(callback: Function) {
         this.transformationChangeCallbacks.push(callback)
     }
+
+    static removeChangedCallback() {
+        this.transformationChangeCallbacks.pop();
+    }
 }
 
 /**
