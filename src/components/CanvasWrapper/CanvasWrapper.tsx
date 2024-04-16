@@ -7,7 +7,7 @@ import { ReactElement, useEffect, useRef, useState } from 'react'
 import { useDrop } from 'react-dnd'
 import Matrix from '../Matrix/Matrix'
 import { TransformationStateManager } from '../InteractiveCanvas/InteractiveCanvas'
-import { ArrowLeftCircle, Delete } from 'react-feather'
+import { Delete, RefreshCcw } from 'react-feather'
 import { MapControls, OrbitControls } from '@react-three/drei'
 import { InlineMath } from 'react-katex'
 import CanvasTooltipButton from "../CanvasTooltipButton/CanvasTooltipButton"
@@ -135,13 +135,13 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 			</Canvas>
 			<div className={styles.controls_list}>
 				<span className={styles.control} onClick={() => {
-					TransformationStateManager.undo()
+					TransformationStateManager.clear()
 					setStateTransformations(TransformationStateManager.getTransformations())
 				}}>
-					<ArrowLeftCircle />
+					<RefreshCcw />
 				</span>
 				<span className={styles.control} onClick={() => {
-					TransformationStateManager.clear()
+					TransformationStateManager.undo()
 					setStateTransformations(TransformationStateManager.getTransformations())
 				}}>
 					<Delete />
