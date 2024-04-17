@@ -2,7 +2,7 @@ import styles from './CanvasWrapper.module.css'
 
 import { Canvas, Node, extend } from '@react-three/fiber'
 import Scene, { Transformation } from '../Scene/Scene'
-import { Color, Euler, Matrix4, Vector3 } from 'three'
+import { Color, Euler, Matrix4, Texture, Vector3 } from 'three'
 import { ReactElement, useEffect, useRef, useState } from 'react'
 import { useDrop } from 'react-dnd'
 import Matrix from '../Matrix/Matrix'
@@ -36,7 +36,8 @@ export interface Scene {
 	acceptTransformations?: boolean,
 	color?: Color | TransparentColor,
 	initialPosition?: Vector3,
-	staticTransformations?: Transformation[]
+	staticTransformations?: Transformation[],
+	texture?: Texture
 }
 
 export interface TransparentColor {
@@ -128,7 +129,7 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 				<gridHelper args={[40, 40, 0xF4FFFF, 0x4B585D]} rotation={[Math.PI / 2, 0, 0]} />
 				{props.scenes?.map((scene, idx) => {
 					return (
-						<Scene key={idx} geometry={scene.geometry} color={scene.color} initialPosition={scene.initialPosition} transformations={(scene.acceptTransformations) ? (scene.staticTransformations) ? TransformationStateManager.activeTransformations.concat(scene.staticTransformations) : TransformationStateManager.activeTransformations : scene.staticTransformations} />
+						<Scene texture={scene.texture} key={idx} geometry={scene.geometry} color={scene.color} initialPosition={scene.initialPosition} transformations={(scene.acceptTransformations) ? (scene.staticTransformations) ? [...TransformationStateManager.activeTransformations.concat(scene.staticTransformations)].reverse() : [...TransformationStateManager.activeTransformations].reverse() : scene.staticTransformations} />
 					)
 				})}
 				{(props.cameraControls) ? <MapControls enableRotate={false} maxDistance={25} /> : <></>}

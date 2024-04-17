@@ -32,11 +32,43 @@ export default function Matrix({idx, selected, transformation, small, onClick,}:
      */
     const renderLatex = (matrix: Matrix4) => {
         let s = '\\begin{bmatrix} '
+        let r1 = ''
+        let r2 = ''
+        let r3 = ''
+        let r4 = ''
         matrix.toArray().forEach((ele, idx) => {
-            if((idx + 1) % 4 === 0) s += ele.toFixed(2) + "\\\\\n"
-            else s += ele.toFixed(2) + " & "
+            switch ((idx + 1) % 4) {
+                case 1:
+                    if(idx > 11) {
+                        r1 += ele.toFixed(2) + "\\\\\n"
+                    } else {
+                        r1 += ele.toFixed(2) + " & "
+                    }
+                    break
+                case 2:
+                    if(idx > 11) {
+                        r2 += ele.toFixed(2) + "\\\\\n"
+                    } else {
+                        r2 += ele.toFixed(2) + " & "
+                    }
+                    break;
+                case 3:
+                    if(idx > 11) {
+                        r3 += ele.toFixed(2) + "\\\\\n"
+                    } else {
+                        r3 += ele.toFixed(2) + " & "
+                    }
+                    break;
+                case 0:
+                    if(idx > 11) {
+                        r4 += ele.toFixed(2) + "\\\\\n"
+                    } else {
+                        r4 += ele.toFixed(2) + " & "
+                    }
+                    break;
+            }
         })
-        s += "\\end{bmatrix}"
+        s += r1 + r2 + r3 + r4 + "\\end{bmatrix}"
         return s;
     }
 
