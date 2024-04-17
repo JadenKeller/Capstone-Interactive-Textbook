@@ -1,10 +1,11 @@
 .matrix {
-    margin: 0.5em 5px;
+    margin: 0.5em 0;
     padding: 0.4em 0.5em;
     background-color: #313B3E;
     border-radius: 8px;
     border: 3px solid #313B3E;
     transition: 0.2s ease;
+    cursor: grab;
 }
 .matrix:hover {
     border: 3px solid #57FFEB;

@@ -6,6 +6,7 @@ import TransformationOptions from './TransformationOptions';
 import { DndProvider, useDrop } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import styles from "./InteractiveCanvas.module.css"
+import { useState } from 'react';
 
 /**
  * Manages the state of transformations on the canvas. Needed for Drag and Drop.
@@ -68,7 +69,6 @@ export class TransformationStateManager {
  * @returns 
  */
 export default function InteractiveCanvas({availableTransformations, scenes}: {availableTransformations: Transformation[], scenes: Scene[]}) {
-
     return (
         <div className={styles.canvas}>
             <DndProvider backend={HTML5Backend}>

@@ -55,7 +55,6 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 	let runID = useRef(-1)
 	// Currently active transformations.
 	const [stateTransformations, setStateTransformations] = useState<Transformation[]>(TransformationStateManager.getTransformations())
-	console.log('transformations', stateTransformations)
 	// Handles animations.
 	useEffect(() => {
 		TransformationStateManager.addChangedCallback(setStateTransformations)
@@ -115,12 +114,15 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 	}, [])
 
 	// ReactDnD drop handler
-	const [, drop] = useDrop(() => ({
+	const [{canDrop}, drop] = useDrop(() => ({
 		accept: "matrix",
 		drop: (item, monitor) => {
 			TransformationStateManager.pushTransformation((monitor.getItem() as any).transformation)
 			setStateTransformations(TransformationStateManager.getTransformations());
-		}
+		},
+		collect: (monitor) => ({
+			canDrop: monitor.canDrop()
+		})
 	}))
 
 	return (
@@ -150,6 +152,9 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 			</div>
 			<CanvasTooltipButton />
 			<AppliedTransformations />
+			<div className={styles.overlay} style={{display: (canDrop) ? "flex" : "none"}}>
+				<p className={styles.overlay_text}>Drop here to apply transformation</p>
+			</div>
 		</div>
 	)
 }

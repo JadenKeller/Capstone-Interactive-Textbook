@@ -22,7 +22,7 @@ export interface DraggingMatrix {
  * @param {function} onClick - A function to be called when the matrix is clicked
  * @returns 
  */
-export default function Matrix({idx, selected, transformation, small, onClick,}: {idx: number, transformation: Transformation, selected: boolean, small?: boolean, onClick?: (t: Transformation) => void}) {
+export default function Matrix({idx, selected, transformation, small, onClick}: {idx: number, transformation: Transformation, selected: boolean, small?: boolean, onClick?: (t: Transformation) => void}) {
     
     /**
      * Renders the given matrix as a LaTeX formatted 4x4 matrix.
@@ -135,14 +135,11 @@ export default function Matrix({idx, selected, transformation, small, onClick,}:
     //     },
     // })
 
-    let [{ isDragging }, drag] = useDrag({
+    let [, drag] = useDrag({
         type: 'matrix',
         item: () => {
             return { transformation, idx }
         },
-        collect: (monitor: any) => ({
-            isDragging: monitor.isDragging(),
-        }),
     })
     
     return (
