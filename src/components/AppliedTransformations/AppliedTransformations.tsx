@@ -11,7 +11,15 @@ export default function AppliedTransformations() {
     const [activeTransforms, setActiveTransforms] = useState(TransformationStateManager.getTransformations())
 
     useEffect(() => {
-      TransformationStateManager.addChangedCallback(setActiveTransforms)  
+        const handleTransformationChange = () => {
+            setActiveTransforms(TransformationStateManager.getTransformations());
+        }
+
+        TransformationStateManager.addChangedCallback(handleTransformationChange);
+      
+        return () => {
+            TransformationStateManager.removeChangedCallback();
+        };
     }, [])
     return (
         <div className={styles.applied_transformations}>
