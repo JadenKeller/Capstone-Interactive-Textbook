@@ -144,22 +144,9 @@ export default function Matrix({idx, selected, transformation, small, onClick,}:
             isDragging: monitor.isDragging(),
         }),
     })
-
-    if(small) {
-        [{ isDragging }, drag] = useDrag({
-            type: 'matrix-list',
-            item: () => {
-                return { transformation, idx }
-            },
-            collect: (monitor: any) => ({
-                isDragging: monitor.isDragging(),
-            }),
-        })
-        // drag(drop(ref))
-    }
     
     return (
-        <div key={idx} ref={drag} onClick={() => {
+        <div key={idx} ref={(small) ? undefined : drag} onClick={() => {
             if(onClick)
                 onClick(transformation)
         }} className={(selected) ? styles.matrix_selected : styles.matrix}>
