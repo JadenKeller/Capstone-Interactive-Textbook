@@ -134,7 +134,7 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 						<Scene texture={scene.texture} key={idx} geometry={scene.geometry} color={scene.color} initialPosition={scene.initialPosition} transformations={(scene.acceptTransformations) ? (scene.staticTransformations) ? [...TransformationStateManager.activeTransformations.concat(scene.staticTransformations)].reverse() : [...TransformationStateManager.activeTransformations].reverse() : scene.staticTransformations} />
 					)
 				})}
-				{(props.cameraControls) ? <MapControls enableRotate={false} maxDistance={25} /> : <></>}
+				{(props.cameraControls) ? <MapControls enableRotate={false} minDistance={12} maxDistance={12} screenSpacePanning={true} /> : <></>}
 			</Canvas>
 			<div className={styles.controls_list}>
 				<span className={styles.control} onClick={() => {
