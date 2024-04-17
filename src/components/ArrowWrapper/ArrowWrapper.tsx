@@ -4,7 +4,7 @@ import { Line } from "@react-three/drei";
 /**
  * Arguments for constructing an arrowHelper component. Elements are required to ensure each are provided.
  */
-type arrowArgs = [
+export type arrowArgs = [
 	dir: Vector3 | undefined,
 	origin: Vector3 | undefined,
 	length: number | undefined,
