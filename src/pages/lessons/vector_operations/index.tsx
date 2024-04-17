@@ -1,6 +1,7 @@
 import Header from "@components/ui/Header/Header";
 import PlusMinus from "./dot_product/PlusMinus/PlusMinus";
 import VectorLayout from "@components/ui/layout/VectorLayout/VectorLayout";
+import LessonNav from "@components/ui/LessonNav/LessonNav";
 import styles from "./index.module.css";
 
 export default function VectorOpChapter() {
@@ -67,6 +68,7 @@ export default function VectorOpChapter() {
 						</section>
 					}
 					canvas={<PlusMinus />} />
+				<LessonNav />
 		</div>
 	)
 }
