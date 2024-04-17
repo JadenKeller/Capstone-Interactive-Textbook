@@ -59,10 +59,6 @@ export default function MatrixTransformations() {
 					{ geometry: <circleGeometry args={[0.3]} />, acceptTransformations: true, color: new Color(0xffffff), staticTransformations: [
 						{ id: 1, type: 'raw', matrix4: new Matrix4().makeTranslation(new Vector3(0, 0, 0.1)) }
 					], texture: moonTexture },
-						(correct) ?
-						{ geometry: <Sparkles count={10} size={5} scale={1.2} speed={0.01} noise={0.01} color={new Color(0x55ff55)}/>, acceptTransformations: true, color: new Color(0xffffff), staticTransformations: [
-						{ id: 1, type: 'raw', matrix4: new Matrix4().makeTranslation(new Vector3(0, 0, 0.1)) }
-					], texture: moonTexture } : { geometry: <planeGeometry />, color: {color: new Color(0xff4444), opacity: 0}},
                 ]}
 				tooltipContent={[<h4>How To Use The Interactive Canvas</h4>,<p>
                 Drag and drop matrices from the top on to the canvas grid to apply 
