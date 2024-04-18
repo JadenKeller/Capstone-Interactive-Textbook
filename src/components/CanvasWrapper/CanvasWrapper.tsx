@@ -5,13 +5,11 @@ import Scene, { Transformation } from '../Scene/Scene'
 import { Color, Euler, Matrix4, Vector3 } from 'three'
 import { ReactElement, useEffect, useRef, useState } from 'react'
 import { ConnectDropTarget, useDrop } from 'react-dnd'
-import Matrix from '../Matrix/Matrix'
 import { TransformationStateManager } from '../InteractiveCanvas/InteractiveCanvas'
-import { ArrowLeftCircle, Delete } from 'react-feather'
 import { MapControls } from '@react-three/drei'
+import { Delete, RefreshCcw } from 'react-feather'
 import AppliedTransformations from '../AppliedTransformations/AppliedTransformations'
 import CanvasTooltipButton from '@components/CanvasTooltipButton/CanvasTooltipButton'
-import { arrowArgs } from '@components/ArrowWrapper/ArrowWrapper'
 
 /**
  * CanvasWrapper component props
@@ -196,13 +194,13 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 			</Canvas>
 			{props.useUndoControls && <div className={styles.controls_list}>
 				<span className={styles.control} onClick={() => {
-					TransformationStateManager.undo()
+					TransformationStateManager.clear()
 					setStateTransformations(TransformationStateManager.getTransformations())
 				}}>
-					<ArrowLeftCircle />
+					<RefreshCcw />
 				</span>
 				<span className={styles.control} onClick={() => {
-					TransformationStateManager.clear()
+					TransformationStateManager.undo()
 					setStateTransformations(TransformationStateManager.getTransformations())
 				}}>
 					<Delete />
