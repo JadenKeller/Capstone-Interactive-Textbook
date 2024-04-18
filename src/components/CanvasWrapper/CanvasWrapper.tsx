@@ -4,12 +4,14 @@ import { Canvas } from '@react-three/fiber'
 import Scene, { Transformation } from '../Scene/Scene'
 import { Color, Euler, Matrix4, Texture, Vector3 } from 'three'
 import { ReactElement, useEffect, useRef, useState } from 'react'
-import { useDrop } from 'react-dnd'
+import { ConnectDropTarget, useDrop } from 'react-dnd'
 import { TransformationStateManager } from '../InteractiveCanvas/InteractiveCanvas'
+import { MapControls } from '@react-three/drei'
 import { Delete, RefreshCcw } from 'react-feather'
 import { MapControls } from '@react-three/drei'
 import CanvasTooltipButton from "../CanvasTooltipButton/CanvasTooltipButton"
 import AppliedTransformations from '../AppliedTransformations/AppliedTransformations'
+import CanvasTooltipButton from '@components/CanvasTooltipButton/CanvasTooltipButton'
 
 /**
  * CanvasWrapper component props
@@ -127,7 +129,7 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 			})
 		}, 10)
 	})
-	
+  
 	// ReactDnD drop handler
 	const [{canDrop}, drop] = useDrop(() => ({
 		accept: "matrix",
@@ -139,6 +141,7 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 			canDrop: monitor.canDrop()
 		})
 	}))
+
 
 	/**
 	 * Name is disingenuous, actually formats the transformation matrix based on the transformation type.
