@@ -86,8 +86,8 @@ h2 {
 	font-family: "Gabarito", sans-serif;
 	font-size: 2em;
 	font-weight: 500;
-	letter-spacing: 0.075rem;
-	line-height: 1em;
+	letter-spacing: 0.07rem;
+	line-height: 0.85em;
 	padding-top: 0.5em;
 	margin: 0;
 }
@@ -95,8 +95,8 @@ h2 {
 h3 {
 	font-family: "Gabarito", sans-serif;
 	font-size: 1.3em;
-	font-weight: 450;
-	letter-spacing: 0.05rem;
+	font-weight: 550;
+	letter-spacing: 0.07rem;
 	line-height: 0.85em;
 	padding-top: 0.35em;
 	margin: 0;
@@ -107,11 +107,11 @@ h3 {
 
 p {
 	font-family: "Lexend", sans-serif;
-	font-size: 16.5px;
-	font-weight: 250;
+	font-size: 16px;
+	font-weight: 225;
 	letter-spacing: 0.07rem;
-	line-height: 1.55em;
-	padding: 0.65em 0 0.85em 0;
+	line-height: 1.6em;
+	padding: 0.65em 0 1.5em 0;
 	margin: 0;
 }
 

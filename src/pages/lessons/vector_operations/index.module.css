@@ -1,113 +1,38 @@
-/* Page styles */
-body {
-	background-color: #313B3E;
-	height: 100vh;
-	margin: 0;
-	color: #F4FFFF;
-}
-
 .body_root {
 	width: 100%;
 }
 
-.vertical_divide {
-	display: flex;
-	flex-direction: row;
-	height: 100vh;
+.nav_section {
+	padding: 1em 0 0 0;
 }
 
-.right_section {
-	background-color: #4B585D;
+.lesson_nav_section {
+	padding: 1em 0;
+
+}
+
+.page_title {
+	margin: auto;
 	width: 70%;
-	height: 100%;
-}
-
-.left_section {
-	background-color: #313B3E;
-	width: 40%;
-	max-width: 700px;
-	min-width: 400px;
-	height: 100%;
-	display: grid;
-}
-
-
-
-
-/* Canvas section styling */
-.canvas_section {
-	height: 85%;
-	/* Next line is for testing on other laptop/desktop
-	screen sizes other than my own laptop. */
-	max-height: 1200px;
-}
-
-
-
-/* Text section styling */
-.lesson_content {
-	padding: 0 2.5em;
-	overflow-y: auto;
-	transition: 0.75s ease;
 }
 
 /* Scroll bar */
-.lesson_content::-webkit-scrollbar {
+body::-webkit-scrollbar {
 	width: 15px;
 }
 
-.lesson_content::-webkit-scrollbar-track {
+body::-webkit-scrollbar-track {
 	background: #4B585D;
 }
 
-.lesson_content::-webkit-scrollbar-thumb {
+body::-webkit-scrollbar-thumb {
 	background: #4B585D;
 	border: 2px solid #57FFEB;
 	border-radius: 10px;
 	transition: 0.75s ease;
 }
 
-.lesson_content::-webkit-scrollbar-thumb:hover {
+body::-webkit-scrollbar-thumb:hover {
 	background: #313B3E;
 	transition: 0.75s ease;
-}
-
-h1 {
-	font-family: "Gabarito", sans-serif;
-	font-size: 3.25em;
-	font-weight: 550;
-	letter-spacing: 0.06rem;
-	line-height: 0.9em;
-	padding-top: 0.75em;
-	margin: 0;
-}
-
-h2 {
-	font-family: "Gabarito", sans-serif;
-	font-size: 2em;
-	font-weight: 500;
-	letter-spacing: 0.075rem;
-	line-height: 0.85em;
-	padding-top: 0.5em;
-	margin: 0;
-}
-
-h3 {
-	font-family: "Gabarito", sans-serif;
-	font-size: 1.25em;
-	font-weight: 550;
-	letter-spacing: 0.05rem;
-	line-height: 0.85em;
-	padding-top: 0.5em;
-	margin: 0;
-}
-
-p {
-	font-family: "Lexend", sans-serif;
-	font-size: 16px;
-	font-weight: 250;
-	letter-spacing: 0.0525rem;
-	line-height: 1.55em;
-	padding: 0.65em 0 1.5em 0;
-	margin: 0;
 }
