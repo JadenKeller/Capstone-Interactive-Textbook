@@ -39,6 +39,9 @@ export function KHat() {
  *
  * @todo TODO: investigate whether the grid can be easily altered alongside the base
  * @todo TODO: options for transformation matrix to apply - rotation, shear, scale, reflect
+ * @todo TODO: styling to place widget(s) on top of canvas (see determination component)
+ * @todo TODO: investigate sizing the text of axis label relative to screen-pixels rather than const
+ * @todo TODO: change the setting of input values to allow for temporarily invalid values (-, "")
  */
 export default function BasisVectors() {
 	const [openVector, setOpenVector] = useState(new Vector3(2, 3, 1));
