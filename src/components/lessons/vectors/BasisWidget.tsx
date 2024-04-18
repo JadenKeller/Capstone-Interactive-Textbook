@@ -1,4 +1,4 @@
-import { BasisVectors, IHat, JHat, KHat } from "pages/lessons/vectors/BasisVectors/BasisVectors";
+import { BasisToward, BasisVectors, IHat, JHat, KHat } from "pages/lessons/vectors/BasisVectors/BasisVectors";
 import { Dispatch, SetStateAction } from "react";
 import { Vector3 } from "three";
 import styles from "./BasisWidget.module.css";
@@ -9,6 +9,9 @@ interface BasisWidgetProps {
 	setBasis: Dispatch<SetStateAction<{ i: Vector3; j: Vector3; k: Vector3 }>>,
 	editableVector: Vector3,
 	setVector: Dispatch<SetStateAction<Vector3>>,
+	toggle: BasisToward,
+	handleToggle: () => void,
+	handleIdentity: () => void,
 }
 
 interface BasisVectorI {
@@ -22,16 +25,22 @@ interface BasisVectorK {
 }
 type BasisVector = BasisVectorI | BasisVectorJ | BasisVectorK;
 
-export default function BasisWidget({ editableBasis, setBasis, editableVector, setVector }: BasisWidgetProps) {
+export default function BasisWidget({ editableBasis, setBasis, editableVector, setVector, toggle, handleToggle, handleIdentity }: BasisWidgetProps) {
 	const changeBasisAxis = (changedBasis: BasisVector) => {
 		setBasis((prev) => ({ ...prev, ...changedBasis }));
 	};
 
 	return (
-		<div>
+		<div className={styles.widget}>
+			<button className={styles.button} type="button" onClick={handleToggle}>
+				{toggle}
+			</button>
+			<button className={styles.button} type="button" onClick={handleIdentity}>
+				set identity
+			</button>
 			<div className={styles.basis_wrapper}>
 				<div className={styles.basis_vector}>
-					<IHat />
+					<IHat className={styles.i}/>
 					<input
 						placeholder={editableBasis.i.x.toString()}
 						type="number"

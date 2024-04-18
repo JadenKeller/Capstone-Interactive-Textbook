@@ -5,8 +5,9 @@ import { Text } from "@react-three/drei";
 import { useEffect, useState } from "react";
 import { InlineMath } from "react-katex";
 import { Color, Matrix3, Vector3 } from "three";
+import styles from "./BasisVectors.module.css"
 
-enum BasisToward {
+export enum BasisToward {
 	Standard = "standard",
 	Altered = "altered",
 }
@@ -17,21 +18,27 @@ export type BasisVectors = {
 	k: Vector3;
 }
 
-export function IHat() {
+export function IHat({ className }: { className?: string | undefined }) {
 	return (
-		<InlineMath math={`{\\hat{\\textbf{\\i}}}`} />
+		<div className={className}>
+			<InlineMath math={`{\\hat{\\textbf{\\i}}}`} />
+		</div>
 	);
 }
 
-export function JHat() {
+export function JHat({ className }: { className?: string | undefined }) {
 	return (
-		<InlineMath math={`{\\hat{\\textbf{\\j}}}`} />
+		<div className={className}>
+			<InlineMath math={`{\\hat{\\textbf{\\j}}}`} />
+		</div>
 	);
 }
 
-export function KHat() {
+export function KHat({ className }: { className?: string | undefined }) {
 	return (
-		<InlineMath math={`{\\hat{k}}`} />
+		<div className={className}>
+			<InlineMath math={`{\\hat{k}}`} />
+		</div>
 	);
 }
 
@@ -139,15 +146,21 @@ export default function BasisVectors() {
 	};
 
 	return (
-		<>
-			<button type="button" onClick={handleToggle}>
-				{toggle}
-			</button>
-			<button type="button" onClick={handleIdentity}>
-				set identity
-			</button>
-			<BasisWidget editableBasis={openBasis} setBasis={setOpenBasis} editableVector={openVector} setVector={setOpenVector} />
+		<div className={styles.relative}>
+
+			<BasisWidget
+				editableBasis={openBasis}
+				setBasis={setOpenBasis}
+				editableVector={openVector}
+				setVector={setOpenVector}
+				toggle={toggle}
+				handleToggle={handleToggle}
+				handleIdentity={handleIdentity}
+			/>
 			<InteractiveCanvas
+				useUndoControls={false}
+				useDND={false}
+				tooltipContent={"TODO:"}
 				availableTransformations={[]}
 				scenes={[
 					{
@@ -277,6 +290,6 @@ export default function BasisVectors() {
 					},
 				]}
 			/>
-		</>
+		</div>
 	);
 }
