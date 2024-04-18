@@ -1,17 +1,11 @@
 import styles from "./CanvasTooltipButton.module.css";
 
 
-export default function CanvasTooltipButton() {
+export default function CanvasTooltipButton({children}: {children: React.ReactNode}) {
     return (
         <div className={styles.tooltip_container}>
             <span className={styles.tooltip_window}>
-                <h4>How To Use The Interactive Canvas</h4>
-                Drag and drop matrices from the top on to the canvas grid to apply 
-                transformations to the "moon". 
-                Apply multiple matrices together to change the final transformation.
-                Undo a matrix with the arrow icon, and clear all transformations with the delete icon.
-                Experiment with different order combinations of matrices to see 
-                different transformation behavior. 
+                {children}
             </span>
             <svg id={styles.tooltip_icon} width="40" height="40" viewBox="0 0 40 40" fill="none">
                 <circle cx="19.5" cy="19.5" r="19" fill="#272727" stroke="#272727" strokeWidth={2}/>
