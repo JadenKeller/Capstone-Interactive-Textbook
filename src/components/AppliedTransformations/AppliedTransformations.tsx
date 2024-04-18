@@ -23,7 +23,7 @@ export default function AppliedTransformations() {
     }, [])
     return (
         <div className={styles.applied_transformations}>
-                {activeTransforms && activeTransforms.map((t, idx) => {
+                {activeTransforms && [...activeTransforms].reverse().map((t, idx) => {
                     return (
                         <div key={idx}>
                             {(t.name) ? <InlineMath math={t.name} /> : <></> }
