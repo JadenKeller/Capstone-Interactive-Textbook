@@ -8,10 +8,8 @@ import { ConnectDropTarget, useDrop } from 'react-dnd'
 import { TransformationStateManager } from '../InteractiveCanvas/InteractiveCanvas'
 import { MapControls } from '@react-three/drei'
 import { Delete, RefreshCcw } from 'react-feather'
-import { MapControls } from '@react-three/drei'
 import CanvasTooltipButton from "../CanvasTooltipButton/CanvasTooltipButton"
 import AppliedTransformations from '../AppliedTransformations/AppliedTransformations'
-import CanvasTooltipButton from '@components/CanvasTooltipButton/CanvasTooltipButton'
 
 /**
  * CanvasWrapper component props
@@ -69,24 +67,24 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 
 			// Animate applied transformations
 			TransformationStateManager.activeTransformations.forEach((transformation) => {
-				
+
 				let transform;
 				switch (transformation.type) {
 					case 'rotation':
 						transform = applyTransformation(transformation)
-						if(!transform) return;
+						if (!transform) return;
 
 						transformation.matrix4 = new Matrix4().makeRotationFromEuler(new Euler(transform[0], transform[1], transform[2]));
 						break;
 					case 'translation':
 						transform = applyTransformation(transformation)
-						if(!transform) return;
+						if (!transform) return;
 
 						transformation.matrix4 = new Matrix4().makeTranslation(new Vector3(transform[0], transform[1], transform[2]))
 						break;
 					case 'scale':
 						transform = applyTransformation(transformation)
-						if(!transform) return;
+						if (!transform) return;
 
 						transformation.matrix4 = new Matrix4().makeScale(transform[0], transform[1], transform[2])
 						break;
@@ -99,10 +97,10 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 					switch (transformation.type) {
 						case 'rotation':
 							transform = applyTransformation(transformation)
-							if(!transform) return;
+							if (!transform) return;
 
 							transformation.matrix4 = new Matrix4().makeRotationFromEuler(new Euler(transform[0], transform[1], transform[2]));
-							
+
 							// If the transformation is set to publish to another transformation, copy the current transformation to the other transformation
 							if (transformation.publishToId !== undefined) {
 								TransformationStateManager.activeTransformations.forEach((t) => {
@@ -114,13 +112,13 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 							break;
 						case 'translation':
 							transform = applyTransformation(transformation)
-							if(!transform) return;
+							if (!transform) return;
 
 							transformation.matrix4 = new Matrix4().makeTranslation(new Vector3(transform[0], transform[1], transform[2]))
 							break;
 						case 'scale':
 							transform = applyTransformation(transformation)
-							if(!transform) return;
+							if (!transform) return;
 
 							transformation.matrix4 = new Matrix4().makeScale(transform[0], transform[1], transform[2])
 							break;
@@ -129,9 +127,9 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 			})
 		}, 10)
 	})
-  
+
 	// ReactDnD drop handler
-	const [{canDrop}, drop] = useDrop(() => ({
+	const [{ canDrop }, drop] = useDrop(() => ({
 		accept: "matrix",
 		drop: (item, monitor) => {
 			TransformationStateManager.pushTransformation((monitor.getItem() as any).transformation)
@@ -154,30 +152,30 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 			return;
 		}
 		// Start the transformation if it has not started yet
-		if(!transformation.startTime) transformation.startTime = incrementor.current;
+		if (!transformation.startTime) transformation.startTime = incrementor.current;
 		// Is the start time currently less than the delay?
-		if(transformation.delay && transformation.delay > incrementor.current - transformation.startTime) return;
+		if (transformation.delay && transformation.delay > incrementor.current - transformation.startTime) return;
 		// Set the delay to 0 if it is not set
-		if(!transformation.delay) transformation.delay = 0;
-	
+		if (!transformation.delay) transformation.delay = 0;
+
 		let transformX = 0;
 		let transformY = 0;
 		let transformZ = 0;
-	
+
 		// Calculate the transformation based on the start time, delay and amount
 		transformX = (incrementor.current - (transformation.startTime + transformation.delay)) * transformation.amount[0]
 		transformY = (incrementor.current - (transformation.startTime + transformation.delay)) * transformation.amount[1]
 		transformZ = (incrementor.current - (transformation.startTime + transformation.delay)) * transformation.amount[2]
 
 		// If the transformation is going to be greater than it's max, cap it at max.
-		if(transformation.max) {
-			if((incrementor.current - (transformation.startTime + transformation.delay)) * transformation.amount[0] > transformation.max[0]) {
+		if (transformation.max) {
+			if ((incrementor.current - (transformation.startTime + transformation.delay)) * transformation.amount[0] > transformation.max[0]) {
 				transformX = transformation.max[0]
 			}
-			if((incrementor.current - (transformation.startTime + transformation.delay)) * transformation.amount[1] > transformation.max[1]) {
+			if ((incrementor.current - (transformation.startTime + transformation.delay)) * transformation.amount[1] > transformation.max[1]) {
 				transformY = transformation.max[1]
 			}
-			if((incrementor.current - (transformation.startTime + transformation.delay)) * transformation.amount[2] > transformation.max[2]) {
+			if ((incrementor.current - (transformation.startTime + transformation.delay)) * transformation.amount[2] > transformation.max[2]) {
 				transformZ = transformation.max[2]
 			}
 		}
@@ -185,7 +183,7 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 	}
 
 	return (
-		<div className={styles.wrapper} ref={(props.useDND) ? drop: undefined}>
+		<div className={styles.wrapper} ref={(props.useDND) ? drop : undefined}>
 			<Canvas camera={{ position: [0, 0, 10] }} className={styles.canvas}>
 				<gridHelper args={[40, 40, 0xF4FFFF, 0x4B585D]} rotation={[Math.PI / 2, 0, 0]} />
 				{props.scenes?.map((scene, idx) => {
@@ -211,7 +209,7 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 			</div>}
 			<CanvasTooltipButton>{props.tooltipContent}</CanvasTooltipButton>
 			<AppliedTransformations />
-			<div className={styles.overlay} style={{display: (canDrop) ? "flex" : "none"}}>
+			<div className={styles.overlay} style={{ display: (canDrop) ? "flex" : "none" }}>
 				<p className={styles.overlay_text}>Drop here to apply transformation</p>
 			</div>
 		</div>
