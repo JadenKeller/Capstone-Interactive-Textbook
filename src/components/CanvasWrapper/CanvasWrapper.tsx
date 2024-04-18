@@ -2,12 +2,14 @@ import styles from './CanvasWrapper.module.css'
 
 import { Canvas } from '@react-three/fiber'
 import Scene, { Transformation } from '../Scene/Scene'
-import { Color, Euler, Matrix4, Vector3 } from 'three'
+import { Color, Euler, Matrix4, Texture, Vector3 } from 'three'
 import { ReactElement, useEffect, useRef, useState } from 'react'
 import { ConnectDropTarget, useDrop } from 'react-dnd'
 import { TransformationStateManager } from '../InteractiveCanvas/InteractiveCanvas'
 import { MapControls } from '@react-three/drei'
 import { Delete, RefreshCcw } from 'react-feather'
+import { MapControls } from '@react-three/drei'
+import CanvasTooltipButton from "../CanvasTooltipButton/CanvasTooltipButton"
 import AppliedTransformations from '../AppliedTransformations/AppliedTransformations'
 import CanvasTooltipButton from '@components/CanvasTooltipButton/CanvasTooltipButton'
 
@@ -39,7 +41,8 @@ export interface Scene {
 	acceptTransformations?: boolean,
 	color?: Color | TransparentColor,
 	initialPosition?: Vector3,
-	staticTransformations?: Transformation[]
+	staticTransformations?: Transformation[],
+	texture?: Texture
 }
 
 export interface TransparentColor {
@@ -126,19 +129,19 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 			})
 		}, 10)
 	})
-
-	let [, drop]: [undefined, ConnectDropTarget | undefined] = [undefined, undefined]
-
-	if(props.useDND) {
-		[, drop] = useDrop(() => ({
-			accept: "matrix",
-			drop: (item, monitor) => {
-				TransformationStateManager.pushTransformation((monitor.getItem() as any).transformation)
-				setStateTransformations(TransformationStateManager.getTransformations());
-			}
-		}))
-	}
+  
 	// ReactDnD drop handler
+	const [{canDrop}, drop] = useDrop(() => ({
+		accept: "matrix",
+		drop: (item, monitor) => {
+			TransformationStateManager.pushTransformation((monitor.getItem() as any).transformation)
+			setStateTransformations(TransformationStateManager.getTransformations());
+		},
+		collect: (monitor) => ({
+			canDrop: monitor.canDrop()
+		})
+	}))
+
 
 	/**
 	 * Name is disingenuous, actually formats the transformation matrix based on the transformation type.
@@ -187,10 +190,10 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 				<gridHelper args={[40, 40, 0xF4FFFF, 0x4B585D]} rotation={[Math.PI / 2, 0, 0]} />
 				{props.scenes?.map((scene, idx) => {
 					return (
-						<Scene key={idx} geometry={scene.geometry} color={scene.color} initialPosition={scene.initialPosition} transformations={(scene.acceptTransformations) ? (scene.staticTransformations) ? TransformationStateManager.activeTransformations.concat(scene.staticTransformations) : TransformationStateManager.activeTransformations : scene.staticTransformations} />
+						<Scene texture={scene.texture} key={idx} geometry={scene.geometry} color={scene.color} initialPosition={scene.initialPosition} transformations={(scene.acceptTransformations) ? (scene.staticTransformations) ? [...TransformationStateManager.activeTransformations.concat(scene.staticTransformations)].reverse() : [...TransformationStateManager.activeTransformations].reverse() : scene.staticTransformations} />
 					)
 				})}
-				{(props.cameraControls) ? <MapControls enableRotate={false} maxDistance={25} /> : <></>}
+				{(props.cameraControls) ? <MapControls enableRotate={false} minDistance={12} maxDistance={12} screenSpacePanning={true} /> : <></>}
 			</Canvas>
 			{props.useUndoControls && <div className={styles.controls_list}>
 				<span className={styles.control} onClick={() => {
@@ -208,6 +211,9 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 			</div>}
 			<CanvasTooltipButton>{props.tooltipContent}</CanvasTooltipButton>
 			<AppliedTransformations />
+			<div className={styles.overlay} style={{display: (canDrop) ? "flex" : "none"}}>
+				<p className={styles.overlay_text}>Drop here to apply transformation</p>
+			</div>
 		</div>
 	)
 }
