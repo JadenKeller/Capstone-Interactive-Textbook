@@ -6,7 +6,7 @@ import { InlineMath } from "react-katex";
 
 interface BasisWidgetProps {
 	editableBasis: BasisVectors,
-	setBasis: Dispatch<SetStateAction<{ i: Vector3; j: Vector3; k: Vector3 }>>,
+	setBasis: Dispatch<SetStateAction<BasisVectors>>,
 	editableVector: Vector3,
 	setVector: Dispatch<SetStateAction<Vector3>>,
 	toggle: BasisToward,
