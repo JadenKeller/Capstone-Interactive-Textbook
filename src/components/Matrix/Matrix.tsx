@@ -22,7 +22,7 @@ export interface DraggingMatrix {
  * @param {function} onClick - A function to be called when the matrix is clicked
  * @returns 
  */
-export default function Matrix({idx, selected, transformation, small, onClick,}: {idx: number, transformation: Transformation, selected: boolean, small?: boolean, onClick?: (t: Transformation) => void}) {
+export default function Matrix({idx, selected, transformation, small, onClick}: {idx: number, transformation: Transformation, selected: boolean, small?: boolean, onClick?: (t: Transformation) => void}) {
     
     /**
      * Renders the given matrix as a LaTeX formatted 4x4 matrix.
@@ -32,11 +32,43 @@ export default function Matrix({idx, selected, transformation, small, onClick,}:
      */
     const renderLatex = (matrix: Matrix4) => {
         let s = '\\begin{bmatrix} '
+        let r1 = ''
+        let r2 = ''
+        let r3 = ''
+        let r4 = ''
         matrix.toArray().forEach((ele, idx) => {
-            if((idx + 1) % 4 === 0) s += ele.toFixed(2) + "\\\\\n"
-            else s += ele.toFixed(2) + " & "
+            switch ((idx + 1) % 4) {
+                case 1:
+                    if(idx > 11) {
+                        r1 += ele.toFixed(2) + "\\\\\n"
+                    } else {
+                        r1 += ele.toFixed(2) + " & "
+                    }
+                    break
+                case 2:
+                    if(idx > 11) {
+                        r2 += ele.toFixed(2) + "\\\\\n"
+                    } else {
+                        r2 += ele.toFixed(2) + " & "
+                    }
+                    break;
+                case 3:
+                    if(idx > 11) {
+                        r3 += ele.toFixed(2) + "\\\\\n"
+                    } else {
+                        r3 += ele.toFixed(2) + " & "
+                    }
+                    break;
+                case 0:
+                    if(idx > 11) {
+                        r4 += ele.toFixed(2) + "\\\\\n"
+                    } else {
+                        r4 += ele.toFixed(2) + " & "
+                    }
+                    break;
+            }
         })
-        s += "\\end{bmatrix}"
+        s += r1 + r2 + r3 + r4 + "\\end{bmatrix}"
         return s;
     }
 
@@ -103,31 +135,15 @@ export default function Matrix({idx, selected, transformation, small, onClick,}:
     //     },
     // })
 
-    let [{ isDragging }, drag] = useDrag({
+    let [, drag] = useDrag({
         type: 'matrix',
         item: () => {
             return { transformation, idx }
         },
-        collect: (monitor: any) => ({
-            isDragging: monitor.isDragging(),
-        }),
     })
-
-    if(small) {
-        [{ isDragging }, drag] = useDrag({
-            type: 'matrix-list',
-            item: () => {
-                return { transformation, idx }
-            },
-            collect: (monitor: any) => ({
-                isDragging: monitor.isDragging(),
-            }),
-        })
-        // drag(drop(ref))
-    }
     
     return (
-        <div key={idx} ref={drag} onClick={() => {
+        <div key={idx} ref={(small) ? undefined : drag} onClick={() => {
             if(onClick)
                 onClick(transformation)
         }} className={(selected) ? styles.matrix_selected : styles.matrix}>
