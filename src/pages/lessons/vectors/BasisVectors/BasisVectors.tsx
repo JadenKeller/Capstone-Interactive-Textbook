@@ -1,11 +1,12 @@
 import ArrowWrapper from "@components/ArrowWrapper/ArrowWrapper";
 import InteractiveCanvas from "@components/InteractiveCanvas/InteractiveCanvas";
-import BasisWidget from "@components/lessons/vectors/BasisWidget";
+import BasisWidget from "@components/lessons/vectors/BasisWidget/BasisWidget";
 import { Text } from "@react-three/drei";
 import { useEffect, useState } from "react";
 import { InlineMath } from "react-katex";
 import { Color, Matrix3, Vector3 } from "three";
 import styles from "./BasisVectors.module.css"
+import BasisTransformations from "@components/lessons/vectors/BasisTransformations/BasisTransformations";
 
 export enum BasisToward {
 	Standard = "standard",
@@ -147,7 +148,6 @@ export default function BasisVectors() {
 
 	return (
 		<div className={styles.relative}>
-
 			<BasisWidget
 				editableBasis={openBasis}
 				setBasis={setOpenBasis}
@@ -157,6 +157,7 @@ export default function BasisVectors() {
 				handleToggle={handleToggle}
 				handleIdentity={handleIdentity}
 			/>
+			<BasisTransformations />
 			<InteractiveCanvas
 				useUndoControls={false}
 				useDND={false}

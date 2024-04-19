@@ -15,7 +15,7 @@ export default function VectorChapter() {
 			<VectorLayout
 				content={
 					<section>
-						<h1>Matrix Transformations</h1>
+						<h1>Basis Vectors</h1>
 						<p>
 							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
 							congue, dolor sit amet viverra convallis, tortor est faucibus

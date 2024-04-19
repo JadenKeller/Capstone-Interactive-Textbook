@@ -40,9 +40,9 @@ export default function BasisWidget({ editableBasis, setBasis, editableVector, s
 			</button>
 			<div className={styles.basis_wrapper}>
 				<div className={styles.basis_vector}>
-					<IHat className={styles.i}/>
+					<IHat className={styles.i} />
 					<input
-						placeholder={editableBasis.i.x.toString()}
+						placeholder={"0"}
 						type="number"
 						value={editableBasis.i.x}
 						onChange={(e) => {
@@ -56,7 +56,7 @@ export default function BasisWidget({ editableBasis, setBasis, editableVector, s
 						}}
 					></input>
 					<input
-						placeholder={editableBasis.i.y.toString()}
+						placeholder={"0"}
 						type="number"
 						value={editableBasis.i.y}
 						onChange={(e) => {
@@ -70,7 +70,7 @@ export default function BasisWidget({ editableBasis, setBasis, editableVector, s
 						}}
 					></input>
 					<input
-						placeholder={editableBasis.i.z.toString()}
+						placeholder={"0"}
 						type="number"
 						value={editableBasis.i.z}
 						onChange={(e) => {
@@ -85,9 +85,9 @@ export default function BasisWidget({ editableBasis, setBasis, editableVector, s
 					></input>
 				</div>
 				<div className={styles.basis_vector}>
-					<JHat />
+					<JHat className={styles.j} />
 					<input
-						placeholder={editableBasis.j.x.toString()}
+						placeholder={"0"}
 						type="number"
 						value={editableBasis.j.x}
 						onChange={(e) => {
@@ -101,7 +101,7 @@ export default function BasisWidget({ editableBasis, setBasis, editableVector, s
 						}}
 					></input>
 					<input
-						placeholder={editableBasis.j.y.toString()}
+						placeholder={"0"}
 						type="number"
 						value={editableBasis.j.y}
 						onChange={(e) => {
@@ -115,7 +115,7 @@ export default function BasisWidget({ editableBasis, setBasis, editableVector, s
 						}}
 					></input>
 					<input
-						placeholder={editableBasis.j.z.toString()}
+						placeholder={"0"}
 						type="number"
 						value={editableBasis.j.z}
 						onChange={(e) => {
@@ -130,9 +130,9 @@ export default function BasisWidget({ editableBasis, setBasis, editableVector, s
 					></input>
 				</div>
 				<div className={styles.basis_vector}>
-					<KHat />
+					<KHat className={styles.k} />
 					<input
-						placeholder={editableBasis.k.x.toString()}
+						placeholder={"0"}
 						type="number"
 						value={editableBasis.k.x}
 						onChange={(e) => {
@@ -146,7 +146,7 @@ export default function BasisWidget({ editableBasis, setBasis, editableVector, s
 						}}
 					></input>
 					<input
-						placeholder={editableBasis.k.y.toString()}
+						placeholder={"0"}
 						type="number"
 						value={editableBasis.k.y}
 						onChange={(e) => {
@@ -160,7 +160,7 @@ export default function BasisWidget({ editableBasis, setBasis, editableVector, s
 						}}
 					></input>
 					<input
-						placeholder={editableBasis.k.z.toString()}
+						placeholder={"0"}
 						type="number"
 						value={editableBasis.k.z}
 						onChange={(e) => {
@@ -175,9 +175,11 @@ export default function BasisWidget({ editableBasis, setBasis, editableVector, s
 					></input>
 				</div>
 				<div className={styles.basis_vector}>
-					<InlineMath math={`{\\vec{v}}`} />
+					<div className={styles.v}>
+						<InlineMath math={`{\\vec{v}}`} />
+					</div>
 					<input
-						placeholder={editableVector.x.toString()}
+						placeholder={"0"}
 						type="number"
 						value={editableVector.x}
 						onChange={(e) => setVector((prev) => {
@@ -187,7 +189,7 @@ export default function BasisWidget({ editableBasis, setBasis, editableVector, s
 						})}
 					></input>
 					<input
-						placeholder={editableVector.y.toString()}
+						placeholder={"0"}
 						type="number"
 						value={editableVector.y}
 						onChange={(e) => setVector((prev) => {
@@ -197,7 +199,7 @@ export default function BasisWidget({ editableBasis, setBasis, editableVector, s
 						})}
 					></input>
 					<input
-						placeholder={editableVector.z.toString()}
+						placeholder={"0"}
 						type="number"
 						value={editableVector.z}
 						onChange={(e) => setVector((prev) => {
