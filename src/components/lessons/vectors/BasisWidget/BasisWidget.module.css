@@ -28,7 +28,7 @@ input::-webkit-inner-spin-button {
 .widget {
 	position: absolute;
 	top: 10px;
-	left: 10px;
+	left: 15px;
 	z-index: 2;
 }
 

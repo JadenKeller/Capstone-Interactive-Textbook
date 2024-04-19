@@ -1,6 +1,43 @@
 .widget {
 	position: absolute;
 	bottom: 10px;
-	left: 10px;
+	left: 15px;
 	z-index: 2;
+}
+
+.num_input {
+	width: 2rem;
+	text-align: center;
+	color: #f4ffff;
+	background: none;
+	border: 1px solid #f4ffff;
+	border-radius: 5px;
+}
+
+.button {
+	background-color: #4b585d;
+	border: 1px solid #4b585d;
+	border-radius: 15px;
+	margin-right: 10px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	padding: 10px 20px;
+	cursor: pointer;
+	color: white;
+}
+
+.button:hover {
+	border: 1px solid #57ffeb;
+	transition: 0.2s ease;
+}
+
+h3 {
+	font-family: "Gabarito", sans-serif;
+	font-size: 1.25em;
+	font-weight: 550;
+	letter-spacing: 0.05rem;
+	line-height: 0.85em;
+	padding-top: 0.5em;
+	margin: 0;
+	margin-bottom: 5px;
 }
