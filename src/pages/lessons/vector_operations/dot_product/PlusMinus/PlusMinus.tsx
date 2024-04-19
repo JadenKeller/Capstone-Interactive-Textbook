@@ -103,7 +103,11 @@ export default function PlusMinus() {
 								geometry: <Line lineWidth={finishLineWidth} points={points} dashed={true} color={Color.NAMES.white}></Line>, acceptTransformations: false
 							}
 					]}
-				/>
+					tooltipContent={[
+						<h4>How To Use The Interactive Canvas</h4>,
+						<p>Drag the slider to move the model across the finish line.</p>
+					]}
+					/>
 			</div>
 		</>
 	)
