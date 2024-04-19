@@ -23,27 +23,27 @@ export default function VectorOpChapter() {
 					<section>
 						<p>
 							In this lesson, we discuss different vector operations that are foundational to computer graphics and geometric linear algebra.
-							Furthermore, we give examples of specific use cases and interactive activities to explore them in action.
+							Furthermore, we give examples of use cases and interactive activities to explore them in action.
 						</p>
 						<h2>
 							The Dot Product
 						</h2>
 						<p>
-							The dot product, also known as the scalar product, is a mathematical operation that takes two equal-length (normalized) vectors and returns a single number.
-							This resulting value can be used to interpret the relationship between angles in a scene and is used for multiple situations.
-							Just to name a few examples, the dot product is used to calculate the angle between two vectors, projecting a vector onto another, and is useful for shadow mapping and projections of 3D objects onto surfaces or screens.
-							They are also used to calculate surface normals and detecting collisions between objects or detecting whether they are facing the same direction or not.
-							We go over the latter in the first activity of this lesson.
+							The dot product is a mathematical operation that takes two equal-length (normalized) vectors and returns a single number.
+							This resulting number value can be used to interpret the relationship between angles in a scene, and it is used for multiple situations.
+							Just to name a few, the dot product is used to calculate the angle between two vectors, projecting a vector onto another, and is useful for shadow mapping and projections of 3D objects onto surfaces or screens.
+							The dot product is also used to calculate surface normals and detecting collisions between objects or detecting whether they are facing the same direction.
+							We go over the latter in the first activity below.
 						</p>
 						<h3>+/- Determination & Landmark Values</h3>
 						<p>
-							The sign of a dot product result indicates a specific relation ship between two vectors.
+							The sign of the dot product result indicates a specific relationship between two vectors.
 							A positive sign means that the angle between the two vectors is less than 90 degrees.
-							A negative sign means that the angle between the two vectors is more than 90 degrees.
+							A negative sign means that the angle is more than 90 degrees.
 							If the result is zero, it means the vectors are orthogonal to each other.
 						</p>
 						<p>
-							A "landmark value" is a dot product result that equals one, zero, or negative one.
+							A <b>landmark value</b> is a dot product result that equals <b>one</b>, <b>zero</b>, or <b>negative one</b>.
 							These values are significant because they represent different relationships between the directions of the two vectors.
 							A value of one means that the directions are entirely parallel, or facing the same direction.
 							A value of negative one means the opposite, that the two vectors are non-parallel.
@@ -77,7 +77,10 @@ export default function VectorOpChapter() {
 						</section>
 					}
 					canvas={<LambertianLighting />} />
-				<LessonNav />
+
+				<div className={styles.lesson_nav_section}>
+					<LessonNav />
+				</div>
 		</div>
 	)
 }

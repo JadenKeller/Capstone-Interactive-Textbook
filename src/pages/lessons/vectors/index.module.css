@@ -1,0 +1,38 @@
+.body_root {
+	width: 100%;
+}
+
+.nav_section {
+	padding: 1em 0 0 0;
+}
+
+.lesson_nav_section {
+	padding: 1em 0;
+
+}
+
+.page_title {
+	margin: auto;
+	width: 70%;
+}
+
+/* Scroll bar */
+body::-webkit-scrollbar {
+	width: 15px;
+}
+
+body::-webkit-scrollbar-track {
+	background: #4B585D;
+}
+
+body::-webkit-scrollbar-thumb {
+	background: #4B585D;
+	border: 2px solid #57FFEB;
+	border-radius: 10px;
+	transition: 0.75s ease;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+	background: #313B3E;
+	transition: 0.75s ease;
+}

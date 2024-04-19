@@ -2,15 +2,22 @@ import Header from "@components/ui/Header/Header";
 import LessonNav from "@components/ui/LessonNav/LessonNav";
 import VectorLayout from "@components/ui/layout/VectorLayout/VectorLayout";
 import PlusMinus from "../vector_operations/dot_product/PlusMinus/PlusMinus";
+import styles from "./index.module.css";
 
 export default function VectorChapter() {
 	return (
 		<>
-			<Header />
+			<div className={styles.nav_section}>
+				<Header />
+			</div>
+
+			<div className={styles.page_title}>
+				<h1>Vectors</h1>
+			</div>
+			
 			<VectorLayout 
 				content={
 					<section>
-						<h1>Vectors</h1>
 						<p>
 							In this lesson, we cover what a vector is what it represents numerically in different contexts.
 							Additionally, we provide interactive activities and examples to highlight how vectors are represented in a graphical scene.
@@ -39,7 +46,9 @@ export default function VectorChapter() {
 					</section>
 				}
 				canvas={<PlusMinus />}/>
-			<LessonNav />
+			<div className={styles.lesson_nav_section}>
+				<LessonNav />
+			</div>
 		</>
 	)
 }
