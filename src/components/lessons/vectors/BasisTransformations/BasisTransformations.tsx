@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import styles from "./BasisTransformations.module.css";
 import { BasisVectors } from "pages/lessons/vectors/BasisVectors/BasisVectors";
-import { Matrix3, Matrix4, Vector3 } from "three";
-import { PI } from "three/examples/jsm/nodes/Nodes.js";
+import { Matrix4, Vector3 } from "three";
+import { Maximize2, RefreshCw } from "react-feather";
 
 interface WidgetProps {
 	setBasis: Dispatch<SetStateAction<BasisVectors>>,
@@ -158,7 +158,10 @@ export default function BasisTransformations({ setBasis }: WidgetProps) {
 					<button className={styles.button} type="button" onClick={handleApply}>Apply</button>
 				</>
 			}
-			<button type="button" onClick={handleToggle}>temp toggle</button>
+			<span className={styles.toggle_button} onClick={handleToggle}>{selectedTransformation.tranformationType == TransformationType.Rotation ?
+				<Maximize2 size={"1em"} /> :
+				<RefreshCw size={"1em"} />
+			}</span>
 		</div>
 	);
 }
