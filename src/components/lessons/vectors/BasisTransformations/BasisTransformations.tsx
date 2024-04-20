@@ -1,9 +1,10 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import styles from "./BasisTransformations.module.css";
 import { BasisVectors } from "pages/lessons/vectors/BasisVectors/BasisVectors";
+import { Matrix3, Matrix4, Vector3 } from "three";
+import { PI } from "three/examples/jsm/nodes/Nodes.js";
 
 interface WidgetProps {
-	editableBasis: BasisVectors,
 	setBasis: Dispatch<SetStateAction<BasisVectors>>,
 }
 
@@ -26,9 +27,17 @@ type ScaleTransformation = TransformationBase & {
 	scalar: number,
 }
 
-type Transformation = RotationTransformation | ScaleTransformation | null;
+type Transformation = RotationTransformation | ScaleTransformation;
 
-export default function BasisTransformations({ }: WidgetProps) {
+const basisFromMatrix4 = (matrix: Matrix4): BasisVectors => {
+	return {
+		i: new Vector3(matrix.elements[0], matrix.elements[4], matrix.elements[8]),
+		j: new Vector3(matrix.elements[1], matrix.elements[5], matrix.elements[9]),
+		k: new Vector3(matrix.elements[2], matrix.elements[6], matrix.elements[10])
+	}
+}
+
+export default function BasisTransformations({ setBasis }: WidgetProps) {
 	const [selectedTransformation, setSelectedTransformation] = useState<Transformation>({
 		axis: "x",
 		tranformationType: TransformationType.Rotation,
@@ -54,7 +63,64 @@ export default function BasisTransformations({ }: WidgetProps) {
 	}
 
 	const handleApply = () => {
+		setBasis(() => {
+			const matrix = new Matrix4();
+			if (selectedTransformation?.tranformationType == TransformationType.Rotation) {
+				const radians = selectedTransformation.degrees * (Math.PI / 180);
+				switch (selectedTransformation.axis) {
+					case "x":
+						matrix.makeRotationX(radians);
+						break;
+					case "y":
+						matrix.makeRotationY(radians);
+						break;
+					case "z":
+						matrix.makeRotationZ(radians);
+						break;
+				}
+			}
+			else if (selectedTransformation?.tranformationType == TransformationType.Scale) {
+				switch (selectedTransformation.axis) {
+					case "x":
+						matrix.makeScale(selectedTransformation.scalar, 1, 1);
+						break;
+					case "y":
+						matrix.makeScale(1, 1, selectedTransformation.scalar);
+						break;
+					case "z":
+						matrix.makeScale(1, 1, selectedTransformation.scalar);
+						break;
+				}
+			}
+			return basisFromMatrix4(matrix);
+		});
+	}
 
+	const setAxis = (axis: ("x" | "y" | "z")) => {
+		setSelectedTransformation((prevTransformation) => {
+			return {
+				...prevTransformation,
+				axis,
+			}
+		})
+	}
+
+	const setDegrees = (degrees: number) => {
+		setSelectedTransformation((prevTransformation) => {
+			return {
+				...prevTransformation,
+				degrees,
+			}
+		})
+	}
+
+	const setScalar = (scalar: number) => {
+		setSelectedTransformation((prevTransformation) => {
+			return {
+				...prevTransformation,
+				scalar,
+			}
+		})
 	}
 
 	return (
@@ -65,13 +131,13 @@ export default function BasisTransformations({ }: WidgetProps) {
 						Rotation
 					</h3>
 					<div>
-						<label><input className={styles.num_input} type="number" /> degrees</label>
+						<label><input className={styles.num_input} type="number" onChange={(e) => setDegrees(Number(e.target.value))} value={selectedTransformation.degrees} /> degrees</label>
 					</div>
 					<div>
 						About
-						<label><input type="radio" name="axis" />x</label>
-						<label><input type="radio" name="axis" />y</label>
-						<label><input type="radio" name="axis" />z</label>
+						<label><input defaultChecked type="radio" name="axis" onChange={() => setAxis("x")} />x</label>
+						<label><input type="radio" name="axis" onChange={() => setAxis("y")} />y</label>
+						<label><input type="radio" name="axis" onChange={() => setAxis("z")} />z</label>
 					</div>
 					<button className={styles.button} type="button" onClick={handleApply}>Apply</button>
 				</>
@@ -81,13 +147,13 @@ export default function BasisTransformations({ }: WidgetProps) {
 						Scale
 					</h3>
 					<div>
-						<label>Scalar <input className={styles.num_input} type="number" /></label>
+						<label>Scalar <input className={styles.num_input} type="number" onChange={(e) => setScalar(Number(e.target.value))} value={selectedTransformation.scalar} /></label>
 					</div>
 					<div>
 						Scaling on
-						<label><input type="radio" name="axis" />x</label>
-						<label><input type="radio" name="axis" />y</label>
-						<label><input type="radio" name="axis" />z</label>
+						<label><input defaultChecked type="radio" name="axis" onChange={() => setAxis("x")} />x</label>
+						<label><input type="radio" name="axis" onChange={() => setAxis("y")} />y</label>
+						<label><input type="radio" name="axis" onChange={() => setAxis("z")} />z</label>
 					</div>
 					<button className={styles.button} type="button" onClick={handleApply}>Apply</button>
 				</>

@@ -9,8 +9,8 @@ import styles from "./BasisVectors.module.css"
 import BasisTransformations from "@components/lessons/vectors/BasisTransformations/BasisTransformations";
 
 export enum BasisToward {
-	Standard = "standard",
-	Altered = "altered",
+	Standard = "Identity",
+	Altered = "Modified",
 }
 
 export type BasisVectors = {
@@ -46,10 +46,6 @@ export function KHat({ className }: { className?: string | undefined }) {
 /**
  *
  * @todo TODO: investigate whether the grid can be easily altered alongside the base
- * @todo TODO: options for transformation matrix to apply - rotation, shear, scale, reflect
- * @todo TODO: styling to place widget(s) on top of canvas (see determination component)
- * @todo TODO: investigate sizing the text of axis label relative to screen-pixels rather than const
- * @todo TODO: change the setting of input values to allow for temporarily invalid values (-, "")
  */
 export default function BasisVectors() {
 	const [openVector, setOpenVector] = useState(new Vector3(2, 3, 1));
@@ -71,8 +67,6 @@ export default function BasisVectors() {
 	/** Used alongside input elements to be the changed-to basis */
 	const [openBasis, setOpenBasis] = useState(identityBasis);
 
-	const [transformationMatrix, setTransformationMatrix] = useState(new Matrix3());
-
 	/** Configuration for vectors in the scene via ArrowWrappers */
 	const vOrigin = new Vector3(0, 0, 0);
 	const basisLengthScalar = 3;
@@ -85,7 +79,6 @@ export default function BasisVectors() {
 			toBasis.i.y, toBasis.j.y, toBasis.k.y,
 			toBasis.i.z, toBasis.j.z, toBasis.k.z
 		);
-		setTransformationMatrix(newTransform)
 		return new Vector3().copy(openVector).applyMatrix3(newTransform);
 	}
 
@@ -157,7 +150,7 @@ export default function BasisVectors() {
 				handleToggle={handleToggle}
 				handleIdentity={handleIdentity}
 			/>
-			<BasisTransformations />
+			<BasisTransformations setBasis={setOpenBasis} />
 			<InteractiveCanvas
 				useUndoControls={false}
 				useDND={false}
