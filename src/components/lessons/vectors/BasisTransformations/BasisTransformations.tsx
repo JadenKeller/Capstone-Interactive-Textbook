@@ -130,15 +130,14 @@ export default function BasisTransformations({ setBasis }: WidgetProps) {
 					<h3>
 						Rotation
 					</h3>
-					<div>
+					<p className={styles.p_margin_none}>
 						<label><input className={styles.num_input} type="number" onChange={(e) => setDegrees(Number(e.target.value))} value={selectedTransformation.degrees} /> degrees</label>
-					</div>
-					<div>
+						<br />
 						About
 						<label><input defaultChecked type="radio" name="axis" onChange={() => setAxis("x")} />x</label>
 						<label><input type="radio" name="axis" onChange={() => setAxis("y")} />y</label>
 						<label><input type="radio" name="axis" onChange={() => setAxis("z")} />z</label>
-					</div>
+					</p>
 					<button className={styles.button} type="button" onClick={handleApply}>Apply</button>
 				</>
 				:
@@ -146,15 +145,14 @@ export default function BasisTransformations({ setBasis }: WidgetProps) {
 					<h3>
 						Scale
 					</h3>
-					<div>
-						<label>Scalar <input className={styles.num_input} type="number" onChange={(e) => setScalar(Number(e.target.value))} value={selectedTransformation.scalar} /></label>
-					</div>
-					<div>
+					<p className={styles.p_margin_none}>
+						<label>Scalar: <input className={styles.num_input} type="number" onChange={(e) => setScalar(Number(e.target.value))} value={selectedTransformation.scalar} /></label>
+						<br />
 						Scaling on
 						<label><input defaultChecked type="radio" name="axis" onChange={() => setAxis("x")} />x</label>
 						<label><input type="radio" name="axis" onChange={() => setAxis("y")} />y</label>
 						<label><input type="radio" name="axis" onChange={() => setAxis("z")} />z</label>
-					</div>
+					</p>
 					<button className={styles.button} type="button" onClick={handleApply}>Apply</button>
 				</>
 			}

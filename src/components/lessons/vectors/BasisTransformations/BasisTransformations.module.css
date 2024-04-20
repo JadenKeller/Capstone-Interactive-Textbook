@@ -1,7 +1,7 @@
 .widget {
 	position: absolute;
-	bottom: 10px;
-	left: 15px;
+	top: 10px;
+	left: 315px;
 	z-index: 2;
 }
 
@@ -57,5 +57,18 @@ h3 {
 	line-height: 0.85em;
 	padding-top: 0.5em;
 	margin: 0;
-	margin-bottom: 5px;
+	margin-bottom: 12px;
+}
+
+.p_margin_none {
+	margin: 0;
+	padding: 0;
+}
+
+input {
+	font-family: "Lexend", sans-serif;
+	font-size: 16px;
+	font-weight: 250;
+	letter-spacing: 0.0525rem;
+	line-height: 1em;
 }

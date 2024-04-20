@@ -154,7 +154,23 @@ export default function BasisVectors() {
 			<InteractiveCanvas
 				useUndoControls={false}
 				useDND={false}
-				tooltipContent={"TODO:"}
+				tooltipContent={[
+					<h4>How To Use The Interactive Canvas</h4>,
+					<p>
+						Modify the basis for which the coordinate system and vector <InlineMath math={`{\\vec{v}}`} /> are relative to by either
+						changing the matrix elements representing the basis vectors in the top widget or applying a Rotating or Scaling
+						transformation using the widget below.
+					</p>,
+					<p>
+						Use the button to toggle between the "{BasisToward.Standard}" and "{BasisToward.Altered}" basis. Use the
+						"Reset" button to return the modifed matrix to identity values.
+					</p>,
+					<p>
+						Use the icon button to toggle between Rotation and Scaling transformations options.
+					</p>,
+					<p>
+						The magnitude of the basis vectors in the scene are scaled up by {basisLengthScalar} to assist visualization. This scaling does not affect other calculations.
+					</p>]}
 				availableTransformations={[]}
 				scenes={[
 					{

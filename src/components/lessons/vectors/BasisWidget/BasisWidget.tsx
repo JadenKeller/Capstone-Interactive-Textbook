@@ -32,14 +32,6 @@ export default function BasisWidget({ editableBasis, setBasis, editableVector, s
 
 	return (
 		<div className={styles.widget}>
-			<button className={styles.button} style={{ width: 95 }} type="button" onClick={handleToggle}>
-				{toggle == BasisToward.Altered ?
-					BasisToward.Standard :
-					BasisToward.Altered}
-			</button>
-			<button className={styles.button} type="button" onClick={handleIdentity}>
-				Reset
-			</button>
 			<div className={styles.basis_wrapper}>
 				<div className={styles.basis_vector}>
 					<IHat className={styles.i} />
@@ -212,7 +204,14 @@ export default function BasisWidget({ editableBasis, setBasis, editableVector, s
 					></input>
 				</div>
 			</div >
-
+			<button className={styles.button} style={{ width: 95 }} type="button" onClick={handleToggle}>
+				{toggle == BasisToward.Altered ?
+					BasisToward.Standard :
+					BasisToward.Altered}
+			</button>
+			<button className={styles.button} type="button" onClick={handleIdentity}>
+				Reset
+			</button>
 		</div>
 	);
 }
