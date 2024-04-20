@@ -9,9 +9,9 @@ export default function MatrixTransformations() {
 	const [correct, setCorrect] = useState(false)
 	const loader = new TextureLoader()
 
-	const moonTexture = loader.load('textures/moon.png')
-	const sunTexture = loader.load('textures/sun.png')
-	const earthTexture = loader.load('textures/earth.png')
+	const moonTexture = loader.load('/textures/moon.png')
+	const sunTexture = loader.load('/textures/sun.png')
+	const earthTexture = loader.load('/textures/earth.png')
 
 	useEffect(() => {
 		TransformationStateManager.addChangedCallback(() => {
