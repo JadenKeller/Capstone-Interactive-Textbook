@@ -1,60 +1,54 @@
 import Header from "@components/ui/Header/Header";
+import LessonNav from "@components/ui/LessonNav/LessonNav";
 import VectorLayout from "@components/ui/layout/VectorLayout/VectorLayout";
 import styles from "./index.module.css";
 import BasisVectors from "./BasisVectors/BasisVectors";
 
 export default function VectorChapter() {
 	return (
-		<div className={styles.body_root}>
-			<Header />
-			{/* Each lessons':
-			- structured content
-			- canvas element
-			 */}
-			{/* TODO: consider exporting into different lesson components? */}
+		<>
+			<div className={styles.nav_section}>
+				<Header />
+			</div>
+
+			<div className={styles.page_title}>
+				<h1>Vectors</h1>
+			</div>
+
 			<VectorLayout
 				content={
 					<section>
-						<h1>Basis Vectors</h1>
 						<p>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-							congue, dolor sit amet viverra convallis, tortor est faucibus
-							erat, eu ullamcorper mauris odio quis quam. Integer in gravida
-							enim, eu lobortis orci.
+							In this lesson, we cover what a vector is what it represents numerically in different contexts.
+							Additionally, we provide interactive activities and examples to highlight how vectors are represented in a graphical scene.
 						</p>
-						<h2>Order Matters</h2>
+
+						<h2>3D Basis Vectors</h2>
 						<p>
-							Suspendisse potenti. Nullam eu nunc et libero ultrices ornare.
-							Nulla et ultrices nisl. Vivamus lacinia sodales diam id
-							ullamcorper. Morbi eleifend eros volutpat dolor vehicula
-							efficitur. Sed porttitor metus pharetra odio scelerisque interdum.
-							Ut lacinia felis in ullamcorper blandit. Aliquam ipsum magna,
-							porttitor sed diam quis, imperdiet laoreet purus. Donec dictum
-							odio a mi pharetra, nec auctor sem feugiat. Aenean nisl elit,
-							egestas at fringilla ut, luctus ut libero. Ut ac risus ante.
-							Nullam eu efficitur lectus.
+							3D bassis vectors are a set of three vectors that form a basis for the three-dimensional Euclidean space.
+							They are most typically orthogonal and have a unit length.
+							Most commonly they are denoted as <b>i, j, k</b> or <b>x, y, z</b>.
 						</p>
-						<p>Suspendisse potenti. Mauris quis justo</p>
-						<h3> Matrix Multiplication</h3>
+
+						<h3>What are they for?</h3>
 						<p>
-							vehicula, cursus lorem quis, pellentesque justo. Proin quis ligula
-							metus. In egestas sollicitudin magna sed posuere. Duis aliquet
-							volutpat tristique. Nullam
+							Basis vectors defined the coordinate system used to represent positions and directions in 3D space.
+							This is vital for locating objects, define camera perspectives, and specify light directions in a scene.
+							They are also essential for performing geometric transformations, which we cover in a future lesson.
+							Lastly, basis vectors play a crucial role in transforming 3D coordinates into 2D screen sapce coordinates, known as projection.
 						</p>
+
+						<h3>Differnces in Rendering Engine Basis Vectors</h3>
 						<p>
-							semper aliquet nulla suscipit elementum. Nulla volutpat orci nisl,
-							vel mollis nibh tincidunt sit amet. Praesent id sapien ipsum.
-							Fusce tempusSed porttitor metus pharetra odio scelerisque
-							interdum. Ut lacinia felis in ullamcorper blandit. Aliquam ipsum
-							magna, porttitor sed diam quis, imperdiet laoreet purus. Donec
-							dictum odio a mi pharetra,
+							When two different rendering engines use 3D basis vectors in different directions, it can lead to inconsistencies and issues in rendering objects in a scene correctly.
+
 						</p>
 					</section>
 				}
-				canvas={<BasisVectors />}
-			/>
-
-			{/* Chapter navigation buttons */}
-		</div>
-	);
+				canvas={<BasisVectors />} />
+			<div className={styles.lesson_nav_section}>
+				<LessonNav />
+			</div>
+		</>
+	)
 }
