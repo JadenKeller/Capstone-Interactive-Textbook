@@ -20,11 +20,12 @@
     position: absolute;
     cursor: help;
 
-    height: 15em;
+    height: auto;
+    max-height: 15em;
     width: 16em;
     background-color: #4B585D;
     transition: 0.2s ease;
-    padding: 1em 1em;
+    padding: 0.5em 1em;
 
     right: 60%;
     top: 25px;
@@ -44,6 +45,7 @@ h4 {
 	font-weight: 500;
 	letter-spacing: 0.05rem;
 	line-height: 1.1em;
+    color: #57FFEB;
 	padding-top: 0.35em;
 	margin: 0 0 0.25em 0;
 }
