@@ -15,6 +15,8 @@
 .applied_transformations div div {
     border: 1px solid #FFF4FF;
     padding: 1.5em 1em;
+    cursor: default;
+
 }
 
 .applied_transformations div div span span{
