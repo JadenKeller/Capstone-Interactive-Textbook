@@ -85,7 +85,7 @@ export default function BasisTransformations({ setBasis }: WidgetProps) {
 						matrix.makeScale(selectedTransformation.scalar, 1, 1);
 						break;
 					case "y":
-						matrix.makeScale(1, 1, selectedTransformation.scalar);
+						matrix.makeScale(1, selectedTransformation.scalar, 1,);
 						break;
 					case "z":
 						matrix.makeScale(1, 1, selectedTransformation.scalar);
