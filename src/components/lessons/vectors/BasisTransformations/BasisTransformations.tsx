@@ -47,18 +47,18 @@ export default function BasisTransformations({ setBasis }: WidgetProps) {
 	// Temporary toggling function for swapping between widget displayed
 	const handleToggle = () => {
 		if (selectedTransformation?.tranformationType == TransformationType.Rotation) {
-			setSelectedTransformation({
-				axis: "x",
+			setSelectedTransformation((prev) => ({
+				axis: prev.axis,
 				tranformationType: TransformationType.Scale,
 				scalar: 2,
-			});
+			}));
 		}
 		else {
-			setSelectedTransformation({
-				axis: "x",
+			setSelectedTransformation((prev) => ({
+				axis: prev.axis,
 				tranformationType: TransformationType.Rotation,
 				degrees: 30,
-			});
+			}));
 		}
 	}
 

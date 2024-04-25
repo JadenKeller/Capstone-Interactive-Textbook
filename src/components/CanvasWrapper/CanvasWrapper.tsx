@@ -193,6 +193,10 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 	return (
 		<div className={styles.wrapper} ref={(props.useDND) ? drop : undefined}>
 			<Canvas camera={{ position: [0, 0, 10] }} className={styles.canvas}>
+				{/* {!gridMatrix?.equals(new Matrix4()) ? */}
+				{/* <gridHelper args={[40, 40, 0xF4FFFF, 0x6b8f99]} rotation={[Math.PI / 2, 0, 0]} /> : */}
+				{/* null */}
+				{/* } */}
 				<gridHelper matrixAutoUpdate={false} matrix={gridMatrix} args={[40, 40, 0xF4FFFF, 0x4B585D]} />
 				{props.scenes?.map((scene, idx) => {
 					return (
