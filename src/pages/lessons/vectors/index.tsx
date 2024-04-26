@@ -1,8 +1,8 @@
 import Header from "@components/ui/Header/Header";
 import LessonNav from "@components/ui/LessonNav/LessonNav";
 import VectorLayout from "@components/ui/layout/VectorLayout/VectorLayout";
-import PlusMinus from "../vector_operations/dot_product/PlusMinus/PlusMinus";
 import styles from "./index.module.css";
+import BasisVectors from "./BasisVectors/BasisVectors";
 
 export default function VectorChapter() {
 	return (
@@ -14,8 +14,8 @@ export default function VectorChapter() {
 			<div className={styles.page_title}>
 				<h1>Vectors</h1>
 			</div>
-			
-			<VectorLayout 
+
+			<VectorLayout
 				content={
 					<section>
 						<p>
@@ -45,7 +45,7 @@ export default function VectorChapter() {
 						</p>
 					</section>
 				}
-				canvas={<PlusMinus />}/>
+				canvas={<BasisVectors />} />
 			<div className={styles.lesson_nav_section}>
 				<LessonNav />
 			</div>
