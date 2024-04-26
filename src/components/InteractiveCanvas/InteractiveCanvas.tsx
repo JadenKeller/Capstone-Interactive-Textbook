@@ -7,6 +7,7 @@ import { DndProvider, useDrop } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import styles from "./InteractiveCanvas.module.css"
 import { useState } from 'react';
+import { Matrix4 } from 'three';
 
 /**
  * Manages the state of transformations on the canvas. Needed for Drag and Drop.
@@ -70,14 +71,14 @@ export class TransformationStateManager {
  * @param tooltipText - The text to be displayed in the tooltip.
  * @returns 
  */
-export default function InteractiveCanvas({availableTransformations, scenes, useUndoControls, tooltipContent, useDND}: {availableTransformations?: Transformation[], scenes: Scene[], useUndoControls?: boolean, tooltipContent?: React.ReactNode, useDND?: boolean}) {
+export default function InteractiveCanvas({availableTransformations, scenes, useUndoControls, tooltipContent, useDND, gridTransformation}: {availableTransformations?: Transformation[], scenes: Scene[], useUndoControls?: boolean, tooltipContent?: React.ReactNode, useDND?: boolean, gridTransformation?: Matrix4}) {
 
     return (
         <div className={styles.canvas}>
             {availableTransformations && <DndProvider backend={HTML5Backend}>
                 <TransformationOptions transformations={availableTransformations} />
                 {/* Draggable matrices are applied to the canvas. Order is maintained :p */}
-                <CanvasWrapper scenes={scenes} cameraControls={true} useUndoControls={useUndoControls} tooltipContent={tooltipContent} useDND={useDND}/>
+                <CanvasWrapper gridTransformation={gridTransformation} scenes={scenes} cameraControls={true} useUndoControls={useUndoControls} tooltipContent={tooltipContent} useDND={useDND}/>
             </DndProvider>}
             {!availableTransformations && <CanvasWrapper scenes={scenes} cameraControls={true} useUndoControls={useUndoControls} tooltipContent={tooltipContent}/>}
         </div>

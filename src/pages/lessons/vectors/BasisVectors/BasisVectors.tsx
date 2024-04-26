@@ -4,7 +4,7 @@ import BasisWidget from "@components/lessons/vectors/BasisWidget/BasisWidget";
 import { Text } from "@react-three/drei";
 import { useEffect, useState } from "react";
 import { InlineMath } from "react-katex";
-import { Color, Matrix3, Vector3 } from "three";
+import { Color, Matrix3, Matrix4, Vector3 } from "three";
 import styles from "./BasisVectors.module.css"
 import BasisTransformations from "@components/lessons/vectors/BasisTransformations/BasisTransformations";
 
@@ -67,6 +67,9 @@ export default function BasisVectors() {
 	/** Used alongside input elements to be the changed-to basis */
 	const [openBasis, setOpenBasis] = useState(identityBasis);
 
+	/** Transformation sent to the canvas wrapper for transforming the gridHelper */
+	const [gridTransformation, setGridTransformation] = useState(new Matrix4());
+
 	/** Configuration for vectors in the scene via ArrowWrappers */
 	const vOrigin = new Vector3(0, 0, 0);
 	const basisLengthScalar = 3;
@@ -108,17 +111,33 @@ export default function BasisVectors() {
 				clearInterval(interval);
 				setInterpolatingVector(goalVector);
 				setInterpolatingBasis(goalBasis);
+				setGridTransformation(new Matrix4(
+					goalBasis.i.x, goalBasis.j.x, goalBasis.k.x, 0,
+					goalBasis.i.y, goalBasis.j.y, goalBasis.k.y, 0,
+					goalBasis.i.z, goalBasis.j.z, goalBasis.k.z, 0,
+					0, 0, 0, 1
+				))
 				return;
 			}
 
 			setInterpolatingVector( // lerp relative vector
 				new Vector3().copy(fromVector).lerp(goalVector, interpolationFactor)
 			);
+			const i = new Vector3().copy(fromBasis.i).lerp(goalBasis.i, interpolationFactor);
+			const j = new Vector3().copy(fromBasis.j).lerp(goalBasis.j, interpolationFactor)
+			const k = new Vector3().copy(fromBasis.k).lerp(goalBasis.k, interpolationFactor)
 			setInterpolatingBasis({ // lerp basis vectors
-				i: new Vector3().copy(fromBasis.i).lerp(goalBasis.i, interpolationFactor),
-				j: new Vector3().copy(fromBasis.j).lerp(goalBasis.j, interpolationFactor),
-				k: new Vector3().copy(fromBasis.k).lerp(goalBasis.k, interpolationFactor),
+				i,
+				j,
+				k,
 			});
+			// TODO: lerp the grid tranformation
+			setGridTransformation(new Matrix4(
+				i.x, j.x, k.x, 0,
+				i.y, j.y, k.y, 0,
+				i.z, j.z, k.z, 0,
+				0, 0, 0, 1
+			));
 		}, 16);
 
 		return () => clearInterval(interval);
@@ -152,6 +171,7 @@ export default function BasisVectors() {
 			/>
 			<BasisTransformations setBasis={setOpenBasis} />
 			<InteractiveCanvas
+				gridTransformation={gridTransformation}
 				useUndoControls={false}
 				useDND={false}
 				tooltipContent={[

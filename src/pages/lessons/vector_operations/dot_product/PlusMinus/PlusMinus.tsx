@@ -29,7 +29,7 @@ export default function PlusMinus() {
 	useEffect(() => {
 		// TODO: export function out & import into this useEffect
 		const loadModel = async () => {
-			const gltf = await new GLTFLoader().loadAsync('/src/assets/models/yellow_car/scene.gltf');
+			const gltf = await new GLTFLoader().loadAsync('/models/yellow_car/scene.gltf');
 			setModel(gltf.scene);
 		};
 
@@ -107,7 +107,7 @@ export default function PlusMinus() {
 						<h4>How To Use The Interactive Canvas</h4>,
 						<p>Drag the slider to move the model across the finish line.</p>
 					]}
-					/>
+				/>
 			</div>
 		</>
 	)
