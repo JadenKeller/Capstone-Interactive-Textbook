@@ -1,5 +1,4 @@
 import { Color, Group, Object3DEventMap, Vector3 } from "three";
-import DemoLayout from "@components/ui/layout/MatrixLayout/MatrixLayout";
 import InteractiveCanvas from "@components/InteractiveCanvas/InteractiveCanvas";
 import { useEffect, useState } from "react";
 import { Line } from "@react-three/drei";
@@ -27,7 +26,6 @@ export default function PlusMinus() {
 	points.push(new Vector3(vPositionFinish.x, -10, 0));
 
 	useEffect(() => {
-		// TODO: export function out & import into this useEffect
 		const loadModel = async () => {
 			const gltf = await new GLTFLoader().loadAsync('/models/yellow_car/scene.gltf');
 			setModel(gltf.scene);
@@ -76,13 +74,19 @@ export default function PlusMinus() {
 							acceptTransformations: false,
 						},
 						{
-							geometry: <arrowHelper args={[vFinishNormal, new Vector3(vPositionFinish.x, vPositionFinish.y + 2, vPositionFinish.z), 1, Color.NAMES.red, 0.25, 0.4]} />, acceptTransformations: false
+							geometry:
+								<arrowHelper args={[vFinishNormal, new Vector3(vPositionFinish.x, vPositionFinish.y + 2, vPositionFinish.z), 1, Color.NAMES.red, 0.25, 0.4]} />,
+							acceptTransformations: false
 						},
 						{
-							geometry: <Line lineWidth={finishLineWidth} points={points} color={Color.NAMES.black}></Line>, acceptTransformations: false
+							geometry: // Black of finish line
+								<Line lineWidth={finishLineWidth} points={points} color={Color.NAMES.black}></Line>,
+							acceptTransformations: false
 						},
 						{
-							geometry: <Line lineWidth={finishLineWidth} points={points} dashed={true} color={Color.NAMES.white}></Line>, acceptTransformations: false
+							geometry: // White of finish line
+								<Line lineWidth={finishLineWidth} points={points} dashed={true} color={Color.NAMES.white}></Line>,
+							acceptTransformations: false
 						},
 						model ? {
 							geometry:
@@ -100,7 +104,9 @@ export default function PlusMinus() {
 							acceptTransformations: false
 						} :
 							{
-								geometry: <Line lineWidth={finishLineWidth} points={points} dashed={true} color={Color.NAMES.white}></Line>, acceptTransformations: false
+								geometry: // 
+									<Line lineWidth={finishLineWidth} points={points} dashed={true} color={Color.NAMES.white}></Line>,
+								acceptTransformations: false
 							}
 					]}
 					tooltipContent={[
