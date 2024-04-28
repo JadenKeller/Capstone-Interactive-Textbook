@@ -127,7 +127,6 @@ export default function BasisVectors() {
 				j,
 				k,
 			});
-			// TODO: lerp the grid tranformation
 			setGridTransformation(new Matrix4(
 				i.x, j.x, k.x, 0,
 				i.y, j.y, k.y, 0,
