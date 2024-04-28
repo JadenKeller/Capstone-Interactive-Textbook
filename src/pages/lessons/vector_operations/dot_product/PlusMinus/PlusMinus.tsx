@@ -7,23 +7,26 @@ import DotProductWidget from "@components/lessons/vector_operations/dot_product/
 import styles from "./PlusMinus.module.css";
 import DotProductInteractiveWidget from "@components/lessons/vector_operations/dot_product/DotProductInteractiveWidget/DotProductInteractiveWidget";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
+import DotProductInfoWidget from "@components/lessons/vector_operations/dot_product/DotProductInfoWidget/DotProductInfoWidget";
 
 export default function PlusMinus() {
-	const [x, setX] = useState<number>(-5);
+	const defaultX = -5;
+	const [x, setX] = useState<number>(defaultX);
 	const [vDirectionCar, setVDirectionCar] = useState(new Vector3(1, 0, 0));
-	const [vPositionCar, setVPositionCar] = useState(new Vector3(x, 1, 0));
+	const [vPositionCar, setVPositionCar] = useState(new Vector3(defaultX, .75, .2));
 	const [hasPassed, setHasPassed] = useState(false);
-	const vPositionFinish = new Vector3(3, 1, 0);
+	const vPositionFinish = new Vector3(3, .75, .2);
 	const vFinishNormal = new Vector3(1, 0, 0);
 	const [dotResult, setDotResult] = useState(vDirectionCar.dot(vFinishNormal));
 	const finishLineWidth = 5;
-	const carVectorLength = 3;
+	const carVectorLength = 3.1;
 
 	const [model, setModel] = useState<Group<Object3DEventMap>>();
 
-	const points = []
-	points.push(new Vector3(vPositionFinish.x, 10, 0));
-	points.push(new Vector3(vPositionFinish.x, -10, 0));
+	const points = [
+		new Vector3(vPositionFinish.x, 10, 0),
+		new Vector3(vPositionFinish.x, -10, 0)
+	];
 
 	useEffect(() => {
 		const loadModel = async () => {
@@ -36,7 +39,7 @@ export default function PlusMinus() {
 
 	useEffect(() => {
 		// Get new position and direction of car interactable
-		const newPos = new Vector3(x, 1, 0);
+		const newPos = new Vector3(x, vPositionCar.y, vPositionCar.z);
 		const newDir = vPositionFinish.sub(newPos).normalize();
 		setVPositionCar(newPos);
 		setVDirectionCar(newDir);
@@ -54,6 +57,7 @@ export default function PlusMinus() {
 			<div className={styles.wrapper}>
 				<DotProductWidget dotResult={dotResult} />
 				<DotProductInteractiveWidget passed={hasPassed} x={x} setX={setX} />
+				<DotProductInfoWidget />
 				<InteractiveCanvas
 					availableTransformations={[]}
 					scenes={[
@@ -63,9 +67,9 @@ export default function PlusMinus() {
 									lineWidth={carVectorLength}
 									arrowHelperArgs={[
 										vDirectionCar,
-										!hasPassed ? // If the car has passed the finish line, move the dir vector to behind the model
-											vPositionCar :
-											new Vector3(vPositionCar.x - 4, vPositionCar.y, vPositionCar.z),
+										// !hasPassed ? // If the car has passed the finish line, move the dir vector to behind the model
+										vPositionCar,
+										// new Vector3(vPositionCar.x - 4, vPositionCar.y, vPositionCar.z),
 										2,
 										"#57FFEB",
 										0.4,
@@ -75,7 +79,7 @@ export default function PlusMinus() {
 						},
 						{
 							geometry:
-								<arrowHelper args={[vFinishNormal, new Vector3(vPositionFinish.x, vPositionFinish.y + 2, vPositionFinish.z), 1, Color.NAMES.red, 0.25, 0.4]} />,
+								<arrowHelper args={[vFinishNormal, new Vector3(vPositionFinish.x, vPositionFinish.y + 3, vPositionFinish.z), 1, Color.NAMES.red, 0.25, 0.4]} />,
 							acceptTransformations: false
 						},
 						{
@@ -93,7 +97,7 @@ export default function PlusMinus() {
 								<>
 									<group
 										scale={[0.02, 0.02, 0.02]}
-										position={[vPositionCar.x - carVectorLength + 0.25, 0, 2.5]}
+										position={[vPositionCar.x - carVectorLength + 0.25, -.25, 2]}
 										rotation={[0, -Math.PI / 2, 0]}
 									>
 										<primitive object={model} />

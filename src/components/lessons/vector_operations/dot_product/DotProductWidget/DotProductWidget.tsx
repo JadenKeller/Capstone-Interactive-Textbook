@@ -16,13 +16,13 @@ export default function DotProductWidget({ dotResult }: WidgetProps) {
 		<div className={styles.controls_list}>
 			<span className={styles.control}>
 				<div>
-					<InlineMath math={`{{\\color{57FFEB}\\vec A}}\\cdot{\\color{red}{{\\hat N}}} 
-					= {\\left|{A}\\right|}{\\left|{N}\\right|}{cos(\\theta)}`} />
+					<InlineMath math={`{{\\color{57FFEB}\\vec d}}\\cdot{\\color{red}{{\\hat n}}} 
+					= {\\left|{d}\\right|}{\\left|{n}\\right|}{cos(\\theta)}`} />
 				</div>
 			</span>
 			<span className={styles.control}>
 				<div>
-					<InlineMath math={`{\\left|{A}\\right|}{cos(${theta})} = ${Math.round(dotResult)}`} />
+					<InlineMath math={`{\\left|{d}\\right|}{cos(${theta})} = ${Math.round(dotResult)}`} />
 				</div>
 			</span>
 		</div>

@@ -1,0 +1,24 @@
+.controls_list {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	bottom: 20px;
+	left: 10px;
+	padding: 10px;
+	border-radius: 5px;
+	z-index: 999;
+	align-items: center;
+	height: 65px;
+	font-family: "Lexend", sans-serif;
+	font-size: 16px;
+	font-weight: 250;
+	letter-spacing: 0.0525rem;
+	line-height: 1em;
+}
+
+.control {
+	margin: 2px 8px;
+	align-items: center;
+	transition: 0.2s ease;
+	padding: 2px;
+}
