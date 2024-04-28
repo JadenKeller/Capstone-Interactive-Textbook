@@ -1,7 +1,7 @@
-import { Color, Group, Object3DEventMap, Vector3 } from "three";
+import { Color, Group, Matrix4, Object3DEventMap, Vector3 } from "three";
 import InteractiveCanvas from "@components/InteractiveCanvas/InteractiveCanvas";
 import { useEffect, useState } from "react";
-import { Line } from "@react-three/drei";
+import { Line, Text } from "@react-three/drei";
 import ArrowWrapper from "@components/ArrowWrapper/ArrowWrapper";
 import DotProductWidget from "@components/lessons/vector_operations/dot_product/DotProductWidget/DotProductWidget";
 import styles from "./PlusMinus.module.css";
@@ -108,10 +108,71 @@ export default function PlusMinus() {
 							acceptTransformations: false
 						} :
 							{
-								geometry: // 
+								geometry:
 									<Line lineWidth={finishLineWidth} points={points} dashed={true} color={Color.NAMES.white}></Line>,
 								acceptTransformations: false
-							}
+							},
+						{
+							geometry: // Point for math reference for position of finish line (vec f)
+								<mesh
+									position={new Vector3(vPositionFinish.x, vPositionFinish.y, vPositionFinish.z - 0.1)}
+									scale={new Vector3(0.1, 0.1, 0)}
+								>
+									<circleGeometry />
+									<meshBasicMaterial color={Color.NAMES.red} />
+								</mesh>,
+							acceptTransformations: false
+						},
+						{
+							geometry: // Point for math reference for position of front of car (vec p)
+								<mesh
+									position={vPositionCar}
+									scale={new Vector3(0.1, 0.1, 0)}
+								>
+									<circleGeometry />
+									<meshBasicMaterial color={"#57FFEB"} />
+								</mesh>,
+							acceptTransformations: false
+						},
+						// Labels for each basis vector and the relative vector
+						{
+							geometry: (
+								<Text
+									position={new Vector3(
+										vPositionCar.x - 0.2,
+										vPositionCar.y - 0.3,
+										vPositionCar.z
+									)}
+									fontSize={0.35}
+									anchorX="center"
+									anchorY="middle"
+									outlineWidth={0.015}
+									color={"#57FFEB"}
+									outlineColor={0x000000}
+								>
+									p
+								</Text>
+							),
+						},
+						{
+							geometry: (
+								<Text
+									position={new Vector3(
+										vPositionFinish.x + 0.2,
+										vPositionFinish.y + 0.3,
+										vPositionFinish.z
+									)}
+									fontSize={0.35}
+									anchorX="center"
+									anchorY="middle"
+									outlineWidth={0.015}
+									color={Color.NAMES.red}
+									outlineColor={0x000000}
+								>
+									f
+								</Text>
+							),
+						},
 					]}
 					tooltipContent={[
 						<h4>How To Use The Interactive Canvas</h4>,

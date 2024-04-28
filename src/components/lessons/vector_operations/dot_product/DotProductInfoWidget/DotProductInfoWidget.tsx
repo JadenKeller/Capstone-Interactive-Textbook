@@ -7,9 +7,9 @@ export default function DotProductInfoWidget() {
 			<span className={styles.control}>
 				<div>
 					<InlineMath math={
-						`{{\\color{57FFEB}\\vec d}}={\\vec f}
+						`{{\\color{57FFEB}\\vec d}}={\\color{red}{{\\vec f}}}
 							-
-							{\\vec p}`
+							{\\color{57FFEB}{{\\vec p}}}`
 					} />
 				</div>
 			</span>
