@@ -43,10 +43,6 @@ export function KHat({ className }: { className?: string | undefined }) {
 	);
 }
 
-/**
- *
- * @todo TODO: investigate whether the grid can be easily altered alongside the base
- */
 export default function BasisVectors() {
 	const [openVector, setOpenVector] = useState(new Vector3(2, 3, 1));
 	const identityBasis = {
