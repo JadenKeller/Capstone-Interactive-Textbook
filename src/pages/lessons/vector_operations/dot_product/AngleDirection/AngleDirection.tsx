@@ -11,6 +11,7 @@ export function Stickman() {
             <Line points={[[0, -1.5], [0.5, -2]]} />
             <Line points={[[0, -1.5], [-0.5, -2]]} />
             <Circle args={[0.5]} />
+            
         </group>
     )
 }
@@ -25,7 +26,7 @@ export default function AngleDirection() {
         <>
             <InteractiveCanvas scenes={[
                 {
-                    geometry: Stickman(), staticTransformations: [{id: 0, type: 'raw', matrix4: new Matrix4().makeTranslation(new Vector3(0, 1, 0))}]
+                    geometry: Stickman(), staticTransformations: [{id: 0, type: 'raw', matrix4: new Matrix4().makeTranslation(new Vector3(0, 1, 0))}], moveable: true
                 },
                 {
                     geometry: <shapeGeometry args={[detectionShape]} />, color: new Color(0x99dd99)

@@ -1,6 +1,6 @@
 import styles from './CanvasWrapper.module.css'
 
-import { Canvas } from '@react-three/fiber'
+import { Canvas, useThree } from '@react-three/fiber'
 import Scene, { Transformation } from '../Scene/Scene'
 import { Color, Euler, Matrix4, Raycaster, Vector2, Vector3 } from 'three'
 import { ReactElement, useEffect, useRef, useState } from 'react'
@@ -41,7 +41,8 @@ export interface Scene {
 	acceptTransformations?: boolean,
 	color?: Color | TransparentColor,
 	initialPosition?: Vector3,
-	staticTransformations?: Transformation[]
+	staticTransformations?: Transformation[],
+	moveable?: boolean
 }
 
 export interface TransparentColor {
@@ -136,7 +137,7 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 		props.scenes?.forEach(s => {
 			
 		})
-	})
+	}, [])
 
 	let [, drop]: [undefined, ConnectDropTarget | undefined] = [undefined, undefined]
 
@@ -192,22 +193,13 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 		return [transformX, transformY, transformZ]
 	}
 
-	const attemptMove = (event: any) => {
-		const raycaster = new Raycaster();
-		let pointer = new Vector2();
-		pointer.x = ( event.clientX / (canvas.current?.clientWidth || 0) ) * 2 - 1;
-		pointer.y = - ( event.clientY / (canvas.current?.clientHeight || 0) ) * 2 + 1;
-		raycaster.setFromCamera(pointer, camera.current!)
-		raycaster.intersectObject()
-	}
-
 	return (
 		<div className={styles.wrapper} ref={(props.useDND) ? drop: undefined}>
-			<Canvas camera={{ position: [0, 0, 10] }} className={styles.canvas} onClick={attemptMove} ref={canvas}>
+			<Canvas camera={{ position: [0, 0, 10] }} className={styles.canvas} ref={canvas}>
 				<gridHelper args={[40, 40, 0xF4FFFF, 0x4B585D]} rotation={[Math.PI / 2, 0, 0]} />
 				{props.scenes?.map((scene, idx) => {
 					return (
-						<Scene key={idx} geometry={scene.geometry} color={scene.color} initialPosition={scene.initialPosition} transformations={(scene.acceptTransformations) ? (scene.staticTransformations) ? TransformationStateManager.activeTransformations.concat(scene.staticTransformations) : TransformationStateManager.activeTransformations : scene.staticTransformations} />
+						<Scene moveable={scene.moveable} key={idx} geometry={scene.geometry} color={scene.color} initialPosition={scene.initialPosition} transformations={(scene.acceptTransformations) ? (scene.staticTransformations) ? TransformationStateManager.activeTransformations.concat(scene.staticTransformations) : TransformationStateManager.activeTransformations : scene.staticTransformations} />
 					)
 				})}
 				{(props.cameraControls) ? <MapControls enableRotate={false} maxDistance={25} ref={camera} /> : <></>}

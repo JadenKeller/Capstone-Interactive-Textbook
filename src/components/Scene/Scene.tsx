@@ -1,4 +1,4 @@
-import { useFrame } from "@react-three/fiber";
+import { ThreeEvent, useFrame } from "@react-three/fiber";
 import { ReactElement, useEffect, useRef } from "react";
 import { Color, Matrix4, Mesh, Vector3 } from "three";
 import { TransparentColor } from "../CanvasWrapper/CanvasWrapper";
@@ -44,12 +44,14 @@ export interface Transformation {
 
 export default function Scene(props: SceneProps) {
     const box = useRef<Mesh>(null!)
+    const transformations = useRef<Transformation[]>(props.transformations || [])
+    const moving = useRef(false)
 
     useFrame(() => {
         if (props.transformations) {
             box.current.matrixAutoUpdate = false;
             box.current.matrix = new Matrix4()
-            props.transformations.forEach(transformation => {
+            transformations.current.forEach(transformation => {
                 if(transformation.matrix4 && !transformation.operation || transformation.operation === 'multiply')
                     box.current!.matrix?.multiply(transformation.matrix4)
                 else if(transformation.matrix4 && transformation.operation === 'set')
@@ -59,9 +61,20 @@ export default function Scene(props: SceneProps) {
     })
     setTimeout(() => {
     }, 1)
+
+    const startMovement = (event: ThreeEvent<PointerEvent>) => {
+        console.log(!moving.current && props.moveable ? true : false)
+        event.stopPropagation();
+        moving.current = !moving.current && props.moveable ? true : false;
+    }
+
+    const moveObject = (event: ThreeEvent<PointerEvent>) => {
+        if(!moving.current) return;
+        transformations.current.push({id: 100, type: 'raw', matrix4: new Matrix4().makeTranslation(event.point.x, event.point.y, 0), operation: 'set'})
+    }
     
     return (
-        <mesh position={props.initialPosition} ref={box}>
+        <mesh position={props.initialPosition} ref={box} onPointerDown={startMovement} onPointerMove={moveObject}>
             {props.geometry}
             <meshBasicMaterial transparent={(props.color && 'opacity' in props.color)} opacity={(props.color && 'opacity' in props.color) ? props.color.opacity : 1} color={(props.color && props.color instanceof Color) ? props.color : (props.color && 'opacity' in props.color) ? props.color.color :  0xdd6666} />
         </mesh>
