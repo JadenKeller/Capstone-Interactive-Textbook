@@ -2,16 +2,14 @@ import styles from './CanvasWrapper.module.css'
 
 import { Canvas, useThree } from '@react-three/fiber'
 import Scene, { Transformation } from '../Scene/Scene'
-import { Color, Euler, Matrix4, Raycaster, Vector2, Vector3 } from 'three'
+import { Color, Euler, Matrix4, Texture, Vector3 } from 'three'
 import { ReactElement, useEffect, useRef, useState } from 'react'
 import { ConnectDropTarget, useDrop } from 'react-dnd'
-import Matrix from '../Matrix/Matrix'
 import { TransformationStateManager } from '../InteractiveCanvas/InteractiveCanvas'
-import { ArrowLeftCircle, Delete } from 'react-feather'
 import { MapControls } from '@react-three/drei'
+import { Delete, RefreshCcw } from 'react-feather'
+import CanvasTooltipButton from "../CanvasTooltipButton/CanvasTooltipButton"
 import AppliedTransformations from '../AppliedTransformations/AppliedTransformations'
-import CanvasTooltipButton from '@components/CanvasTooltipButton/CanvasTooltipButton'
-import { arrowArgs } from '@components/ArrowWrapper/ArrowWrapper'
 
 /**
  * CanvasWrapper component props
@@ -43,6 +41,7 @@ export interface Scene {
 	initialPosition?: Vector3,
 	staticTransformations?: Transformation[],
 	moveable?: boolean
+	texture?: Texture
 }
 
 export interface TransparentColor {
@@ -75,24 +74,24 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 
 			// Animate applied transformations
 			TransformationStateManager.activeTransformations.forEach((transformation) => {
-				
+
 				let transform;
 				switch (transformation.type) {
 					case 'rotation':
 						transform = applyTransformation(transformation)
-						if(!transform) return;
+						if (!transform) return;
 
 						transformation.matrix4 = new Matrix4().makeRotationFromEuler(new Euler(transform[0], transform[1], transform[2]));
 						break;
 					case 'translation':
 						transform = applyTransformation(transformation)
-						if(!transform) return;
+						if (!transform) return;
 
 						transformation.matrix4 = new Matrix4().makeTranslation(new Vector3(transform[0], transform[1], transform[2]))
 						break;
 					case 'scale':
 						transform = applyTransformation(transformation)
-						if(!transform) return;
+						if (!transform) return;
 
 						transformation.matrix4 = new Matrix4().makeScale(transform[0], transform[1], transform[2])
 						break;
@@ -105,10 +104,10 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 					switch (transformation.type) {
 						case 'rotation':
 							transform = applyTransformation(transformation)
-							if(!transform) return;
+							if (!transform) return;
 
 							transformation.matrix4 = new Matrix4().makeRotationFromEuler(new Euler(transform[0], transform[1], transform[2]));
-							
+
 							// If the transformation is set to publish to another transformation, copy the current transformation to the other transformation
 							if (transformation.publishToId !== undefined) {
 								TransformationStateManager.activeTransformations.forEach((t) => {
@@ -120,13 +119,13 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 							break;
 						case 'translation':
 							transform = applyTransformation(transformation)
-							if(!transform) return;
+							if (!transform) return;
 
 							transformation.matrix4 = new Matrix4().makeTranslation(new Vector3(transform[0], transform[1], transform[2]))
 							break;
 						case 'scale':
 							transform = applyTransformation(transformation)
-							if(!transform) return;
+							if (!transform) return;
 
 							transformation.matrix4 = new Matrix4().makeScale(transform[0], transform[1], transform[2])
 							break;
@@ -139,18 +138,18 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 		})
 	}, [])
 
-	let [, drop]: [undefined, ConnectDropTarget | undefined] = [undefined, undefined]
-
-	if(props.useDND) {
-		[, drop] = useDrop(() => ({
-			accept: "matrix",
-			drop: (item, monitor) => {
-				TransformationStateManager.pushTransformation((monitor.getItem() as any).transformation)
-				setStateTransformations(TransformationStateManager.getTransformations());
-			}
-		}))
-	}
 	// ReactDnD drop handler
+	const [{ canDrop }, drop] = useDrop(() => ({
+		accept: "matrix",
+		drop: (item, monitor) => {
+			TransformationStateManager.pushTransformation((monitor.getItem() as any).transformation)
+			setStateTransformations(TransformationStateManager.getTransformations());
+		},
+		collect: (monitor) => ({
+			canDrop: monitor.canDrop()
+		})
+	}))
+
 
 	/**
 	 * Name is disingenuous, actually formats the transformation matrix based on the transformation type.
@@ -163,30 +162,30 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 			return;
 		}
 		// Start the transformation if it has not started yet
-		if(!transformation.startTime) transformation.startTime = incrementor.current;
+		if (!transformation.startTime) transformation.startTime = incrementor.current;
 		// Is the start time currently less than the delay?
-		if(transformation.delay && transformation.delay > incrementor.current - transformation.startTime) return;
+		if (transformation.delay && transformation.delay > incrementor.current - transformation.startTime) return;
 		// Set the delay to 0 if it is not set
-		if(!transformation.delay) transformation.delay = 0;
-	
+		if (!transformation.delay) transformation.delay = 0;
+
 		let transformX = 0;
 		let transformY = 0;
 		let transformZ = 0;
-	
+
 		// Calculate the transformation based on the start time, delay and amount
 		transformX = (incrementor.current - (transformation.startTime + transformation.delay)) * transformation.amount[0]
 		transformY = (incrementor.current - (transformation.startTime + transformation.delay)) * transformation.amount[1]
 		transformZ = (incrementor.current - (transformation.startTime + transformation.delay)) * transformation.amount[2]
 
 		// If the transformation is going to be greater than it's max, cap it at max.
-		if(transformation.max) {
-			if((incrementor.current - (transformation.startTime + transformation.delay)) * transformation.amount[0] > transformation.max[0]) {
+		if (transformation.max) {
+			if ((incrementor.current - (transformation.startTime + transformation.delay)) * transformation.amount[0] > transformation.max[0]) {
 				transformX = transformation.max[0]
 			}
-			if((incrementor.current - (transformation.startTime + transformation.delay)) * transformation.amount[1] > transformation.max[1]) {
+			if ((incrementor.current - (transformation.startTime + transformation.delay)) * transformation.amount[1] > transformation.max[1]) {
 				transformY = transformation.max[1]
 			}
-			if((incrementor.current - (transformation.startTime + transformation.delay)) * transformation.amount[2] > transformation.max[2]) {
+			if ((incrementor.current - (transformation.startTime + transformation.delay)) * transformation.amount[2] > transformation.max[2]) {
 				transformZ = transformation.max[2]
 			}
 		}
@@ -194,25 +193,25 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 	}
 
 	return (
-		<div className={styles.wrapper} ref={(props.useDND) ? drop: undefined}>
-			<Canvas camera={{ position: [0, 0, 10] }} className={styles.canvas} ref={canvas}>
+		<div className={styles.wrapper} ref={(props.useDND) ? drop : undefined}>
+			<Canvas camera={{ position: [0, 0, 10] }} className={styles.canvas}>
 				<gridHelper args={[40, 40, 0xF4FFFF, 0x4B585D]} rotation={[Math.PI / 2, 0, 0]} />
 				{props.scenes?.map((scene, idx) => {
 					return (
-						<Scene moveable={scene.moveable} key={idx} geometry={scene.geometry} color={scene.color} initialPosition={scene.initialPosition} transformations={(scene.acceptTransformations) ? (scene.staticTransformations) ? TransformationStateManager.activeTransformations.concat(scene.staticTransformations) : TransformationStateManager.activeTransformations : scene.staticTransformations} />
+						<Scene texture={scene.texture} moveable={scene.moveable} key={idx} geometry={scene.geometry} color={scene.color} initialPosition={scene.initialPosition} transformations={(scene.acceptTransformations) ? (scene.staticTransformations) ? [...TransformationStateManager.activeTransformations.concat(scene.staticTransformations)].reverse() : [...TransformationStateManager.activeTransformations].reverse() : scene.staticTransformations} />
 					)
 				})}
-				{(props.cameraControls) ? <MapControls enableRotate={false} maxDistance={25} ref={camera} /> : <></>}
+				{(props.cameraControls) ? <MapControls enableRotate={false} minDistance={12} maxDistance={12} screenSpacePanning={true} /> : <></>}
 			</Canvas>
 			{props.useUndoControls && <div className={styles.controls_list}>
 				<span className={styles.control} onClick={() => {
-					TransformationStateManager.undo()
+					TransformationStateManager.clear()
 					setStateTransformations(TransformationStateManager.getTransformations())
 				}}>
-					<ArrowLeftCircle />
+					<RefreshCcw />
 				</span>
 				<span className={styles.control} onClick={() => {
-					TransformationStateManager.clear()
+					TransformationStateManager.undo()
 					setStateTransformations(TransformationStateManager.getTransformations())
 				}}>
 					<Delete />
@@ -220,6 +219,9 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 			</div>}
 			<CanvasTooltipButton>{props.tooltipContent}</CanvasTooltipButton>
 			<AppliedTransformations />
+			<div className={styles.overlay} style={{ display: (canDrop) ? "flex" : "none" }}>
+				<p className={styles.overlay_text}>Drop here to apply transformation</p>
+			</div>
 		</div>
 	)
 }

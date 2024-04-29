@@ -11,11 +11,19 @@ export default function AppliedTransformations() {
     const [activeTransforms, setActiveTransforms] = useState(TransformationStateManager.getTransformations())
 
     useEffect(() => {
-      TransformationStateManager.addChangedCallback(setActiveTransforms)  
+        const handleTransformationChange = () => {
+            setActiveTransforms(TransformationStateManager.getTransformations());
+        }
+
+        TransformationStateManager.addChangedCallback(handleTransformationChange);
+      
+        return () => {
+            TransformationStateManager.removeChangedCallback();
+        };
     }, [])
     return (
         <div className={styles.applied_transformations}>
-                {activeTransforms && activeTransforms.map((t, idx) => {
+                {activeTransforms && [...activeTransforms].reverse().map((t, idx) => {
                     return (
                         <div key={idx}>
                             {(t.name) ? <InlineMath math={t.name} /> : <></> }
