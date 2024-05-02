@@ -13,7 +13,7 @@ const fragmentShader: string = `
 
     float circle(vec2 uv, vec2 circlePosition, float radius) {
         float dist = distance(circlePosition, uv);
-        return 1. - smoothstep(0.0, radius, dist);
+        return 1.0 - smoothstep(0.0, radius, dist);
     }
 
     void main() {
@@ -45,7 +45,7 @@ const vertexShader: string = `
         vUv = uv;
     }`;
 
-const useDomToCanvas = (domElement) => {
+const useDomToCanvas = (domElement: HTMLElement) => {
     const [texture, setTexture] = useState();
 
     useEffect(() => {
@@ -74,6 +74,7 @@ export default function Scene() {
         () => ({
             uTexture: { value: textureDOM },
             uMouse: { value: new Vector2(0, 0) },
+            uResolution: { value: new Vector2(1.0, window.innerHeight/window.innerWidth) }
         }),
         [textureDOM]
     );
@@ -92,23 +93,24 @@ export default function Scene() {
             <Html zIndexRange={[-1, -10]} prepend fullscreen>
                 <main style={styles} ref={(el) => setDomElement(el)}>
                     <h1 className={styles.title}>
-                        INTERACTIVE
+                        <span>INTERACTIVE</span><br />
                         TEXTBOOK
-                        FOR
-                        GEOMETRIC
+                        FOR<br />
+                        <span>GEOMETRIC</span><br />
                         LINEAR
                         ALGEBRA
                     </h1>
                 </main>
             </Html> 
 			<mesh>
-				<planeGeometry args={[width / 1.15, height, 254, 254]} />
+				<planeGeometry args={[width, height, 254, 254]} />
 				<CustomShaderMaterial
                     ref={materialRef}
                     baseMaterial={MeshBasicMaterial}
                     vertexShader={vertexShader}
                     fragmentShader={fragmentShader}
                     uniforms={uniforms}
+                    
                     silent
                 />
 			</mesh>
