@@ -1,4 +1,4 @@
-import Header from "@components/ui/Header/Header";
+import Nav from "@components/ui/Nav/Nav";
 import LessonNav from "@components/ui/LessonNav/LessonNav";
 import VectorLayout from "@components/ui/layout/VectorLayout/VectorLayout";
 import styles from "./index.module.css";
@@ -8,7 +8,7 @@ export default function VectorChapter() {
 	return (
 		<>
 			<div className={styles.nav_section}>
-				<Header />
+				<Nav />
 			</div>
 
 			<div className={styles.page_title}>
