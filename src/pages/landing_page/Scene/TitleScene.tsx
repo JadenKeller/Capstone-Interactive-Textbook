@@ -1,6 +1,6 @@
 import { useRef, useMemo, useEffect, useState } from "react";
 import styles from "../index.module.css";
-import { useFrame, useThree, extend } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
 import html2canvas from "html2canvas";
 import { MathUtils, Vector2, CanvasTexture, MeshBasicMaterial } from "three";
@@ -45,7 +45,6 @@ const vertexShader: string = `
         vUv = uv;
     }`;
 
-
 const useDomToCanvas = (domElement) => {
     const [texture, setTexture] = useState();
 
@@ -53,7 +52,7 @@ const useDomToCanvas = (domElement) => {
         if (!domElement) return;
 
         const convertDomToCanvas = async () => {
-            const canvas = await html2canvas(domElement, {backgroundColor: null});
+            const canvas = await html2canvas(domElement, {backgroundColor: "#0c0f11"});
             setTexture(new CanvasTexture(canvas));
         }
 
@@ -81,14 +80,12 @@ export default function Scene() {
 
     const mouseLerp = useRef({ x: 0, y: 0});
     useFrame((state, delta) => {
-        const mouse = state.mouse;
+        const mouse = state.pointer;
         mouseLerp.current.x = MathUtils.lerp(mouseLerp.current.x, mouse.x, 0.1);
         mouseLerp.current.y = MathUtils.lerp(mouseLerp.current.y, mouse.y, 0.1);
         materialRef.current.uniforms.uMouse.value.x = mouseLerp.current.x;
         materialRef.current.uniforms.uMouse.value.y = mouseLerp.current.y;
     });
-
-    extend({ br: 'br' });
 
     return (
         <>

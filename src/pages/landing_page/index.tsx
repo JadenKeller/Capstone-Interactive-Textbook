@@ -14,7 +14,7 @@ export default function LandingPage() {
 						preserveDrawingBuffer: true,
 					}}
 					camera={{
-						fov: 55,
+						fov: 45,
 						near: 0.1,
 						far: 200,
 					}}
@@ -37,6 +37,16 @@ export default function LandingPage() {
 				</p>
 				<p>
 					Play with interactive examples.
+				</p>
+			</div>
+		);
+	}
+
+	const Credits = () => {
+		return (
+			<div>
+				<p>
+					
 				</p>
 			</div>
 		);

@@ -1,7 +1,11 @@
 main {
     font-family: Gabarito, sans-serif;
-    font-size: 6rem;
+    font-size: 3rem;
     font-weight: 600;
     line-height: 0.85em;
-    margin:  1em 1em;
+    margin:  0.6em 1em;
+}
+
+section {
+    padding: 1em 0;
 }
