@@ -91,7 +91,7 @@ export default function Scene() {
         <>
             <Html zIndexRange={[-1, -10]} prepend fullscreen>
                 <main style={styles} ref={(el) => setDomElement(el)}>
-                    <h1>
+                    <h1 className={styles.title}>
                         INTERACTIVE
                         TEXTBOOK
                         FOR
@@ -102,7 +102,7 @@ export default function Scene() {
                 </main>
             </Html> 
 			<mesh>
-				<planeGeometry args={[width, height, 254, 254]} />
+				<planeGeometry args={[width / 1.15, height, 254, 254]} />
 				<CustomShaderMaterial
                     ref={materialRef}
                     baseMaterial={MeshBasicMaterial}
