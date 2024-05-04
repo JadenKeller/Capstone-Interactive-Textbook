@@ -16,7 +16,7 @@ export default function LandingPage() {
 		return (
 			<div className={styles.aside}>
 				<div className={styles.landingPageLogo}>
-					<img src="/logo-icon.svg" height={"250px"} width={"250px"}></img>
+					<img src="/logo-icon.svg" height={"225px"} width={"225px"}></img>
 				</div>
 				<p>
 					Explore math concepts foundational to computer graphics,
@@ -29,6 +29,15 @@ export default function LandingPage() {
 				</div>
 			</div>
 		);
+	}
+
+	/**
+	 * 
+	 * @Todo On render & resize, rerender canvas with client viewport width / height aspect ratio.
+	 */
+	const setSize = (container, camera, renderer) => {
+		camera.aspect = container.clientWidth / container.clientHeight;
+	
 	}
 
 	const Title = () => {
@@ -44,7 +53,8 @@ export default function LandingPage() {
 						fov: 45,
 						near: 0.1,
 						far: 200,
-						position: [0, 0, 15]
+						position: [0, 0, 15],
+						
 					}}
 					style={{
 						height: "80vh",

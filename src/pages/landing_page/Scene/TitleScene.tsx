@@ -52,7 +52,10 @@ const useDomToCanvas = (domElement: HTMLElement) => {
         if (!domElement) return;
 
         const convertDomToCanvas = async () => {
-            const canvas = await html2canvas(domElement, {backgroundColor: "#0c0f11"});
+            const canvas = await html2canvas(
+                domElement,
+                { backgroundColor: "#0c0f11"}
+            );
             setTexture(new CanvasTexture(canvas));
         }
 
@@ -68,22 +71,23 @@ export default function Scene() {
     const [domElement, setDomElement] = useState(null);
     
     const materialRef = useRef();
-    const textureDOM = useDomToCanvas(domElement);
+    const textureFromDomElement = useDomToCanvas(domElement);
 
     const uniforms = useMemo(
         () => ({
-            uTexture: { value: textureDOM },
+            uTexture: { value: textureFromDomElement },
             uMouse: { value: new Vector2(0, 0) },
             uResolution: { value: new Vector2(1.0, window.innerHeight/window.innerWidth) }
         }),
-        [textureDOM]
+        [textureFromDomElement]
     );
 
     const mouseLerp = useRef({ x: 0, y: 0});
-    useFrame((state, delta) => {
+    useFrame((state) => {
         const mouse = state.pointer;
         mouseLerp.current.x = MathUtils.lerp(mouseLerp.current.x, mouse.x, 0.1);
         mouseLerp.current.y = MathUtils.lerp(mouseLerp.current.y, mouse.y, 0.1);
+        // Update shader uniform
         materialRef.current.uniforms.uMouse.value.x = mouseLerp.current.x;
         materialRef.current.uniforms.uMouse.value.y = mouseLerp.current.y;
     });
@@ -110,7 +114,6 @@ export default function Scene() {
                     vertexShader={vertexShader}
                     fragmentShader={fragmentShader}
                     uniforms={uniforms}
-                    
                     silent
                 />
 			</mesh>

@@ -9,9 +9,12 @@ main {
 .title {
     padding-left: 0.5em;
     line-height: 1.1em;
+    letter-spacing: 0.125rem;
 }
 .title span {
-    color: #57FFEB;
+    color: rgb(0, 232, 205);
+    letter-spacing: 0.125rem;
+
 }
 
 .aside {
@@ -25,6 +28,7 @@ main {
 .landingPageLogo {
     display: flex;
     justify-content: center;
+    padding-bottom: 1em;
 }
 
 .canvasContainer {
