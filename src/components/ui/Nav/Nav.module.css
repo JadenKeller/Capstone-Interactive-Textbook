@@ -1,8 +1,8 @@
 .nav_bar {
 	height: 15%;
 	max-height: 150px;
-	background-color: #313B3E;
 	padding-right: 1.5em;
+	background-color: #313B3E;
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;
@@ -17,9 +17,8 @@
 	position: relative;
 	cursor: pointer;
 }
-
+/* Hover animation styles */
 .nav_button::before {
-	/* Hover animation styles */
 	content: '';
 	position: absolute;
 	width: 100%;
@@ -31,8 +30,40 @@
 	transform: scaleX(0);
 	transition: transform 0.3s ease-in-out;
 }
-
 .nav_button:hover::before {
 	transform-origin: left;
 	transform: scaleX(1);
+}
+
+/* Nav dropdown menu */
+nav li {
+	list-style: none;
+}
+
+ul li ul {
+	background-color: #4B585D;
+	visibility: hidden;
+	position: absolute;
+	transition: all 0.5s ease;
+	margin-top: 1rem;
+	display: none;
+	z-index: 1;
+}
+
+.nav_dropdown_content {
+	padding: 0;
+	margin: 0;
+}
+
+.nav_dropdown_content:hover .nav_dropdown_content {
+    visibility: visible;
+    transition: 0.5s ease;
+	display: flex;
+	flex-direction: column;
+}
+
+ul li:hover > ul,
+ul li ul:hover {
+  visibility: visible;
+  display: block;
 }
