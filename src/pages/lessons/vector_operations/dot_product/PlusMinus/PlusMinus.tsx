@@ -57,7 +57,6 @@ export default function PlusMinus() {
 				<DotProductWidget dotResult={dotResult} />
 				<DotProductInteractiveWidget passed={hasPassed} x={x} setX={setX} />
 				<InteractiveCanvas
-					availableTransformations={[]}
 					scenes={[
 						{
 							geometry:
@@ -102,7 +101,7 @@ export default function PlusMinus() {
 							{
 								geometry: <Line lineWidth={finishLineWidth} points={points} dashed={true} color={Color.NAMES.white}></Line>, acceptTransformations: false
 							}
-					]}
+					]} useDND={false}
 				/>
 			</div>
 		</>

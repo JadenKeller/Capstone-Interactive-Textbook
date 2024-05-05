@@ -16,7 +16,8 @@ export interface SceneProps {
     color?: Color | TransparentColor,
     initialPosition?: Vector3,
     moveable?: boolean
-    texture?: Texture
+    texture?: Texture,
+    publishFinalMatrix?: (matrix: Matrix4) => void
 }
 
 /**
@@ -58,6 +59,9 @@ export default function Scene(props: SceneProps) {
                 else if(transformation.matrix4 && transformation.operation === 'set')
                     box.current.matrix = transformation.matrix4.clone();
             })
+            if(props.publishFinalMatrix) {
+                props.publishFinalMatrix(box.current.matrix)
+            }
         }
     })
     setTimeout(() => {

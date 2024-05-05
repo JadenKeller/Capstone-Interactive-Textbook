@@ -41,7 +41,8 @@ export interface Scene {
 	initialPosition?: Vector3,
 	staticTransformations?: Transformation[],
 	moveable?: boolean
-	texture?: Texture
+	texture?: Texture,
+	publishFinalMatrix?: (t: Matrix4) => void
 }
 
 export interface TransparentColor {
@@ -115,6 +116,11 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 										t.matrix4 = new Matrix4().makeRotationFromEuler(new Euler(transform![0], transform![1], transform![2]));
 									}
 								})
+								scene.staticTransformations?.forEach((t) => {
+									if (t.id === transformation.publishToId && transformation.publishToId !== undefined) {
+										t.matrix4 = new Matrix4().makeRotationFromEuler(new Euler(transform![0], transform![1], transform![2]));
+									}
+								})
 							}
 							break;
 						case 'translation':
@@ -122,33 +128,62 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 							if (!transform) return;
 
 							transformation.matrix4 = new Matrix4().makeTranslation(new Vector3(transform[0], transform[1], transform[2]))
+
+							// If the transformation is set to publish to another transformation, copy the current transformation to the other transformation
+							if (transformation.publishToId !== undefined) {
+								TransformationStateManager.activeTransformations.forEach((t) => {
+									if (t.id === transformation.publishToId && transformation.publishToId !== undefined) {
+										t.matrix4 = new Matrix4().makeTranslation(new Vector3(transform![0], transform![1], transform![2]));
+									}
+								})
+								scene.staticTransformations?.forEach((t) => {
+									if (t.id === transformation.publishToId && transformation.publishToId !== undefined) {
+										t.matrix4 = new Matrix4().makeTranslation(new Vector3(transform![0], transform![1], transform![2]));
+									}
+								})
+							}
 							break;
 						case 'scale':
 							transform = applyTransformation(transformation)
 							if (!transform) return;
 
 							transformation.matrix4 = new Matrix4().makeScale(transform[0], transform[1], transform[2])
+
+							// If the transformation is set to publish to another transformation, copy the current transformation to the other transformation
+							if (transformation.publishToId !== undefined) {
+								TransformationStateManager.activeTransformations.forEach((t) => {
+									if (t.id === transformation.publishToId && transformation.publishToId !== undefined) {
+										t.matrix4 = new Matrix4().makeScale(transform![0], transform![1], transform![2]);
+									}
+								})
+								scene.staticTransformations?.forEach((t) => {
+									if (t.id === transformation.publishToId && transformation.publishToId !== undefined) {
+										t.matrix4 = new Matrix4().makeScale(transform![0], transform![1], transform![2]);
+									}
+								})
+							}
 							break;
 					}
 				})
 			})
 		}, 10)
-		props.scenes?.forEach(s => {
-			
-		})
 	}, [])
-
+	
+	let canDrop = false;
+	let drop: ConnectDropTarget;
 	// ReactDnD drop handler
-	const [{ canDrop }, drop] = useDrop(() => ({
-		accept: "matrix",
-		drop: (item, monitor) => {
-			TransformationStateManager.pushTransformation((monitor.getItem() as any).transformation)
-			setStateTransformations(TransformationStateManager.getTransformations());
-		},
-		collect: (monitor) => ({
-			canDrop: monitor.canDrop()
-		})
-	}))
+	if (props.useDND) {
+		[{ canDrop }, drop] = useDrop(() => ({
+			accept: "matrix",
+			drop: (item, monitor) => {
+				TransformationStateManager.pushTransformation((monitor.getItem() as any).transformation)
+				setStateTransformations(TransformationStateManager.getTransformations());
+			},
+			collect: (monitor) => ({
+				canDrop: monitor.canDrop()
+			})
+		}))
+	}
 
 
 	/**
@@ -193,12 +228,12 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 	}
 
 	return (
-		<div className={styles.wrapper} ref={(props.useDND) ? drop : undefined}>
+		<div className={styles.wrapper} ref={(props.useDND) ? drop! : undefined}>
 			<Canvas camera={{ position: [0, 0, 10] }} className={styles.canvas}>
 				<gridHelper args={[40, 40, 0xF4FFFF, 0x4B585D]} rotation={[Math.PI / 2, 0, 0]} />
 				{props.scenes?.map((scene, idx) => {
 					return (
-						<Scene texture={scene.texture} moveable={scene.moveable} key={idx} geometry={scene.geometry} color={scene.color} initialPosition={scene.initialPosition} transformations={(scene.acceptTransformations) ? (scene.staticTransformations) ? [...TransformationStateManager.activeTransformations.concat(scene.staticTransformations)].reverse() : [...TransformationStateManager.activeTransformations].reverse() : scene.staticTransformations} />
+						<Scene texture={scene.texture} moveable={scene.moveable} key={idx} geometry={scene.geometry} color={scene.color} initialPosition={scene.initialPosition} publishFinalMatrix={scene.publishFinalMatrix} transformations={(scene.acceptTransformations) ? (scene.staticTransformations) ? [...TransformationStateManager.activeTransformations.concat(scene.staticTransformations)].reverse() : [...TransformationStateManager.activeTransformations].reverse() : scene.staticTransformations} />
 					)
 				})}
 				{(props.cameraControls) ? <MapControls enableRotate={false} minDistance={12} maxDistance={12} screenSpacePanning={true} /> : <></>}
