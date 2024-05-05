@@ -15,9 +15,9 @@ export default function Nav() {
 				<li className={`${styles.lessons_button} ${styles.nav_button}`}>
 					Lessons
 					<ul className={styles.nav_dropdown_content}>
-						<li className={styles.nav_button} onClick={() => navigate("/lesson/vectors")}>Vectors</li>
-						<li className={styles.nav_button} onClick={() => navigate("/lesson/vector-operations")}>Vector Operations</li>
-						<li className={styles.nav_button} onClick={() => navigate("/lesson/matrices")}>Matrix Transformations</li>
+						<li className={`${styles.nav_button} ${styles.nav_dropdown_item}`} onClick={() => navigate("/lesson/vectors")}>Vectors</li>
+						<li className={`${styles.nav_button} ${styles.nav_dropdown_item}`} onClick={() => navigate("/lesson/vector-operations")}>Vector Operations</li>
+						<li className={`${styles.nav_button} ${styles.nav_dropdown_item}`} onClick={() => navigate("/lesson/matrices")}>Matrix Transformations</li>
 					</ul>
 				</li>
 				<li className={`${styles.home_button} ${styles.nav_button}`} onClick={() => navigate("/")}>Home</li>

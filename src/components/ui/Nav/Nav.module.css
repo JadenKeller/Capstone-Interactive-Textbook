@@ -13,7 +13,7 @@
 	text-transform: uppercase;
 	font-size: 1.2em;
 	font-family: "Gabarito", sans-serif;
-	letter-spacing: 0.1rem;
+	letter-spacing: 0.085rem;
 	position: relative;
 	cursor: pointer;
 }
@@ -53,6 +53,13 @@ ul li ul {
 .nav_dropdown_content {
 	padding: 0;
 	margin: 0;
+}
+
+.nav_dropdown_item {
+	font-size: 1em;
+	margin: 0.75em 0.75em;
+	line-height: 1em;
+	letter-spacing: 0.1em;
 }
 
 .nav_dropdown_content:hover .nav_dropdown_content {
