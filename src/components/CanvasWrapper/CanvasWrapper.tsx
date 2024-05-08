@@ -2,8 +2,8 @@ import styles from './CanvasWrapper.module.css'
 
 import { Canvas, useThree } from '@react-three/fiber'
 import Scene, { Transformation } from '../Scene/Scene'
-import { Color, Euler, Matrix4, Texture, Vector3 } from 'three'
-import { ReactElement, useEffect, useRef, useState } from 'react'
+import { Color, Euler, GridHelper, Matrix4, Texture, Vector3 } from 'three'
+import React, { ReactElement, useEffect, useRef, useState } from 'react'
 import { ConnectDropTarget, useDrop } from 'react-dnd'
 import { TransformationStateManager } from '../InteractiveCanvas/InteractiveCanvas'
 import { MapControls } from '@react-three/drei'
@@ -22,8 +22,9 @@ export interface CanvasWrapperProps {
 	cameraControls?: boolean,
 	scenes?: Scene[],
 	useUndoControls?: boolean,
-	tooltipContent?: React.ReactNode
-	useDND?: boolean
+	tooltipContent?: React.ReactNode,
+	useDND?: boolean,
+	gridTransformation?: Matrix4
 }
 
 /**
@@ -64,6 +65,13 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 	let runID = useRef(-1)
 	// Currently active transformations.
 	const [stateTransformations, setStateTransformations] = useState<Transformation[]>(TransformationStateManager.getTransformations())
+	// Set grid matrix transform
+	const identity = new Matrix4();
+	if (props.gridTransformation) {
+		identity.multiply(props.gridTransformation);
+	}
+	// Rotate for y-forward
+	const gridMatrix = identity.multiply(new Matrix4().makeRotationFromEuler(new Euler(Math.PI / 2, 0, 0)));
 	// Handles animations.
 	useEffect(() => {
 		TransformationStateManager.addChangedCallback(setStateTransformations)
@@ -228,7 +236,11 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 	return (
 		<div className={styles.wrapper} ref={(props.useDND) ? drop! : undefined}>
 			<Canvas camera={{ position: [0, 0, 10] }} className={styles.canvas}>
-				<gridHelper args={[40, 40, 0xF4FFFF, 0x4B585D]} rotation={[Math.PI / 2, 0, 0]} />
+				{/* {!gridMatrix?.equals(new Matrix4()) ? */}
+				{/* <gridHelper args={[40, 40, 0xF4FFFF, 0x6b8f99]} rotation={[Math.PI / 2, 0, 0]} /> : */}
+				{/* null */}
+				{/* } */}
+				<gridHelper matrixAutoUpdate={false} matrix={gridMatrix} args={[40, 40, 0xF4FFFF, 0x4B585D]} />
 				{props.scenes?.map((scene, idx) => {
 					return (
 						<Scene texture={scene.texture} moveable={scene.moveable} key={idx} geometry={scene.geometry} color={scene.color} initialPosition={scene.initialPosition} publishFinalMatrix={scene.publishFinalMatrix} transformations={(scene.acceptTransformations) ? (scene.staticTransformations) ? [...TransformationStateManager.activeTransformations.concat(scene.staticTransformations)].reverse() : [...TransformationStateManager.activeTransformations].reverse() : scene.staticTransformations} />

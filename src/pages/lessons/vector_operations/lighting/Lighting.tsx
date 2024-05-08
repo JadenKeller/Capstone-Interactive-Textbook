@@ -93,8 +93,8 @@ export default function LambertianLighting() {
     return (
         <div style={{position: "relative"}}>
             <LightingControlWidget fireRays={generateRandomRay} clearRays={clearRays} setHitLocation={setFireLocation}/>
-            <InteractiveCanvas scenes={scenes} useDND={false} useUndoControls={false} tooltipContent={[<h4>How To Use The Interactive Canvas</h4>,<p>
-                Use the slider to change the target of the light ray, then fire it to see the vectors and light color at that location</p>]}/>
+            <InteractiveCanvas scenes={scenes} useUndoControls={false} tooltipContent={[<h4>How To Use The Interactive Canvas</h4>,<p>
+                Drag the slider to change the target of the light ray, then fire it to see the vectors and light color at that location.</p>]}/>
         </div>
     )
 }
