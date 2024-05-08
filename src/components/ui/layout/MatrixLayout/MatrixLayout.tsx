@@ -1,4 +1,4 @@
-import Header from "@components/ui/Header/Header";
+import Nav from "@components/ui/Nav/Nav";
 import styles from "./MatrixLayout.module.css";
 import LessonNav from "@components/ui/LessonNav/LessonNav";
 
@@ -77,7 +77,7 @@ export default function MatrixLayout({ children }: { children: JSX.Element }) {
 				</div>
 
 				<div className={styles.right_section}>
-					<Header />
+					<Nav />
 					{children}
 				</div>
 

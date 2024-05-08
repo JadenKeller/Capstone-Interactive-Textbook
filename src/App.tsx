@@ -1,4 +1,4 @@
-import PlusMinus from "./pages/lessons/vector_operations/dot_product/PlusMinus/PlusMinus";
+import LandingPage from "./pages/landing_page/index";
 
 /**
  * To be deprecated
@@ -7,7 +7,7 @@ import PlusMinus from "./pages/lessons/vector_operations/dot_product/PlusMinus/P
 const App = () => {
 	return (
 		<>
-			<PlusMinus />
+			<LandingPage />
 		</>
 	)
 }
