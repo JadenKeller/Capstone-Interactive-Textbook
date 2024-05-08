@@ -92,10 +92,10 @@ export default function AngleDirection() {
         setScenes(newScenes)
     }, [guardLocation, spyLocation, angle, range])
     return (
-        <>
-            <AngleDirectionControls distance={distance} angle={dotAngle} range={range} setAngle={(setAngle)} setRange={setRange}/>
+        <div style={{position: "relative"}}>
             <InteractiveCanvas scenes={scenes} useDND={false} useUndoControls={false} tooltipContent={[<h4>How To Use The Interactive Canvas</h4>,<p>
             Use the slider to change the target of the light ray, then fire it to see the vectors and light color at that location</p>]}/>
-        </>
+            <AngleDirectionControls distance={distance} angle={dotAngle} range={range} setAngle={(setAngle)} setRange={setRange}/>
+        </div>
     )
 }

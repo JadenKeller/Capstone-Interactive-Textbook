@@ -1,0 +1,25 @@
+.control {
+    position: absolute;
+    top: 1%;
+    left: 1%;
+    background-color: #272727;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.info {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.slider {
+    display: inline-flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.slider p {
+    padding: 0;
+    margin: 0;
+}
