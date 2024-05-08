@@ -1,7 +1,7 @@
 import { Scene } from "@components/CanvasWrapper/CanvasWrapper";
 import InteractiveCanvas from "@components/InteractiveCanvas/InteractiveCanvas";
 import AngleDirectionControls from "@components/lessons/vector_operations/angle_direction/AngleDirectionControls";
-import { Circle, Line, Plane } from "@react-three/drei";
+import { Circle, Line, Plane, Text } from "@react-three/drei";
 import { useEffect, useRef, useState } from "react";
 import { Color, Euler, Matrix4, Shape, Vector3 } from "three";
 
@@ -86,6 +86,12 @@ export default function AngleDirection() {
                 geometry: <Line color={new Color(0xff0000)} lineWidth={2} points={[new Vector3(guardLocation.elements[12], guardLocation.elements[13], 0.015), new Vector3(3, 0, 0).applyEuler(new Euler(0, 0, angle)).add(new Vector3(guardLocation.elements[12], guardLocation.elements[13], 0.015))]} />
             },
             {
+                geometry: <Text position={[guardLocation.elements[12] + 1, guardLocation.elements[13], 0.1]} fontSize={0.5} anchorX="center" anchorY="middle" outlineWidth={0.05} outlineColor={0x000000}>N</Text>
+            },
+            {
+                geometry: <Text position={new Vector3(guardLocation.elements[12], guardLocation.elements[13], 0.02).lerp(new Vector3(spyLocation.elements[12], spyLocation.elements[13], 0.02), 0.5)} fontSize={0.5} anchorX="center" anchorY="middle" outlineWidth={0.05} outlineColor={0x000000}>X</Text>
+            },
+            {
                 geometry: <shapeGeometry args={[detectionShape]} />, color: {color: new Color(0x55aa55), opacity: 1}, staticTransformations: [{id: 2, type: 'raw', matrix4: new Matrix4().makeTranslation(new Vector3(0, 0, 0.01))}]
             }
         )
@@ -95,7 +101,7 @@ export default function AngleDirection() {
         <div style={{position: "relative"}}>
             <InteractiveCanvas scenes={scenes} useDND={false} useUndoControls={false} tooltipContent={[<h4>How To Use The Interactive Canvas</h4>,<p>
             Use the slider to change the target of the light ray, then fire it to see the vectors and light color at that location</p>]}/>
-            <AngleDirectionControls distance={distance} angle={dotAngle} range={range} setAngle={(setAngle)} setRange={setRange}/>
+            <AngleDirectionControls angle={angle} range={range} enemyLocation={spyLocation} guardLocation={guardLocation} setAngle={(setAngle)} setRange={setRange}/>
         </div>
     )
 }

@@ -2,6 +2,18 @@
     position: absolute;
     top: 1%;
     left: 1%;
+    display: flex;
+    align-items: start;
+}
+
+.math {
+    background-color: #272727;
+    border-radius: 5px;
+    padding: 10px;
+    margin-right: 10px;
+}
+
+.controls {
     background-color: #272727;
     border-radius: 5px;
     padding: 10px;
