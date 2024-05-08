@@ -62,8 +62,6 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 	let incrementor = useRef(0);
 	// RunID is stored per component so it can be cleared correctly when the component re-renders
 	let runID = useRef(-1)
-	let canvas = useRef<HTMLCanvasElement>(null)
-	let camera = useRef(null)
 	// Currently active transformations.
 	const [stateTransformations, setStateTransformations] = useState<Transformation[]>(TransformationStateManager.getTransformations())
 	// Handles animations.
@@ -167,7 +165,7 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 				})
 			})
 		}, 10)
-	}, [])
+	}, [props.scenes])
 	
 	let canDrop = false;
 	let drop: ConnectDropTarget;
