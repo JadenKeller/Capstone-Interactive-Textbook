@@ -73,9 +73,9 @@ export default function Scene(props: SceneProps) {
     const moveObject = (event: ThreeEvent<PointerEvent>) => {
         if(!moving.current) return;
         if((props.transformations?.length && transformations.current.length > props.transformations?.length) || transformations.current.length === 0) {
-            transformations.current[transformations.current.length] = {id: 100, type: 'raw', matrix4: new Matrix4().makeTranslation(event.point.x, event.point.y, 1)}
+            transformations.current[transformations.current.length] = {id: 100, type: 'raw', matrix4: new Matrix4().makeTranslation(event.point.x, event.point.y, 0.02)}
         } else {
-            transformations.current[transformations.current.length - 1] = {id: 100, type: 'raw', matrix4: new Matrix4().makeTranslation(event.point.x, event.point.y, 1)}
+            transformations.current[transformations.current.length - 1] = {id: 100, type: 'raw', matrix4: new Matrix4().makeTranslation(event.point.x, event.point.y, 0.02)}
         }
     }
     
