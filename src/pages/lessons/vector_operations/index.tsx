@@ -1,5 +1,5 @@
 import PlusMinus from "./dot_product/PlusMinus/PlusMinus";
-import Header from "@components/ui/Header/Header";
+import Nav from "@components/ui/Nav/Nav";
 import VectorLayout from "@components/ui/layout/VectorLayout/VectorLayout";
 import LessonNav from "@components/ui/LessonNav/LessonNav";
 import styles from "./index.module.css";
@@ -12,7 +12,7 @@ export default function VectorOpChapter() {
 		<div className={styles.body_root}>
 
 			<div className={styles.nav_section}>
-				<Header />
+				<Nav />
 			</div>
 
 			<div className={styles.page_title}>
