@@ -11,6 +11,11 @@
     border-radius: 5px;
     padding: 10px;
     margin-right: 10px;
+    width: 380px;
+}
+
+.math p {
+    padding-bottom: 0;
 }
 
 .controls {

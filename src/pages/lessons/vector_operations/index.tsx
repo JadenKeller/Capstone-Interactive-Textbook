@@ -61,22 +61,12 @@ export default function VectorOpChapter() {
 			<VectorLayout
 				content={
 					<section>
-						<h1>Matrix Transformations</h1>
+						<h2>Angle Distance Logic</h2>
 						<p>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi congue, dolor sit amet viverra convallis, tortor est faucibus erat, eu ullamcorper mauris odio quis quam. Integer in gravida enim, eu lobortis orci.
+							In the realm of computer graphics, the synergy between the dot product and distance offers a powerful tool for range detection. Imagine you're designing a virtual environment where objects interact realistically. Understanding if one object is within range of another is pivotal for various functionalities, such as collision detection.
 						</p>
-						<h2>
-							Order Matters
-						</h2>
-						<p>
-							Suspendisse potenti. Nullam eu nunc et libero ultrices ornare. Nulla et ultrices nisl. Vivamus lacinia sodales diam id ullamcorper. Morbi eleifend eros volutpat dolor vehicula efficitur. Sed porttitor metus pharetra odio scelerisque interdum. Ut lacinia felis in ullamcorper blandit. Aliquam ipsum magna, porttitor sed diam quis, imperdiet laoreet purus. Donec dictum odio a mi pharetra, nec auctor sem feugiat. Aenean nisl elit, egestas at fringilla ut, luctus ut libero. Ut ac risus ante. Nullam eu efficitur lectus.
-						</p>
-						<p>Suspendisse potenti. Mauris quis justo</p><h3> Matrix Multiplication</h3>
-						<p>
-							vehicula, cursus lorem quis, pellentesque justo. Proin quis ligula metus. In egestas sollicitudin magna sed posuere. Duis aliquet volutpat tristique. Nullam
-						</p>
-						<p>
-							semper aliquet nulla suscipit elementum. Nulla volutpat orci nisl, vel mollis nibh tincidunt sit amet. Praesent id sapien ipsum. Fusce tempusSed porttitor metus pharetra odio scelerisque interdum. Ut lacinia felis in ullamcorper blandit. Aliquam ipsum magna, porttitor sed diam quis, imperdiet laoreet purus. Donec dictum odio a mi pharetra,
+						<p>	
+							To achieve this, we leverage the dot product and distance. Let's say we have a guard and an enemy object. By calculating the vector between them, we obtain both direction and distance information. The dot product then helps us ascertain the alignment between these vectors. If the dot product of the normalized direction vector and the distance vector exceeds a predetermined threshold, it signifies that the enemy is within the guard's range.
 						</p>
 					</section>}
 				canvas={<AngleDirection />} />
