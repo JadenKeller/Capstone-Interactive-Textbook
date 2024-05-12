@@ -43,10 +43,6 @@ export function KHat({ className }: { className?: string | undefined }) {
 	);
 }
 
-/**
- *
- * @todo TODO: investigate whether the grid can be easily altered alongside the base
- */
 export default function BasisVectors() {
 	const [openVector, setOpenVector] = useState(new Vector3(2, 3, 1));
 	const identityBasis = {
@@ -131,7 +127,6 @@ export default function BasisVectors() {
 				j,
 				k,
 			});
-			// TODO: lerp the grid tranformation
 			setGridTransformation(new Matrix4(
 				i.x, j.x, k.x, 0,
 				i.y, j.y, k.y, 0,

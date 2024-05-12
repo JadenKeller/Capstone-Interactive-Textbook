@@ -77,7 +77,6 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 
 			// Animate applied transformations
 			TransformationStateManager.activeTransformations.forEach((transformation) => {
-
 				let transform;
 				switch (transformation.type) {
 					case 'rotation':
@@ -141,7 +140,13 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 				})
 			})
 		}, 10)
-	}, [props.scenes])
+
+		return cleanup
+	}, [])
+
+	const cleanup = () => {
+		clearInterval(runID.current)
+	}
 	
 	let canDrop = false;
 	let drop: ConnectDropTarget;
