@@ -51,10 +51,6 @@ export interface TransparentColor {
 	opacity: number
 }
 
-export interface objectMap {
-	[key: string]: any
-}
-
 /**
  * A wrapper for the Canvas to enable more functionality.
  */
@@ -134,40 +130,12 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 							if (!transform) return;
 
 							transformation.matrix4 = new Matrix4().makeTranslation(new Vector3(transform[0], transform[1], transform[2]))
-
-							// If the transformation is set to publish to another transformation, copy the current transformation to the other transformation
-							if (transformation.publishToId !== undefined) {
-								TransformationStateManager.activeTransformations.forEach((t) => {
-									if (t.id === transformation.publishToId && transformation.publishToId !== undefined) {
-										t.matrix4 = new Matrix4().makeTranslation(new Vector3(transform![0], transform![1], transform![2]));
-									}
-								})
-								scene.staticTransformations?.forEach((t) => {
-									if (t.id === transformation.publishToId && transformation.publishToId !== undefined) {
-										t.matrix4 = new Matrix4().makeTranslation(new Vector3(transform![0], transform![1], transform![2]));
-									}
-								})
-							}
 							break;
 						case 'scale':
 							transform = applyTransformation(transformation)
 							if (!transform) return;
 
 							transformation.matrix4 = new Matrix4().makeScale(transform[0], transform[1], transform[2])
-
-							// If the transformation is set to publish to another transformation, copy the current transformation to the other transformation
-							if (transformation.publishToId !== undefined) {
-								TransformationStateManager.activeTransformations.forEach((t) => {
-									if (t.id === transformation.publishToId && transformation.publishToId !== undefined) {
-										t.matrix4 = new Matrix4().makeScale(transform![0], transform![1], transform![2]);
-									}
-								})
-								scene.staticTransformations?.forEach((t) => {
-									if (t.id === transformation.publishToId && transformation.publishToId !== undefined) {
-										t.matrix4 = new Matrix4().makeScale(transform![0], transform![1], transform![2]);
-									}
-								})
-							}
 							break;
 					}
 				})

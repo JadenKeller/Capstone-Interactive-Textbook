@@ -52,7 +52,7 @@ export default function Scene(props: SceneProps) {
     useFrame(() => {
         box.current.matrixAutoUpdate = false;
         box.current.matrix = new Matrix4()
-        transformations.current.forEach(transformation => {
+        props.transformations && props.transformations.forEach(transformation => {
             if(transformation.matrix4 && !transformation.operation || transformation.operation === 'multiply')
                 box.current!.matrix?.multiply(transformation.matrix4)
             else if(transformation.matrix4 && transformation.operation === 'set')
