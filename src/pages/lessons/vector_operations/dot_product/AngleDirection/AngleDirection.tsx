@@ -100,7 +100,7 @@ export default function AngleDirection() {
     return (
         <div style={{position: "relative"}}>
             <InteractiveCanvas scenes={scenes} useDND={false} useUndoControls={false} tooltipContent={[<h4>How To Use The Interactive Canvas</h4>,<p>
-            Click on the guard and the enemy to drag them around and use the sliders to change how much and where the guard can see.</p>]}/>
+            Click on the guard and the enemy to move them and click again to place. Use the sliders to change how much and where the guard can see.</p>]}/>
             <AngleDirectionControls angle={angle} range={range} enemyLocation={spyLocation} guardLocation={guardLocation} setAngle={(setAngle)} setRange={setRange}/>
         </div>
     )
