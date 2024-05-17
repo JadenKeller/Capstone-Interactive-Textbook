@@ -20,6 +20,22 @@
 	border: none;
 }
 
+.vector {
+	display: flex;
+	flex-direction: column;
+	padding-left: 18px;
+	padding-right: 2px;
+	text-align: center;
+}
+
+.vector input {
+	width: 2rem;
+	text-align: center;
+	color: #f4ffff;
+	background: none;
+	border: none;
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
 	-webkit-appearance: none;

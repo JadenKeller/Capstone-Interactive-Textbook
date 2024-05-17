@@ -168,7 +168,7 @@ export default function BasisWidget({ editableBasis, setBasis, editableVector, s
 						}}
 					></input>
 				</div>
-				<div className={styles.basis_vector}>
+				<div className={styles.vector}>
 					<div className={styles.v}>
 						<InlineMath math={`{\\vec{v}}`} />
 					</div>
