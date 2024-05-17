@@ -1,4 +1,4 @@
-import { useFrame } from "@react-three/fiber";
+import { ThreeEvent, useFrame } from "@react-three/fiber";
 import { ReactElement, useEffect, useRef } from "react";
 import { Color, Matrix4, Mesh, Texture, Vector3 } from "three";
 import { TransparentColor } from "../CanvasWrapper/CanvasWrapper";
@@ -15,7 +15,9 @@ export interface SceneProps {
     geometry?: ReactElement,
     color?: Color | TransparentColor,
     initialPosition?: Vector3,
-    texture?: Texture
+    moveable?: boolean
+    texture?: Texture,
+    publishFinalMatrix?: (matrix: Matrix4) => void
 }
 
 /**
@@ -44,24 +46,41 @@ export interface Transformation {
 
 export default function Scene(props: SceneProps) {
     const box = useRef<Mesh>(null!)
+    const transformations = useRef<Transformation[]>(props.transformations || [])
+    const moving = useRef(false)
 
     useFrame(() => {
-        if (props.transformations) {
-            box.current.matrixAutoUpdate = false;
-            box.current.matrix = new Matrix4()
-            props.transformations.forEach(transformation => {
-                if(transformation.matrix4 && !transformation.operation || transformation.operation === 'multiply')
-                    box.current!.matrix?.multiply(transformation.matrix4)
-                else if(transformation.matrix4 && transformation.operation === 'set')
-                    box.current.matrix = transformation.matrix4.clone();
-            })
+        box.current.matrixAutoUpdate = false;
+        box.current.matrix = new Matrix4()
+        props.transformations && props.transformations.forEach(transformation => {
+            if(transformation.matrix4 && !transformation.operation || transformation.operation === 'multiply')
+                box.current!.matrix?.multiply(transformation.matrix4)
+            else if(transformation.matrix4 && transformation.operation === 'set')
+                box.current.matrix = transformation.matrix4.clone();
+
+            // if(transformation.id === 1) console.log(transformation.matrix4.toArray())
+        })
+        if(props.publishFinalMatrix) {
+            props.publishFinalMatrix(box.current.matrix)
         }
     })
-    setTimeout(() => {
-    }, 1)
+
+    const startMovement = (event: ThreeEvent<PointerEvent>) => {
+        event.stopPropagation();
+        moving.current = !moving.current && props.moveable ? true : false;
+    }
+
+    const moveObject = (event: ThreeEvent<PointerEvent>) => {
+        if(!moving.current) return;
+        if((props.transformations?.length && transformations.current.length > props.transformations?.length) || transformations.current.length === 0) {
+            transformations.current[transformations.current.length] = {id: 100, type: 'raw', matrix4: new Matrix4().makeTranslation(event.point.x, event.point.y, 0.02)}
+        } else {
+            transformations.current[transformations.current.length - 1] = {id: 100, type: 'raw', matrix4: new Matrix4().makeTranslation(event.point.x, event.point.y, 0.02)}
+        }
+    }
     
     return (
-        <mesh position={props.initialPosition} ref={box}>
+        <mesh position={props.initialPosition} ref={box} onPointerDown={startMovement} onPointerMove={moveObject}>
             {props.geometry}
             <meshBasicMaterial map={props.texture} transparent={(props.color && 'opacity' in props.color)} opacity={(props.color && 'opacity' in props.color) ? props.color.opacity : 1} color={(props.color && props.color instanceof Color) ? props.color : (props.color && 'opacity' in props.color) ? props.color.color :  0xdd6666} />
         </mesh>

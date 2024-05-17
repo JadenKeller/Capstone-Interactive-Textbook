@@ -3,6 +3,24 @@
     top: 10px;
     left: 10px;
     z-index: 2;
+    border-radius: 5px;
+    background-color: #272727;
+    padding: 10px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.buttons input {
+    margin-right: 10px;
+}
+
+.buttons p {
+    padding: 0;
+    margin-right: 15px;
 }
 
 .button {

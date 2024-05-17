@@ -1,6 +1,6 @@
 import styles from './CanvasWrapper.module.css'
 
-import { Canvas } from '@react-three/fiber'
+import { Canvas, useThree } from '@react-three/fiber'
 import Scene, { Transformation } from '../Scene/Scene'
 import { Color, Euler, GridHelper, Matrix4, Texture, Vector3 } from 'three'
 import React, { ReactElement, useEffect, useRef, useState } from 'react'
@@ -41,7 +41,9 @@ export interface Scene {
 	color?: Color | TransparentColor,
 	initialPosition?: Vector3,
 	staticTransformations?: Transformation[],
-	texture?: Texture
+	moveable?: boolean
+	texture?: Texture,
+	publishFinalMatrix?: (t: Matrix4) => void
 }
 
 export interface TransparentColor {
@@ -75,7 +77,6 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 
 			// Animate applied transformations
 			TransformationStateManager.activeTransformations.forEach((transformation) => {
-
 				let transform;
 				switch (transformation.type) {
 					case 'rotation':
@@ -116,6 +117,11 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 										t.matrix4 = new Matrix4().makeRotationFromEuler(new Euler(transform![0], transform![1], transform![2]));
 									}
 								})
+								scene.staticTransformations?.forEach((t) => {
+									if (t.id === transformation.publishToId && transformation.publishToId !== undefined) {
+										t.matrix4 = new Matrix4().makeRotationFromEuler(new Euler(transform![0], transform![1], transform![2]));
+									}
+								})
 							}
 							break;
 						case 'translation':
@@ -134,19 +140,29 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 				})
 			})
 		}, 10)
-	})
 
+		return cleanup
+	}, [])
+
+	const cleanup = () => {
+		clearInterval(runID.current)
+	}
+	
+	let canDrop = false;
+	let drop: ConnectDropTarget;
 	// ReactDnD drop handler
-	const [{ canDrop }, drop] = useDrop(() => ({
-		accept: "matrix",
-		drop: (item, monitor) => {
-			TransformationStateManager.pushTransformation((monitor.getItem() as any).transformation)
-			setStateTransformations(TransformationStateManager.getTransformations());
-		},
-		collect: (monitor) => ({
-			canDrop: monitor.canDrop()
-		})
-	}))
+	if (props.useDND) {
+		[{ canDrop }, drop] = useDrop(() => ({
+			accept: "matrix",
+			drop: (item, monitor) => {
+				TransformationStateManager.pushTransformation((monitor.getItem() as any).transformation)
+				setStateTransformations(TransformationStateManager.getTransformations());
+			},
+			collect: (monitor) => ({
+				canDrop: monitor.canDrop()
+			})
+		}))
+	}
 
 
 	/**
@@ -191,7 +207,7 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 	}
 
 	return (
-		<div className={styles.wrapper} ref={(props.useDND) ? drop : undefined}>
+		<div className={styles.wrapper} ref={(props.useDND) ? drop! : undefined}>
 			<Canvas camera={{ position: [0, 0, 10] }} className={styles.canvas}>
 				{/* {!gridMatrix?.equals(new Matrix4()) ? */}
 				{/* <gridHelper args={[40, 40, 0xF4FFFF, 0x6b8f99]} rotation={[Math.PI / 2, 0, 0]} /> : */}
@@ -200,7 +216,7 @@ export default function CanvasWrapper(props: CanvasWrapperProps) {
 				<gridHelper matrixAutoUpdate={false} matrix={gridMatrix} args={[40, 40, 0xF4FFFF, 0x4B585D]} />
 				{props.scenes?.map((scene, idx) => {
 					return (
-						<Scene texture={scene.texture} key={idx} geometry={scene.geometry} color={scene.color} initialPosition={scene.initialPosition} transformations={(scene.acceptTransformations) ? (scene.staticTransformations) ? [...TransformationStateManager.activeTransformations.concat(scene.staticTransformations)].reverse() : [...TransformationStateManager.activeTransformations].reverse() : scene.staticTransformations} />
+						<Scene texture={scene.texture} moveable={scene.moveable} key={idx} geometry={scene.geometry} color={scene.color} initialPosition={scene.initialPosition} publishFinalMatrix={scene.publishFinalMatrix} transformations={(scene.acceptTransformations) ? (scene.staticTransformations) ? [...TransformationStateManager.activeTransformations.concat(scene.staticTransformations)].reverse() : [...TransformationStateManager.activeTransformations].reverse() : scene.staticTransformations} />
 					)
 				})}
 				{(props.cameraControls) ? <MapControls enableRotate={false} minDistance={12} maxDistance={12} screenSpacePanning={true} /> : <></>}

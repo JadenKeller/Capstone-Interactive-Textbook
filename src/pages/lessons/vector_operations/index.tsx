@@ -4,6 +4,7 @@ import VectorLayout from "@components/ui/layout/VectorLayout/VectorLayout";
 import LessonNav from "@components/ui/LessonNav/LessonNav";
 import styles from "./index.module.css";
 import LambertianLighting from "./lighting/Lighting";
+import AngleDirection from "./dot_product/AngleDirection/AngleDirection";
 
 
 export default function VectorOpChapter() {
@@ -57,6 +58,18 @@ export default function VectorOpChapter() {
 					</section>}
 				canvas={<PlusMinus />} />
 
+			<VectorLayout
+				content={
+					<section>
+						<h2>Angle Distance Logic</h2>
+						<p>
+							In the realm of computer graphics, the synergy between the dot product and distance offers a powerful tool for range detection. Imagine you're designing a virtual environment where objects interact realistically. Understanding if one object is within range of another is pivotal for various functionalities, such as collision detection.
+						</p>
+						<p>	
+							To achieve this, we leverage the dot product and distance. Let's say we have a guard and an enemy object. By calculating the vector between them, we obtain both direction and distance information. The dot product then helps us ascertain the alignment between these vectors. If the dot product of the normalized direction vector and the distance vector exceeds a predetermined threshold, it signifies that the enemy is within the guard's range.
+						</p>
+					</section>}
+				canvas={<AngleDirection />} />
 				<VectorLayout
 					content={
 						<section>

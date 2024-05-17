@@ -59,7 +59,6 @@ export default function PlusMinus() {
 				<DotProductInteractiveWidget passed={hasPassed} x={x} setX={setX} />
 				<DotProductInfoWidget />
 				<InteractiveCanvas
-					availableTransformations={[]}
 					scenes={[
 						{
 							geometry:
@@ -178,6 +177,8 @@ export default function PlusMinus() {
 						<h4>How To Use The Interactive Canvas</h4>,
 						<p>Drag the slider to move the model across the finish line.</p>
 					]}
+					useDND={false}
+					useUndoControls={false}
 				/>
 			</div>
 		</>
